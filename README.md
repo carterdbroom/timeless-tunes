@@ -1,2 +1,2 @@
-# granny-s-guitar
+# Granny's Guitar
 An application made using Elm GraphicSVG to help recognize cognitive disease in seniors.
