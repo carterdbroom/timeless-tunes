@@ -1,20 +1,17 @@
 module Main exposing (main)
 
 import GraphicSVG exposing (..)
-import GraphicSVG.EllieApp exposing (..)
+import GraphicSVG.App exposing (..)
 import GraphicSVG.Secret exposing (..)
 import Types exposing (..)
 
 myShapes model = 
     [
-        square 2
-        |> filled black
+        circle 10
+        |> filled red
     ]
 
 type alias Model = { time: Float }
-
-type Msg 
-    = Tick Float GetKeyState
 
 update msg model = 
     case msg of

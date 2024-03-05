@@ -4430,7 +4430,7 @@ function _Time_getZoneName()
 		callback(_Scheduler_succeed(name));
 	});
 }
-var $author$project$Main$Tick = F2(
+var $author$project$Types$Tick = F2(
 	function (a, b) {
 		return {$: 'Tick', a: a, b: b};
 	});
@@ -4514,16 +4514,25 @@ var $elm$core$Set$toList = function (_v0) {
 	return $elm$core$Dict$keys(dict);
 };
 var $elm$core$Basics$GT = {$: 'GT'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$InitTime = function (a) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$InitTime = function (a) {
 	return {$: 'InitTime', a: a};
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$UserMsg = function (a) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$URLChanged = function (a) {
+	return {$: 'URLChanged', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$URLRequest = function (a) {
+	return {$: 'URLRequest', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$UserMsg = function (a) {
 	return {$: 'UserMsg', a: a};
 };
 var $elm$core$Basics$apL = F2(
 	function (f, x) {
 		return f(x);
 	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Graphics = function (a) {
+	return {$: 'Graphics', a: a};
+};
 var $elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
 };
@@ -4915,10 +4924,6 @@ var $elm$core$Result$isOk = function (result) {
 		return false;
 	}
 };
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $MacCASOutreach$graphicsvg$GraphicSVG$Graphics = function (a) {
-	return {$: 'Graphics', a: a};
-};
 var $elm$json$Json$Decode$map = _Json_map1;
 var $elm$json$Json$Decode$map2 = _Json_map2;
 var $elm$json$Json$Decode$succeed = _Json_succeed;
@@ -5232,7 +5237,12 @@ var $elm$core$Task$perform = F2(
 			$elm$core$Task$Perform(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
-var $elm$browser$Browser$document = _Browser_document;
+var $elm$browser$Browser$application = _Browser_application;
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$Basics$not = _Basics_not;
 var $MacCASOutreach$graphicsvg$GraphicSVG$convertCoords = F2(
 	function (_v0, gModel) {
@@ -5253,11 +5263,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$NoOp = {$: 'NoOp'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$WindowResize = function (a) {
 	return {$: 'WindowResize', a: a};
 };
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
 var $elm$core$Task$onError = _Scheduler_onError;
 var $elm$core$Task$attempt = F2(
 	function (resultToMessage, task) {
@@ -7400,6 +7405,7 @@ var $elm$core$Tuple$second = function (_v0) {
 	var y = _v0.b;
 	return y;
 };
+var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$map = _Platform_map;
 var $elm$browser$Browser$Events$Window = {$: 'Window'};
 var $elm$json$Json$Decode$int = _Json_decodeInt;
@@ -7837,40 +7843,43 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$subs = F2(
 						userSubs(userModel))
 					])));
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$ellieApp = function (input) {
-	return $elm$browser$Browser$document(
+var $MacCASOutreach$graphicsvg$GraphicSVG$app = function (input) {
+	return $elm$browser$Browser$application(
 		{
-			init: function (flags) {
-				var userInitCmd = input.init(flags).b;
-				var userInit = input.init(flags).a;
-				var userView = input.view(userInit).body;
-				var _v0 = userView;
-				var initW = _v0.a;
-				var initH = _v0.b;
-				return _Utils_Tuple2(
-					_Utils_Tuple2(
-						userInit,
-						_Utils_update(
-							$MacCASOutreach$graphicsvg$GraphicSVG$initHiddenModel,
-							{ch: initH, cw: initW})),
-					$MacCASOutreach$graphicsvg$GraphicSVG$initialCmd(
-						A2($elm$core$Platform$Cmd$map, $MacCASOutreach$graphicsvg$GraphicSVG$Graphics, userInitCmd)));
-			},
+			init: F3(
+				function (flags, url, key) {
+					var userInitCmd = A3(input.init, flags, url, key).b;
+					var userInit = A3(input.init, flags, url, key).a;
+					var userView = input.view(userInit).body;
+					var _v0 = userView;
+					var initW = _v0.a;
+					var initH = _v0.b;
+					return _Utils_Tuple2(
+						_Utils_Tuple2(
+							userInit,
+							_Utils_update(
+								$MacCASOutreach$graphicsvg$GraphicSVG$initHiddenModel,
+								{ch: initH, cw: initW})),
+						$MacCASOutreach$graphicsvg$GraphicSVG$initialCmd(
+							A2($elm$core$Platform$Cmd$map, $MacCASOutreach$graphicsvg$GraphicSVG$Graphics, userInitCmd)));
+				}),
+			onUrlChange: A2($elm$core$Basics$composeL, $MacCASOutreach$graphicsvg$GraphicSVG$Graphics, input.onUrlChange),
+			onUrlRequest: A2($elm$core$Basics$composeL, $MacCASOutreach$graphicsvg$GraphicSVG$Graphics, input.onUrlRequest),
 			subscriptions: $MacCASOutreach$graphicsvg$GraphicSVG$subs(input.subscriptions),
 			update: A2($MacCASOutreach$graphicsvg$GraphicSVG$hiddenAppUpdate, input.view, input.update),
 			view: $MacCASOutreach$graphicsvg$GraphicSVG$hiddenAppView(input.view)
 		});
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$DownArrow = {$: 'DownArrow'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Key = function (a) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$DownArrow = {$: 'DownArrow'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$Key = function (a) {
 	return {$: 'Key', a: a};
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$LeftArrow = {$: 'LeftArrow'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$RightArrow = {$: 'RightArrow'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$UpArrow = {$: 'UpArrow'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$WentDown = {$: 'WentDown'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$WentUp = {$: 'WentUp'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$arrowChecker = F5(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$LeftArrow = {$: 'LeftArrow'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$RightArrow = {$: 'RightArrow'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$UpArrow = {$: 'UpArrow'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$WentDown = {$: 'WentDown'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$WentUp = {$: 'WentUp'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$arrowChecker = F5(
 	function (checker, up, down, left, right) {
 		return _Utils_Tuple2(
 			function () {
@@ -8000,9 +8009,9 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$arrowChecker = F5(
 				return 0;
 			}());
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Down = {$: 'Down'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown = {$: 'JustDown'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp = {$: 'JustUp'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$Down = {$: 'Down'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown = {$: 'JustDown'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp = {$: 'JustUp'};
 var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
 		get:
@@ -8034,7 +8043,7 @@ var $elm$core$Dict$get = F2(
 			}
 		}
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict = F3(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$insertKeyDict = F3(
 	function (dict, key, action) {
 		var currState = A2($elm$core$Dict$get, key, dict);
 		if (currState.$ === 'Just') {
@@ -8048,9 +8057,9 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict = F3(
 							key,
 							function () {
 								if (action.$ === 'WentDown') {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown, false);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown, false);
 								} else {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown, true);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown, true);
 								}
 							}(),
 							dict);
@@ -8062,9 +8071,9 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict = F3(
 							key,
 							function () {
 								if (action.$ === 'WentDown') {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Down, false);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Down, false);
 								} else {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp, false);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp, false);
 								}
 							}(),
 							dict);
@@ -8076,9 +8085,9 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict = F3(
 							key,
 							function () {
 								if (action.$ === 'WentDown') {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown, false);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown, false);
 								} else {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp, false);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp, false);
 								}
 							}(),
 							dict);
@@ -8090,9 +8099,9 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict = F3(
 							key,
 							function () {
 								if (action.$ === 'WentDown') {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp, true);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp, true);
 								} else {
-									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp, false);
+									return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp, false);
 								}
 							}(),
 							dict);
@@ -8118,17 +8127,17 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict = F3(
 				key,
 				function () {
 					if (action.$ === 'WentDown') {
-						return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown, false);
+						return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown, false);
 					} else {
-						return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp, false);
+						return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp, false);
 					}
 				}(),
 				dict);
 		}
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Up = {$: 'Up'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$Up = {$: 'Up'};
 var $elm$core$Char$toUpper = _Char_toUpper;
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$keyCheckerFunction = F2(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$keyCheckerFunction = F2(
 	function (dict, key) {
 		var kc = function () {
 			switch (key.$) {
@@ -8180,24 +8189,25 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$keyCheckerFunction = F2(
 				case 'JustDown':
 					var _v1 = state.a;
 					var _v2 = _v1.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown;
 				case 'Down':
 					var _v3 = state.a;
 					var _v4 = _v3.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Down;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$App$Down;
 				case 'JustUp':
 					var _v5 = state.a;
 					var _v6 = _v5.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp;
 				default:
 					var _v7 = state.a;
 					var _v8 = _v7.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Up;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$App$Up;
 			}
 		} else {
-			return $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Up;
+			return $MacCASOutreach$graphicsvg$GraphicSVG$App$Up;
 		}
 	});
+var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Dict$filter = F2(
 	function (isGood, dict) {
 		return A3(
@@ -8209,7 +8219,7 @@ var $elm$core$Dict$filter = F2(
 			$elm$core$Dict$empty,
 			dict);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$filterHelper = F2(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$filterHelper = F2(
 	function (key, action) {
 		if (action.a.$ === 'Up') {
 			var _v1 = action.a;
@@ -8218,37 +8228,37 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$filterHelper = F2(
 			return true;
 		}
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$maintainHelper = F2(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$maintainHelper = F2(
 	function (key, action) {
 		if (!action.b) {
 			switch (action.a.$) {
 				case 'JustUp':
 					var _v1 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Up, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Up, false);
 				case 'Up':
 					var _v3 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Up, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Up, false);
 				case 'JustDown':
 					var _v5 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Down, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Down, false);
 				default:
 					var _v7 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Down, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Down, false);
 			}
 		} else {
 			switch (action.a.$) {
 				case 'JustUp':
 					var _v2 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustDown, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustDown, false);
 				case 'Up':
 					var _v4 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Up, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Up, false);
 				case 'JustDown':
 					var _v6 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$JustUp, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$JustUp, false);
 				default:
 					var _v8 = action.a;
-					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Down, false);
+					return _Utils_Tuple2($MacCASOutreach$graphicsvg$GraphicSVG$App$Down, false);
 			}
 		}
 	});
@@ -8271,21 +8281,21 @@ var $elm$core$Dict$map = F2(
 				A2($elm$core$Dict$map, func, right));
 		}
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$maintainKeyDict = function (dict) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$maintainKeyDict = function (dict) {
 	return A2(
 		$elm$core$Dict$filter,
-		$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$filterHelper,
-		A2($elm$core$Dict$map, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$maintainHelper, dict));
+		$MacCASOutreach$graphicsvg$GraphicSVG$App$filterHelper,
+		A2($elm$core$Dict$map, $MacCASOutreach$graphicsvg$GraphicSVG$App$maintainHelper, dict));
 };
 var $elm$time$Time$posixToMillis = function (_v0) {
 	var millis = _v0.a;
 	return millis;
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$subtractTimeSeconds = F2(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$subtractTimeSeconds = F2(
 	function (t1, t0) {
 		return ($elm$time$Time$posixToMillis(t1) - $elm$time$Time$posixToMillis(t0)) / 1000;
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$hiddenGameUpdate = F3(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$hiddenGameUpdate = F3(
 	function (userUpdate, msg, _v0) {
 		var userModel = _v0.a;
 		var hiddenModel = _v0.b;
@@ -8309,16 +8319,16 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$hiddenGameUpdate = F3(
 					$elm$core$Platform$Cmd$none);
 			case 'TickTime':
 				var t = msg.a;
-				var timeInSeconds = A2($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$subtractTimeSeconds, t, hiddenModel.initT);
-				var keyChecker = $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$keyCheckerFunction(hiddenModel.keys);
+				var timeInSeconds = A2($MacCASOutreach$graphicsvg$GraphicSVG$App$subtractTimeSeconds, t, hiddenModel.initT);
+				var keyChecker = $MacCASOutreach$graphicsvg$GraphicSVG$App$keyCheckerFunction(hiddenModel.keys);
 				var wasd = A5(
-					$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$arrowChecker,
+					$MacCASOutreach$graphicsvg$GraphicSVG$App$arrowChecker,
 					keyChecker,
-					$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Key('w'),
-					$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Key('s'),
-					$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Key('a'),
-					$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$Key('d'));
-				var arrowKeys = A5($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$arrowChecker, keyChecker, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$UpArrow, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$DownArrow, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$LeftArrow, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$RightArrow);
+					$MacCASOutreach$graphicsvg$GraphicSVG$App$Key('w'),
+					$MacCASOutreach$graphicsvg$GraphicSVG$App$Key('s'),
+					$MacCASOutreach$graphicsvg$GraphicSVG$App$Key('a'),
+					$MacCASOutreach$graphicsvg$GraphicSVG$App$Key('d'));
+				var arrowKeys = A5($MacCASOutreach$graphicsvg$GraphicSVG$App$arrowChecker, keyChecker, $MacCASOutreach$graphicsvg$GraphicSVG$App$UpArrow, $MacCASOutreach$graphicsvg$GraphicSVG$App$DownArrow, $MacCASOutreach$graphicsvg$GraphicSVG$App$LeftArrow, $MacCASOutreach$graphicsvg$GraphicSVG$App$RightArrow);
 				var newModel = A2(
 					userUpdate,
 					A2(
@@ -8332,7 +8342,7 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$hiddenGameUpdate = F3(
 						_Utils_update(
 							hiddenModel,
 							{
-								keys: $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$maintainKeyDict(hiddenModel.keys)
+								keys: $MacCASOutreach$graphicsvg$GraphicSVG$App$maintainKeyDict(hiddenModel.keys)
 							})),
 					$elm$core$Platform$Cmd$none);
 			case 'KeyDown':
@@ -8343,10 +8353,10 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$hiddenGameUpdate = F3(
 						_Utils_update(
 							hiddenModel,
 							{
-								keys: A3($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict, hiddenModel.keys, keyCode, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$WentDown)
+								keys: A3($MacCASOutreach$graphicsvg$GraphicSVG$App$insertKeyDict, hiddenModel.keys, keyCode, $MacCASOutreach$graphicsvg$GraphicSVG$App$WentDown)
 							})),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'KeyUp':
 				var keyCode = msg.a;
 				return _Utils_Tuple2(
 					_Utils_Tuple2(
@@ -8354,8 +8364,25 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$hiddenGameUpdate = F3(
 						_Utils_update(
 							hiddenModel,
 							{
-								keys: A3($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$insertKeyDict, hiddenModel.keys, keyCode, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$WentUp)
+								keys: A3($MacCASOutreach$graphicsvg$GraphicSVG$App$insertKeyDict, hiddenModel.keys, keyCode, $MacCASOutreach$graphicsvg$GraphicSVG$App$WentUp)
 							})),
+					$elm$core$Platform$Cmd$none);
+			case 'URLRequest':
+				var urlreq = msg.a;
+				if (urlreq.$ === 'External') {
+					var url = urlreq.a;
+					return _Utils_Tuple2(
+						_Utils_Tuple2(userModel, hiddenModel),
+						$elm$browser$Browser$Navigation$load(url));
+				} else {
+					return _Utils_Tuple2(
+						_Utils_Tuple2(userModel, hiddenModel),
+						$elm$core$Platform$Cmd$none);
+				}
+			default:
+				var url = msg.a;
+				return _Utils_Tuple2(
+					_Utils_Tuple2(userModel, hiddenModel),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -8363,13 +8390,15 @@ var $elm$time$Time$Posix = function (a) {
 	return {$: 'Posix', a: a};
 };
 var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$initHiddenModel = function (tick) {
-	return {
-		initT: $elm$time$Time$millisToPosix(0),
-		keys: $elm$core$Dict$empty,
-		tick: tick
-	};
-};
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$initHiddenModel = F2(
+	function (tick, navKey) {
+		return {
+			initT: $elm$time$Time$millisToPosix(0),
+			keys: $elm$core$Dict$empty,
+			navKey: navKey,
+			tick: tick
+		};
+	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$Collage = F3(
 	function (a, b, c) {
 		return {$: 'Collage', a: a, b: b, c: c};
@@ -8611,13 +8640,13 @@ var $elm$time$Time$Zone = F2(
 	});
 var $elm$time$Time$customZone = $elm$time$Time$Zone;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$KeyDown = function (a) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$KeyDown = function (a) {
 	return {$: 'KeyDown', a: a};
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$KeyUp = function (a) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$KeyUp = function (a) {
 	return {$: 'KeyUp', a: a};
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$TickTime = function (a) {
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$TickTime = function (a) {
 	return {$: 'TickTime', a: a};
 };
 var $elm$browser$Browser$AnimationManager$Time = function (a) {
@@ -8746,44 +8775,48 @@ var $elm$browser$Browser$Events$onAnimationFrame = $elm$browser$Browser$Animatio
 var $elm$browser$Browser$Events$Document = {$: 'Document'};
 var $elm$browser$Browser$Events$onKeyDown = A2($elm$browser$Browser$Events$on, $elm$browser$Browser$Events$Document, 'keydown');
 var $elm$browser$Browser$Events$onKeyUp = A2($elm$browser$Browser$Events$on, $elm$browser$Browser$Events$Document, 'keyup');
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$subs = _List_fromArray(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$subs = _List_fromArray(
 	[
 		$elm$browser$Browser$Events$onKeyUp(
 		A2(
 			$elm$json$Json$Decode$map,
-			$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$KeyUp,
+			$MacCASOutreach$graphicsvg$GraphicSVG$App$KeyUp,
 			A2($elm$json$Json$Decode$field, 'keyCode', $elm$json$Json$Decode$int))),
 		$elm$browser$Browser$Events$onKeyDown(
 		A2(
 			$elm$json$Json$Decode$map,
-			$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$KeyDown,
+			$MacCASOutreach$graphicsvg$GraphicSVG$App$KeyDown,
 			A2($elm$json$Json$Decode$field, 'keyCode', $elm$json$Json$Decode$int))),
-		$elm$browser$Browser$Events$onAnimationFrame($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$TickTime)
+		$elm$browser$Browser$Events$onAnimationFrame($MacCASOutreach$graphicsvg$GraphicSVG$App$TickTime)
 	]);
-var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$gameApp = F2(
+var $MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp = F2(
 	function (tickMsg, userApp) {
 		var userView = userApp.view;
 		var userUpdate = userApp.update;
+		var userTitle = userApp.title;
 		var userInit = userApp.model;
-		return $MacCASOutreach$graphicsvg$GraphicSVG$ellieApp(
+		return $MacCASOutreach$graphicsvg$GraphicSVG$app(
 			{
-				init: function (_v0) {
-					return _Utils_Tuple2(
-						_Utils_Tuple2(
-							userInit,
-							$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$initHiddenModel(tickMsg)),
-						A2($elm$core$Task$perform, $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$InitTime, $elm$time$Time$now));
+				init: F3(
+					function (_v0, _v1, navKey) {
+						return _Utils_Tuple2(
+							_Utils_Tuple2(
+								userInit,
+								A2($MacCASOutreach$graphicsvg$GraphicSVG$App$initHiddenModel, tickMsg, navKey)),
+							A2($elm$core$Task$perform, $MacCASOutreach$graphicsvg$GraphicSVG$App$InitTime, $elm$time$Time$now));
+					}),
+				onUrlChange: $MacCASOutreach$graphicsvg$GraphicSVG$App$URLChanged,
+				onUrlRequest: $MacCASOutreach$graphicsvg$GraphicSVG$App$URLRequest,
+				subscriptions: function (_v2) {
+					return $elm$core$Platform$Sub$batch($MacCASOutreach$graphicsvg$GraphicSVG$App$subs);
 				},
-				subscriptions: function (_v1) {
-					return $elm$core$Platform$Sub$batch($MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$subs);
-				},
-				update: $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$hiddenGameUpdate(userUpdate),
-				view: function (_v2) {
-					var userModel = _v2.a;
+				update: $MacCASOutreach$graphicsvg$GraphicSVG$App$hiddenGameUpdate(userUpdate),
+				view: function (_v3) {
+					var userModel = _v3.a;
 					return {
 						body: A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$mapCollage,
-							$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$UserMsg,
+							$MacCASOutreach$graphicsvg$GraphicSVG$App$UserMsg,
 							userView(userModel)),
 						title: userApp.title
 					};
@@ -8800,16 +8833,20 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$square = function (r) {
-	return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Rect, r, r);
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle = function (a) {
+	return {$: 'Circle', a: a};
 };
+var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle(r);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 204, 0, 0, 1);
 var $author$project$Main$myShapes = function (model) {
 	return _List_fromArray(
 		[
 			A2(
 			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-			$MacCASOutreach$graphicsvg$GraphicSVG$black,
-			$MacCASOutreach$graphicsvg$GraphicSVG$square(2))
+			$MacCASOutreach$graphicsvg$GraphicSVG$red,
+			$MacCASOutreach$graphicsvg$GraphicSVG$circle(10))
 		]);
 };
 var $author$project$Main$view = function (model) {
@@ -8820,8 +8857,8 @@ var $author$project$Main$view = function (model) {
 		$author$project$Main$myShapes(model));
 };
 var $author$project$Main$main = A2(
-	$MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$gameApp,
-	$author$project$Main$Tick,
+	$MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp,
+	$author$project$Types$Tick,
 	{model: $author$project$Main$init, title: 'Retro Riffs', update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
