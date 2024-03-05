@@ -33,4 +33,4 @@ type NoteTime
     | Sixteenth
 
 type Song
-    = Twinkle (Dict Note NoteTime)
+    = Twinkle (Dict (Maybe Note) NoteTime)
