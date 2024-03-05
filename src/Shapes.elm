@@ -14,9 +14,14 @@ shape
         |> filled red
         |> move (30, 30)
     ]
+{--
+distance : (Float, Float) -> (Float, Float) -> Float
+distance (s1, s2) (e1, e2) =
+    let
+        x = abs(s1 - s2)
+        y = (abs s2) + 
+    in
 
-note : (Float, Float) -> Shape userMsg
-note position =
-    circle 5
-    |> outlined (solid 1) black
-    |> move position
+movingNote : (Float, Float) -> (Float, Float) -> Shape userMsg -> Shape userMsg
+movingNote startPosition endPosition note
+--}
