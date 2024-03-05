@@ -2,8 +2,6 @@ module Types exposing (..)
 
 import Dict exposing (..)
 
-
-
 type Note
     = C
     | CSharp
@@ -26,4 +24,4 @@ type NoteTime
     | Sixteenth
 
 type Song
-    = Twinkle (Dict String NoteTime)
+    = Twinkle (List (Note, NoteTime))

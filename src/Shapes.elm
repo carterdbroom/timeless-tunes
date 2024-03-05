@@ -15,7 +15,8 @@ shape
         |> move (30, 30)
     ]
 
-note : Shape userMsg
-note =
+note : (Float, Float) -> Shape userMsg
+note position =
     circle 5
     |> outlined (solid 1) black
+    |> move position
