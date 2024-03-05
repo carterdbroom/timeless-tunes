@@ -8840,14 +8840,24 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
 	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle(r);
 };
 var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 204, 0, 0, 1);
-var $author$project$Main$myShapes = function (model) {
-	return _List_fromArray(
+var $author$project$Shapes$shape = $MacCASOutreach$graphicsvg$GraphicSVG$group(
+	_List_fromArray(
 		[
 			A2(
 			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-			$MacCASOutreach$graphicsvg$GraphicSVG$red,
-			$MacCASOutreach$graphicsvg$GraphicSVG$circle(10))
-		]);
+			$MacCASOutreach$graphicsvg$GraphicSVG$black,
+			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 5, 10)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$move,
+			_Utils_Tuple2(30, 30),
+			A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				$MacCASOutreach$graphicsvg$GraphicSVG$red,
+				$MacCASOutreach$graphicsvg$GraphicSVG$circle(5)))
+		]));
+var $author$project$Main$myShapes = function (model) {
+	return _List_fromArray(
+		[$author$project$Shapes$shape]);
 };
 var $author$project$Main$view = function (model) {
 	return A3(

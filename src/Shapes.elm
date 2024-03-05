@@ -11,5 +11,11 @@ shape
         |> filled black
         ,
         circle 5
-        |> filled black
+        |> filled red
+        |> move (30, 30)
     ]
+
+note : Shape userMsg
+note =
+    circle 5
+    |> outlined (solid 1) black

@@ -1,18 +1,22 @@
-module Main exposing (main)
+module Main exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
-import GraphicSVG.Secret exposing (..)
 import Types exposing (..)
+import Shapes exposing (shape)
 
+myShapes : a -> List (Shape userMsg)
 myShapes model = 
     [
-        circle 10
-        |> filled red
+        shape
     ]
+
+type Msg 
+    = Tick Float GetKeyState
 
 type alias Model = { time: Float }
 
+update : Msg -> b -> { time : Float }
 update msg model = 
     case msg of
         Tick t _ -> { time = t }
