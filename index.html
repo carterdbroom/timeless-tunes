@@ -4430,7 +4430,7 @@ function _Time_getZoneName()
 		callback(_Scheduler_succeed(name));
 	});
 }
-var $author$project$Types$Tick = F2(
+var $author$project$Main$Tick = F2(
 	function (a, b) {
 		return {$: 'Tick', a: a, b: b};
 	});
@@ -8839,25 +8839,74 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle = function (a) {
 var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
 	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle(r);
 };
+var $elm$core$Basics$degrees = function (angleInDegrees) {
+	return (angleInDegrees * $elm$core$Basics$pi) / 180;
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient = function (a) {
+	return {$: 'Gradient', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient = F2(
+	function (a, b) {
+		return {$: 'LinearGradient', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$gradient = function (stops) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient(
+		A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient, 0, stops));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$pink = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 255, 105, 180, 1);
 var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 204, 0, 0, 1);
-var $author$project$Shapes$shape = $MacCASOutreach$graphicsvg$GraphicSVG$group(
-	_List_fromArray(
+var $MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient = F2(
+	function (r, grad) {
+		if ((grad.$ === 'Gradient') && (grad.a.$ === 'LinearGradient')) {
+			var _v1 = grad.a;
+			var rot = _v1.a;
+			var stops = _v1.b;
+			return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient(
+				A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient, rot + r, stops));
+		} else {
+			var radialGrad = grad;
+			return radialGrad;
+		}
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Stop = F3(
+	function (a, b, c) {
+		return {$: 'Stop', a: a, b: b, c: c};
+	});
+var $avh4$elm_color$Color$rgba = F4(
+	function (r, g, b, a) {
+		return A4($avh4$elm_color$Color$RgbaSpace, r, g, b, a);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$stop = F2(
+	function (col, pos) {
+		if (col.$ === 'Solid') {
+			var colour = col.a;
+			return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Stop, pos, 1, colour);
+		} else {
+			return A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Stop,
+				pos,
+				1,
+				A4($avh4$elm_color$Color$rgba, 0, 0, 0, 0));
+		}
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$yellow = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 237, 212, 0, 1);
+var $author$project$Main$myShapes = function (model) {
+	return _List_fromArray(
 		[
 			A2(
 			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-			$MacCASOutreach$graphicsvg$GraphicSVG$black,
-			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 5, 10)),
 			A2(
-			$MacCASOutreach$graphicsvg$GraphicSVG$move,
-			_Utils_Tuple2(30, 30),
-			A2(
-				$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-				$MacCASOutreach$graphicsvg$GraphicSVG$red,
-				$MacCASOutreach$graphicsvg$GraphicSVG$circle(5)))
-		]));
-var $author$project$Main$myShapes = function (model) {
-	return _List_fromArray(
-		[$author$project$Shapes$shape]);
+				$MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient,
+				$elm$core$Basics$degrees(90),
+				$MacCASOutreach$graphicsvg$GraphicSVG$gradient(
+					_List_fromArray(
+						[
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$stop, $MacCASOutreach$graphicsvg$GraphicSVG$yellow, 1),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$stop, $MacCASOutreach$graphicsvg$GraphicSVG$pink, 5),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$stop, $MacCASOutreach$graphicsvg$GraphicSVG$red, 10)
+						]))),
+			$MacCASOutreach$graphicsvg$GraphicSVG$circle(10))
+		]);
 };
 var $author$project$Main$view = function (model) {
 	return A3(
@@ -8868,7 +8917,7 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = A2(
 	$MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp,
-	$author$project$Types$Tick,
+	$author$project$Main$Tick,
 	{model: $author$project$Main$init, title: 'Retro Riffs', update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));

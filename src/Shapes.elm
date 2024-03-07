@@ -2,9 +2,10 @@ module Shapes exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.Secret exposing (Pull(..))
+import Html exposing (s)
 
-shape : Shape userMsg
-shape 
+shape1 : Shape userMsg
+shape1 
     = group
     [
         rect 5 10
@@ -14,14 +15,14 @@ shape
         |> filled red
         |> move (30, 30)
     ]
-{--
-distance : (Float, Float) -> (Float, Float) -> Float
-distance (s1, s2) (e1, e2) =
-    let
-        x = abs(s1 - s2)
-        y = (abs s2) + 
-    in
 
-movingNote : (Float, Float) -> (Float, Float) -> Shape userMsg -> Shape userMsg
-movingNote startPosition endPosition note
---}
+fallingNote : (Float, Float) -> Float -> Color -> Shape userMsg
+fallingNote position size colour = 
+    circle 1
+    |> outlined (solid 1) colour
+    |> scale size
+    |> move position
+
+
+
+

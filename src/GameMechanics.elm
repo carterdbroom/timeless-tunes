@@ -3,29 +3,66 @@ module GameMechanics exposing (..)
 import GraphicSVG exposing (..)
 import Main exposing (Model)
 import Types exposing (Song(..), Note(..), NoteTime(..))
-import Shapes exposing (note)
+import Shapes exposing (fallingNote)
 import List exposing (isEmpty)
+import Conversions exposing (noteTimeToSecond,noteToStartPosition,noteToEndPosition)
 
 startSongAnimations : Song -> Model -> Shape userMsg
 startSongAnimations song model = 
     case song of
         Twinkle dict -> group[]
-{--
-drawNote : Song -> (Float, Float) -> (Float, Float) -> Float -> Model -> Shape userMsg 
-drawNote song spawn end startTime model =
+
+distance : (Float, Float) -> (Float, Float) -> Float
+distance (s1, s2) (e1, e2) =
+    let
+        x = abs(s1 - e1)
+        y = abs(s2 - e2)
+    in
+        sqrt (x^2 + y^2)
+
+speed : Float -> Float -> Float
+speed dis t =
+    dis/t
+
+movingNote : Float -> (Float, Float) -> (Float, Float) -> Float -> Model -> Shape userMsg -> Shape userMsg
+movingNote startTime startPosition endPosition time model shape = 
+    let
+        timer = model.time - startTime
+        d = distance startPosition endPosition 
+    in
+        case (startPosition, endPosition) of
+            ((x1, y1), (_, y2)) -> 
+                if 
+                    y1 > y1
+                then
+                    shape
+                    |> move (x1, y1 - (speed d time)*timer)
+                else
+                    group[]
+
+
+playSong : Song -> (Float, Float) -> (Float, Float) -> Float -> Model -> Shape userMsg 
+playSong song spawn end startTime model =
     let
         timer = model.time - startTime
     in
         case song of 
-            Twinkle dict
-        if 
-            timer > 0
-        then
-            note
-            |> move spawn
-        else
-            group[]
---}
+            Twinkle list ->
+                case list of 
+                    (head::tail) ->
+                            case head of
+                                (note, noteTime) ->
+                                    
+                                    if 
+                                        timer > 0 && timer < (noteTimeToSecond noteTime)
+                                    then
+                                        fallingNote (noteToStartPosition note) 1 black
+                                        |> movingNote (timer*(noteTimeToSecond noteTime)) (noteToStartPosition note) (noteToEndPosition note) (noteTimeToSecond noteTime) model
+                                    else
+                                        group[]
+                    _ -> 
+                        group[]
+{--
 timing : List (Note, NoteTime) -> Float ->  Model -> Shape userMsg
 timing song startTime model = 
     let
@@ -210,3 +247,4 @@ timing song startTime model =
                 Nothing -> group[]
         else
             group[]
+            --}
