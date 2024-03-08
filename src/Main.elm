@@ -3,11 +3,15 @@ module Main exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Types exposing (..)
-import Shapes exposing (shape1)
+import Shapes exposing (drawSongRepresentation, playSong)
+import Songs exposing (twinkle)
 
-myShapes : a -> List (Shape userMsg)
+myShapes : Model -> List (Shape userMsg)
 myShapes model = 
-    [
+    [   
+        playSong (Twinkle twinkle)
+        |> move (0, -10*model.time)
+        ,
         circle 10
         |> filled (rotateGradient (degrees 90) (gradient [stop yellow 1, stop pink 5, stop red 10]))
     ]

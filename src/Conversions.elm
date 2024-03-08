@@ -20,8 +20,8 @@ stringToNote string
         _ -> Nothing
 
 noteTimeToSecond : NoteTime -> Float
-noteTimeToSecond noteTime = 
-    case noteTime of 
+noteTimeToSecond noteTime 
+    = case noteTime of 
         Whole ->
             4
         Half ->
@@ -64,3 +64,15 @@ noteToEndPosition note
         A -> (-5, -50)
         ASharp -> (0, -50)
         B -> (5, -50)
+
+addTuple : (Float, Float) -> (Float, Float) -> (Float, Float)
+addTuple firstTup secondTup
+    = case firstTup of
+        (x1, y1) -> 
+            case secondTup of 
+                (x2, y2) ->
+                    (x1 + x2, y1 + y2)
+
+bpmToSeconds : Float -> Float
+bpmToSeconds bpm
+    = bpm/60
