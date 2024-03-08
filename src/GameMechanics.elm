@@ -4,7 +4,6 @@ import GraphicSVG exposing (..)
 import Main exposing (Model)
 import Types exposing (Song(..), Note(..), NoteTime(..))
 import Shapes exposing (fallingNote)
-import List exposing (isEmpty)
 import Conversions exposing (noteTimeToSecond,noteToStartPosition,noteToEndPosition)
 
 startSongAnimations : Song -> Model -> Shape userMsg
@@ -24,6 +23,17 @@ speed : Float -> Float -> Float
 speed dis t =
     dis/t
 
+calculateDropTime : Model -> Float
+calculateDropTime model 
+    =
+    100/(model.time*9.81)
+
+calculateNextDrop : NoteTime -> Model -> Float
+calculateNextDrop notetime model = 
+    let
+        t = noteTimeToSecond notetime
+    in
+        (calculateDropTime model) - t
 movingNote : Float -> (Float, Float) -> (Float, Float) -> Float -> Model -> Shape userMsg -> Shape userMsg
 movingNote startTime startPosition endPosition time model shape = 
     let
@@ -43,7 +53,7 @@ movingNote startTime startPosition endPosition time model shape =
 dropNote : List(Note, NoteTime) -> Float -> Model -> Shape userMsg
 dropNote list startTime model = 
     let 
-        timer = startTime - model.time
+        timer = model.time - startTime
     in
         if 
             timer > 0
@@ -56,7 +66,7 @@ dropNote list startTime model =
                                 (head2::tail2) ->
                                     case head2 of
                                         (note2, noteTime2) ->
-                                            group(((fallingNote (noteToStartPosition note1) 1 black) |> move (0, -9.81*model.time*model.time))::[dropNote tail1 (noteTimeToSeconds note1)])
+                                            group(((fallingNote (noteToStartPosition note1) 1 black) |> move (0, -9.81*model.time*model.time))::[dropNote tail1 ((noteTimeToSecond note1) - (calculateDropTime model))])
                                         _ ->
                                             group []
                                 _ ->

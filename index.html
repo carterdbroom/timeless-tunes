@@ -8857,14 +8857,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$gradient = function (stops) {
 		A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient, 0, stops));
 };
 var $MacCASOutreach$graphicsvg$GraphicSVG$pink = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 255, 105, 180, 1);
-var $author$project$Conversions$addTuple = F2(
-	function (firstTup, secondTup) {
-		var x1 = firstTup.a;
-		var y1 = firstTup.b;
-		var x2 = secondTup.a;
-		var y2 = secondTup.b;
-		return _Utils_Tuple2(x1 + x2, y1 + y2);
-	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$outlined = F3(
 	function (style, outlineClr, stencil) {
 		var lineStyle = function () {
@@ -8901,20 +8893,6 @@ var $author$project$Shapes$fallingNote = F3(
 					colour,
 					$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))));
 	});
-var $author$project$Conversions$noteTimeToSecond = function (noteTime) {
-	switch (noteTime.$) {
-		case 'Whole':
-			return 4;
-		case 'Half':
-			return 2;
-		case 'Quarter':
-			return 1;
-		case 'Eighth':
-			return 0.5;
-		default:
-			return 0.25;
-	}
-};
 var $author$project$Conversions$noteToStartPosition = function (note) {
 	switch (note.$) {
 		case 'C':
@@ -8951,30 +8929,11 @@ var $author$project$Shapes$drawSongRepresentation = F2(
 			var tail = list.b;
 			var note = head.a;
 			var noteTime = head.b;
-			return $MacCASOutreach$graphicsvg$GraphicSVG$group(
-				_List_fromArray(
-					[
-						$MacCASOutreach$graphicsvg$GraphicSVG$group(
-						A2(
-							$elm$core$List$cons,
-							A3(
-								$author$project$Shapes$fallingNote,
-								A2(
-									$author$project$Conversions$addTuple,
-									$author$project$Conversions$noteToStartPosition(note),
-									moveup),
-								1,
-								$MacCASOutreach$graphicsvg$GraphicSVG$red),
-							_List_fromArray(
-								[
-									A2(
-									$author$project$Shapes$drawSongRepresentation,
-									tail,
-									_Utils_Tuple2(
-										0,
-										20 + $author$project$Conversions$noteTimeToSecond(noteTime)))
-								])))
-					]));
+			return A3(
+				$author$project$Shapes$fallingNote,
+				$author$project$Conversions$noteToStartPosition(note),
+				1,
+				$MacCASOutreach$graphicsvg$GraphicSVG$red);
 		} else {
 			return $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil);
 		}
