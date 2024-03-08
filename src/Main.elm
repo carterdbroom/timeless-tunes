@@ -10,7 +10,7 @@ myShapes : Model -> List (Shape userMsg)
 myShapes model = 
     [   
         playSong (Twinkle twinkle)
-        |> move (0, -10*model.time)
+        |> move (0, -9.81*model.time*model.time)
         ,
         circle 10
         |> filled (rotateGradient (degrees 90) (gradient [stop yellow 1, stop pink 5, stop red 10]))

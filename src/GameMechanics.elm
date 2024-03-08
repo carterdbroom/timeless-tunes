@@ -40,6 +40,33 @@ movingNote startTime startPosition endPosition time model shape =
                 else
                     group[]
 
+dropNote : List(Note, NoteTime) -> Float -> Model -> Shape userMsg
+dropNote list startTime model = 
+    let 
+        timer = startTime - model.time
+    in
+        if 
+            timer > 0
+        then
+            case list of
+                (head1::tail1) -> 
+                    case head1 of
+                        (note1, noteTime1) ->
+                            case tail1 of 
+                                (head2::tail2) ->
+                                    case head2 of
+                                        (note2, noteTime2) ->
+                                            group(((fallingNote (noteToStartPosition note1) 1 black) |> move (0, -9.81*model.time*model.time))::[dropNote tail1 (noteTimeToSeconds note1)])
+                                        _ ->
+                                            group []
+                                _ ->
+                                    ((fallingNote (noteToStartPosition note1) 1 black) |> move (0, -9.81*model.time*model.time))
+                        _ ->
+                            group[]
+                _ ->
+                    group[]
+        else
+            group[]
 
 playSong : Song -> (Float, Float) -> (Float, Float) -> Float -> Model -> Shape userMsg 
 playSong song spawn end startTime model =

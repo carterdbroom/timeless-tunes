@@ -32,9 +32,22 @@ drawSongRepresentation list moveup
         (head::tail) -> 
             case head of
                 (note, noteTime) ->
+                    fallingNote (noteToStartPosition note) 1 red
+        _ ->
+            group[]
+
+
+{--
+drawSongRepresentation : List(Note, NoteTime) -> (Float, Float) -> Shape userMsg
+drawSongRepresentation list moveup
+    = case list of
+        (head::tail) -> 
+            case head of
+                (note, noteTime) ->
                     group[group((fallingNote (addTuple (noteToStartPosition note) moveup) 1 red)::[drawSongRepresentation tail (0, 20 + (noteTimeToSecond noteTime))])]
         _ -> 
             group[]
+--}
 
 
 playSong : Song -> Shape userMsg
