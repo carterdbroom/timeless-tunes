@@ -8824,7 +8824,7 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp = F2(
 			});
 	});
 var $author$project$Types$TitleScreen = {$: 'TitleScreen'};
-var $author$project$Main$init = {hovering: false, hovering2: false, hoveringstart: false, state: $author$project$Types$TitleScreen, string1: false, string2: false, string3: false, string4: false, string5: false, string6: false, time: 0};
+var $author$project$Main$init = {bottom: false, hovering: false, hovering2: false, hoveringstart: false, middle: false, state: $author$project$Types$TitleScreen, string1: false, string2: false, string3: false, string4: false, string5: false, string6: false, time: 0, top: false};
 var $author$project$Types$GameScreen = {$: 'GameScreen'};
 var $author$project$Types$InfoScreen = {$: 'InfoScreen'};
 var $author$project$Main$update = F2(
@@ -8846,12 +8846,17 @@ var $author$project$Main$update = F2(
 				}
 			case 'ToInfoScreen':
 				var _v2 = model.state;
-				if (_v2.$ === 'TitleScreen') {
-					return _Utils_update(
-						model,
-						{state: $author$project$Types$InfoScreen});
-				} else {
-					return model;
+				switch (_v2.$) {
+					case 'TitleScreen':
+						return _Utils_update(
+							model,
+							{state: $author$project$Types$InfoScreen});
+					case 'GameScreen':
+						return _Utils_update(
+							model,
+							{state: $author$project$Types$InfoScreen});
+					default:
+						return model;
 				}
 			case 'ToGameScreen':
 				var _v3 = model.state;
@@ -8930,10 +8935,34 @@ var $author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{hoveringstart: true});
-			default:
+			case 'NonHoverPlay':
 				return _Utils_update(
 					model,
 					{hoveringstart: false});
+			case 'HoverTop':
+				return _Utils_update(
+					model,
+					{top: true});
+			case 'NonHoverTop':
+				return _Utils_update(
+					model,
+					{top: false});
+			case 'HoverMiddle':
+				return _Utils_update(
+					model,
+					{middle: true});
+			case 'NonHoverMiddle':
+				return _Utils_update(
+					model,
+					{middle: false});
+			case 'HoverBottom':
+				return _Utils_update(
+					model,
+					{bottom: true});
+			default:
+				return _Utils_update(
+					model,
+					{bottom: false});
 		}
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
@@ -9359,7 +9388,6 @@ var $author$project$GameMechanics$drawTrack = F3(
 			var xs1 = song.b;
 			if (xs1.b) {
 				var x2 = xs1.a;
-				var xs2 = xs1.b;
 				var note2 = x2.a;
 				var noteTime2 = x2.b;
 				return $MacCASOutreach$graphicsvg$GraphicSVG$group(
@@ -9512,7 +9540,7 @@ var $author$project$Main$view = function (model) {
 var $author$project$Main$main = A2(
 	$MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp,
 	$author$project$Types$Tick,
-	{model: $author$project$Main$init, title: 'Game Slot', update: $author$project$Main$update, view: $author$project$Main$view});
+	{model: $author$project$Main$init, title: 'Timeless Tunes', update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
 
