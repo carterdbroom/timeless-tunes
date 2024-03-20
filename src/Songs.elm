@@ -58,4 +58,63 @@ twinkle
             (D, Quarter),
             (D, Quarter),
             (C, Half)
-        ] 
+        ]
+
+smokeOnTheWater : List (Note, NoteTime)
+smokeOnTheWater 
+    =   [ 
+            -- TIME SIGNATURE: 4/4
+            (G, Eighth),
+            -- need an eighth rest here.
+            (ASharp, Eighth),
+            -- need an eighth rest here
+            (C, Quarter),
+            -- need an eighth rest here
+            (G, Eighth),
+            -- need an eighth rest here
+
+            (ASharp, Eighth),
+            -- need an eighth rest here
+            (CSharp, Eighth),
+            (C, Half),
+            -- need an eighth rest here
+
+            (G, Eighth),
+            -- need an eighth rest here.
+            (ASharp, Eighth),
+            -- need an eighth rest here
+            (C, Quarter),
+            -- need an eighth rest here
+            (ASharp, Eighth),
+            
+            -- need an quarter rest
+            (G, Half),
+            -- need an quarter rest
+
+                        (G, Eighth),
+            -- need an eighth rest here.
+            (ASharp, Eighth),
+            -- need an eighth rest here
+            (C, Quarter),
+            -- need an eighth rest here
+            (G, Eighth),
+            -- need an eighth rest here
+
+            (ASharp, Eighth),
+            -- need an eighth rest here
+            (CSharp, Eighth),
+            (C, Half),
+            -- need an eighth rest here
+
+            (G, Eighth),
+            -- need an eighth rest here.
+            (ASharp, Eighth),
+            -- need an eighth rest here
+            (C, Quarter),
+            -- need an eighth rest here
+            (ASharp, Eighth),
+            
+            -- need an quarter rest
+            (G, Half)
+            -- need an quarter rest
+        ]
