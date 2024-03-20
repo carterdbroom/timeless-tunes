@@ -21,6 +21,7 @@ stringToNote string
         "A" -> Just A
         "ASharp" -> Just ASharp
         "B" -> Just B
+        "Rest" -> Just Rest
         _ -> Nothing
 
 -- Given a NoteTime, it returns the NoteTime converted to seconds.
@@ -34,6 +35,14 @@ noteTimeToSecond noteTime
         Quarter ->
             1
         Eighth ->
+            0.5
+        WholeRest ->
+            4
+        HalfRest ->
+            2
+        QuarterRest ->
+            1
+        EighthRest ->
             0.5
 
 -- Given a Note, it returns the position where the note should start as a Tuple of Floats.
@@ -52,6 +61,7 @@ noteToStartPosition note
         A -> (-5, 50)
         ASharp -> (0, 50)
         B -> (5, 50)
+        Rest -> (0, 50)
 
 -- Given a Note, it returns the position where the note should end/disappear as a Tuple of Floats.
 noteToEndPosition : Note -> (Float, Float)
@@ -69,6 +79,7 @@ noteToEndPosition note
         A -> (-5, -50)
         ASharp -> (0, -50)
         B -> (5, -50)
+        Rest -> (0, -50)
 
 -- Given a Note, it returns the associated y-coordinate as a Float.
 noteToEndYPosition : Note -> Float
@@ -86,6 +97,7 @@ noteToEndYPosition note
         A -> -50
         ASharp -> -50
         B -> -55
+        Rest -> -60
 
 -- Given a two Tuples of Floats, this function adds their elements together and returns a Tuple of Floats.
 addTuple : (Float, Float) -> (Float, Float) -> (Float, Float)
@@ -117,6 +129,7 @@ noteToXPosition note =
         A -> -5
         ASharp -> 0
         B -> 5
+        Rest -> 10
 
 -- Takes in a Song, finds the first Tuple in the List, finds the Note, then returns the associated start position  
 -- as a Tuple of Floats.
@@ -160,3 +173,11 @@ noteTypeToNoteShape noteTime =
         Eighth ->
             square 5
             |> filled red 
+        WholeRest ->
+            group[]
+        HalfRest ->
+            group[]
+        QuarterRest ->
+            group[]
+        EighthRest ->
+            group[]
