@@ -1,6 +1,5 @@
 module Songs exposing (..)
 
-import Dict exposing (..)
 import Types exposing (..)
 
 twinkle : List (Note, NoteTime)
