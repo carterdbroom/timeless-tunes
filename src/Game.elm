@@ -3,8 +3,8 @@ module Game exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
-myShapes model =
-  [
+
+game model =
     case model.state of
       TitleScreen ->
         group
@@ -836,28 +836,23 @@ myShapes model =
           |> notifyEnter Hover4
           |>makeTransparent 0
           |> notifyLeave NonHover4
-         
           , 
           rect 140 0.5
           |> filled grey
           |> move (4,10.1)
           |> (if model.string5 then addOutline (solid 0.3) grey  else identity)
-
           ,
-          
           rect 140 2.4
           |> filled red
           |> move (4,10.1)
           |>makeTransparent 0
           |> notifyEnter Hover5
           |> notifyLeave NonHover5
-          
           ,
           rect 140 0.5
           |> filled grey
           |> move (4,1)
           |> (if model.string6 then addOutline (solid 0.3) grey  else identity)
-
           ,
           rect 140 2.4
           |> filled red
@@ -893,9 +888,6 @@ myShapes model =
           circle 1.5 
           |> filled white 
           |> move (75,11), 
-
-
-
           rect 1.5 2 
           |> filled grey 
           |> move (75,15), 
@@ -974,7 +966,7 @@ myShapes model =
           |> filled white
           |> move (-3,6.7)
 
-         ]
+        ]
             |> scale 2.7
             |> rotate (degrees 180)
             |> move (30,-10)
@@ -983,7 +975,7 @@ myShapes model =
         
 
       
-  ]
+  
 
 nightSky =
   group

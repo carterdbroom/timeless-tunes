@@ -6,6 +6,7 @@ import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
 import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToSecond, noteTypeToNoteShape, getStartNoteShapeFromSong, getStartPositionFromSong)
 import Songs exposing (twinkle)
+import Game exposing (game)
 import GameMechanics exposing (drawTrack, calculateDropTime, yPos, noteSpeed)
 import Shapes exposing (quarterNote, halfNote, wholeNote)
 
@@ -18,19 +19,10 @@ yDistance (s1, s2) (e1, e2) =
 
 myShapes model =
   [
+    game model
+    --drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
+    --|> move (0, -noteSpeed*model.time)
 
-    drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
-    |> move (0, -noteSpeed*model.time)
-    {--
-    quarterNote black red 3 (0, 0)
-    ,
-    halfNote black red 3 (40, 0) 
-    ,
-    wholeNote black red 3 (-40, 0)
-    , 
-    eighthNote black red 3 (60, 0)
-    --}
-    --dropNote twinkle (50,50) 1 model (filled red (circle 5))
   ]
 
 
