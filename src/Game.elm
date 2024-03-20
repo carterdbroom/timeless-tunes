@@ -222,20 +222,21 @@ game model =
         -- rectangles that highlight when hovering
         roundedRect 140 30 5
         |> filled (rgb 121 248 245)
-        |> move (-200, 0)
-        |> (if model.middle then move (200,0) else identity) 
+        |> move (-200,0)
+        |> (if model.middle then move (200,0) else identity)
         ,
         roundedRect 140 30 5
         |> filled (rgb 121 248 245)
         |> move (0, -30)
-        |> move (-200, 0)
+        |> move (-200,0)
         |> (if model.bottom then move (200,0) else identity)
         ,
         roundedRect 140 30 5
         |> filled (rgb 121 248 245)
         |> move (0, 30)
-        |> move (-200, 0)
-        |> (if model.top then move (200,0) else identity),
+        |> move (-200,0)
+        |> (if model.top then move (200,0) else identity)
+        ,
         --play button
         curve (-58.60,35.084) [Pull (-58.60,13.108) (-58.60,-8.867),Pull (-57.53,-13.09) (-52.81,-10.40),Pull (-36.43,-0.385) (-20.04,9.6385),Pull (-16.58,12.722) (-20.04,15.807),Pull (-36.62,26.024) (-53.20,36.240),Pull (-57.82,39.029) (-58.60,34.698)]
         |> filled white
@@ -290,7 +291,8 @@ game model =
         |> makeTransparent 0
         |> notifyEnter HoverTop
         |> notifyLeave NonHoverTop
-        |> notifyTap ToGameScreen,
+        |> notifyTap ToGameScreen
+        ,
         rect 152 30 -- bottom
         |> filled red
         |> move (0, -30)
@@ -298,7 +300,7 @@ game model =
         |> notifyEnter HoverBottom
         |> notifyLeave NonHoverBottom
         ]
-        
+    
       GameScreen ->
         group
         [

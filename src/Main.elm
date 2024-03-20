@@ -41,13 +41,15 @@ update msg model
           TitleScreen ->
             { model | state = InfoScreen }
           GameScreen ->
-            { model | state = InfoScreen }
+            { model | state = InfoScreen, top = False }
           _ ->
             model
       ToGameScreen ->
         case model.state of
           TitleScreen ->
             { model | state = GameScreen }
+          InfoScreen ->
+            { model | state = GameScreen, hovering2 = False}
           _ ->
             model
       HoverButton ->

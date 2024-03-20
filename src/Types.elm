@@ -68,6 +68,7 @@ type Msg = Tick Float GetKeyState
         | NonHoverMiddle
         | HoverBottom
         | NonHoverBottom
+        -- HowToPlay
 
 type State = TitleScreen
         | InfoScreen
