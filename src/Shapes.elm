@@ -3,55 +3,144 @@ module Shapes exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
-import Conversions exposing (noteToStartPosition, noteToEndPosition, addTuple, noteTimeToSecond)
-import Html exposing (s)
-import Conversions exposing (addTuple)
 
-shape1 : Shape userMsg
-shape1 
-    = group
-    [
-        rect 5 10
-        |> filled black
+-- A function that draws a quarter note to the screen. You can change the outline colour, colour, size, and position. 
+quarterNote : Color -> Color -> Float -> (Float, Float) -> Shape userMsg
+quarterNote outlineColour colour size position = 
+    group [
+        group[
+            circle 5
+            |> filled outlineColour
+            |> skewY -0.3
+            |> rotate (degrees -30)
+            |> scale 0.8
+            ,
+            roundedRect 2 16 1
+            |> filled outlineColour
+            |> scaleX 1.3
+            |> scaleY 0.85
+            |> move (3,8)
+        ]
         ,
-        circle 5
-        |> filled red
-        |> move (30, 30)
+        group [
+            circle 5
+            |> filled colour
+            --|> skewX -0.1
+            |> skewY -0.3
+            |> rotate (degrees -30)
+            |> scale 0.7
+            ,
+            roundedRect 2 17 1
+            |> filled colour
+            |> scale 0.8
+            |> move (3,7.5)
+        ]
     ]
-
-fallingNote : (Float, Float) -> Float -> Color -> Shape userMsg
-fallingNote position size colour = 
-    circle 1
-    |> outlined (solid 1) colour
     |> scale size
     |> move position
 
-drawSongRepresentation : List(Note, NoteTime) -> (Float, Float) -> Shape userMsg
-drawSongRepresentation list moveup
-    = case list of
-        (head::tail) -> 
-            case head of
-                (note, noteTime) ->
-                    fallingNote (noteToStartPosition note) 1 red
-        _ ->
-            group[]
+-- A function that draws a half note to the screen. You can change the outline colour, colour, size, and position. 
+halfNote : Color -> Color -> Float -> (Float, Float) -> Shape userMsg
+halfNote outlineColour colour size position = 
+    group [
+        group[
+            circle 5
+            |> outlined (solid 1.5) outlineColour
+            |> skewY -0.3
+            |> rotate (degrees -30)
+            |> scale 0.8
+            ,
+            circle 5
+            |> outlined (solid 1.5) outlineColour
+            |> skewY -0.3
+            |> rotate (degrees -30)
+            |> scale 0.6
+            ,
+            roundedRect 2 16 1
+            |> filled outlineColour
+            |> scaleX 1.3
+            |> scaleY 0.95
+            |> move (3.6,8.7)
+        ]
+        ,
+        group [
+            circle 5
+            |> outlined (solid 1.5) colour
+            |> skewY -0.3
+            |> rotate (degrees -30)
+            |> scale 0.7
+            ,
+            roundedRect 2 18 1
+            |> filled colour
+            |> scale 0.8
+            |> move (3.6,8.5)
+        ]
+    ]
+    |> scale 0.9
+    |> scale size
+    |> move position
+
+-- A function that draws a whole note to the screen. You can change the outline colour, colour, size, and position. 
+wholeNote : Color -> Color -> Float -> (Float, Float) -> Shape userMsg
+wholeNote outlineColour colour size position = 
+    group[
+        circle 5
+        |> outlined (solid 1.5) outlineColour
+        |> skewY -0.3
+        |> rotate (degrees -45)
+        |> scale 0.8
+        ,
+        circle 5
+        |> outlined (solid 1.5) outlineColour
+        |> skewY -0.3
+        |> rotate (degrees -45)
+        |> scale 0.6
+        ,
+        circle 5
+        |> outlined (solid 1.5) colour
+        |> skewY -0.3
+        |> rotate (degrees -45)
+        |> scale 0.7
+    ]
+    |> skewX -0.1
+    |> scale 0.9
+    |> scale size
+    |> move position
+
+-- A function that draws an eigth note to the screen. You can change the outline colour, colour, size, and position. 
+-- !TODO!
+eighthNote : Color -> Color -> Float -> (Float, Float) -> Shape userMsg
+eighthNote outlineColour colour size position = 
+    group [
+        group[
+            circle 5
+            |> filled outlineColour
+            |> skewX -0.1
+            |> scale 1.1
+            ,
+            roundedRect 2 16 1
+            |> filled outlineColour
+            |> scaleX 1.5
+            |> scaleY 1.05
+            |> move (4,7.5)
+        ]
+        ,
+        group [
+            circle 5
+            |> filled colour
+            |> skewX -0.1
+            ,
+            roundedRect 2 16 1
+            |> filled colour
+            |> move (4,7.5)
+            
+        ]
+    ]
+    |> scale size
+    |> move position
 
 
-{--
-drawSongRepresentation : List(Note, NoteTime) -> (Float, Float) -> Shape userMsg
-drawSongRepresentation list moveup
-    = case list of
-        (head::tail) -> 
-            case head of
-                (note, noteTime) ->
-                    group[group((fallingNote (addTuple (noteToStartPosition note) moveup) 1 red)::[drawSongRepresentation tail (0, 20 + (noteTimeToSecond noteTime))])]
-        _ -> 
-            group[]
---}
 
 
-playSong : Song -> Shape userMsg
-playSong song 
-    = case song of
-        Twinkle list ->
-            drawSongRepresentation list (0,0)
+
+
