@@ -15,12 +15,17 @@ type Note
     | A
     | ASharp
     | B 
+    | Rest
 
 type NoteTime
     = Whole
     | Half
     | Quarter
     | Eighth
+    | WholeRest
+    | HalfRest
+    | QuarterRest
+    | EighthRest
 
 type Song
     = Twinkle (List (Note, NoteTime))
