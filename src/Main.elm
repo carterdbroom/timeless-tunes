@@ -2,33 +2,98 @@ module Main exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
+import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
-import Shapes exposing (drawSongRepresentation, playSong)
+import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToSecond, noteTypeToNoteShape, getStartNoteShapeFromSong, getStartPositionFromSong)
 import Songs exposing (twinkle)
-
-myShapes : Model -> List (Shape userMsg)
-myShapes model = 
-    [   
-        playSong (Twinkle twinkle)
-        |> move (0, -9.81*model.time*model.time)
-        ,
-        circle 10
-        |> filled (rotateGradient (degrees 90) (gradient [stop yellow 1, stop pink 5, stop red 10]))
-    ]
-
-type Msg 
-    = Tick Float GetKeyState
-
-type alias Model = { time: Float }
-
-update : Msg -> b -> { time : Float }
-update msg model = 
-    case msg of
-        Tick t _ -> { time = t }
+import Game exposing (game)
+import GameMechanics exposing (drawTrack, calculateDropTime, yPos, noteSpeed)
+import Shapes exposing (quarterNote, halfNote, wholeNote)
 
 
-init = { time = 0 }
 
-main = gameApp Tick {model = init, view = view, update = update, title = "Retro Riffs"}
 
-view model = collage 230 128 (myShapes model)
+yDistance : (Float, Float) -> (Float, Float) -> Float
+yDistance (s1, s2) (e1, e2) =
+    abs(s2 - e2)
+
+myShapes model =
+  [
+    game model
+    --drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
+    --|> move (0, -noteSpeed*model.time)
+
+  ]
+
+
+
+update msg model 
+  = case msg of
+      Tick t _ -> { model | time = t }
+      ToTitleScreen ->
+        case model.state of
+          InfoScreen ->
+            { model | state = TitleScreen }
+          _ ->
+            model
+      ToInfoScreen ->
+        case model.state of
+          TitleScreen ->
+            { model | state = InfoScreen }
+          GameScreen ->
+            { model | state = InfoScreen }
+          _ ->
+            model
+      ToGameScreen ->
+        case model.state of
+          TitleScreen ->
+            { model | state = GameScreen }
+          _ ->
+            model
+      HoverButton ->
+        { model | hovering = True }
+      DontHoverButton ->
+        { model | hovering = False }
+      HoverPause -> {model | hovering2 = True}
+      NonHoverPause -> {model | hovering2 = False}
+      Hover1 -> {model | string1 = True}
+      NonHover1 -> {model | string1 = False}
+      Hover2 -> {model | string2 = True}
+      NonHover2 -> {model | string2 = False}
+      Hover3 -> {model | string3 = True}
+      NonHover3 -> {model | string3 = False}
+      Hover4 -> {model | string4 = True}
+      NonHover4 -> {model | string4 = False}
+      Hover5 -> {model | string5 = True}
+      NonHover5 -> {model | string5 = False}
+      Hover6 -> {model | string6 = True}
+      NonHover6 -> {model | string6 = False}
+      HoverPlay -> {model | hoveringstart = True}
+      NonHoverPlay -> {model | hoveringstart = False}
+      HoverTop -> {model | top = True}
+      NonHoverTop -> {model | top = False}
+      HoverMiddle -> {model | middle = True}
+      NonHoverMiddle -> {model | middle = False}
+      HoverBottom -> {model | bottom = True}
+      NonHoverBottom -> {model | bottom = False}
+  
+
+init = { time = 0
+      , state = TitleScreen
+      , hovering = False 
+      , hovering2 = False
+      , string1 = False
+      , string2 = False
+      , string3 = False
+      , string4 = False
+      , string5 = False
+      , string6 = False
+      , hoveringstart = False
+      , bottom = False
+      , middle = False
+      , top = False}
+      
+view model = collage 192 128 (myShapes model)
+
+main = gameApp Tick { model = init, view = view, update = update, title = "Timeless Tunes" }
+
