@@ -41,15 +41,35 @@ update msg model
           TitleScreen ->
             { model | state = InfoScreen }
           GameScreen ->
-            { model | state = InfoScreen }
+            { model | state = InfoScreen, top = False, middle = False, bottom = False}
+          HowToPlay ->
+            { model | state = InfoScreen, top = False, middle = False}
           _ ->
             model
       ToGameScreen ->
         case model.state of
           TitleScreen ->
-            { model | state = GameScreen }
+            { model | state = GameScreen, gameplayed = True}
+          InfoScreen ->
+            { model | state = GameScreen, hovering2 = False}
+          PickASong ->
+            { model | state = GameScreen, gameplayed = True, hovering2 = False}
           _ ->
             model
+      ToPickASong ->
+        case model.state of
+          InfoScreen ->
+              { model | state = PickASong}
+          TitleScreen ->
+              { model | state = PickASong}
+          _ ->
+              model
+      ToHowToPlay ->
+        case model.state of
+          InfoScreen ->
+              { model | state = HowToPlay, hovering2 = False}
+          _ ->
+              model
       HoverButton ->
         { model | hovering = True }
       DontHoverButton ->
@@ -91,7 +111,8 @@ init = { time = 0
       , hoveringstart = False
       , bottom = False
       , middle = False
-      , top = False}
+      , top = False
+      , gameplayed = False}
       
 view model = collage 192 128 (myShapes model)
 
