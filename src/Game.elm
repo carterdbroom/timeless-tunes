@@ -109,13 +109,14 @@ game model =
             |> scale 0.8
             |> move (0, -53)
             |> makeTransparent 0.9
+          --sensor for start button
           ,roundedRect 80 20 5
             |> filled red
             |> move (0, -50)
             |> makeTransparent 0
             |> notifyEnter HoverPlay
             |> notifyLeave NonHoverPlay
-            |> notifyTap ToGameScreen -- change this, should be to menu
+            |> notifyTap ToPickASong -- change this, should be to menu
           ] |> group,
           -- the ground
           group [
@@ -207,98 +208,219 @@ game model =
           ] |> group
             |> move (0, -30),
 
-        rect 300 300
-        |> filled black
-        |> makeTransparent 0.5,
-        
-        guitar model,
-
-        --- black menu box
-        roundedRect 152 102 5
-        |> filled black,
-        roundedRect 147 97 5
-        |> outlined (solid 1) (rgb 189 0 81),
-        
-        -- rectangles that highlight when hovering
-        roundedRect 140 30 5
-        |> filled (rgb 121 248 245)
-        |> move (-200, 0)
-        |> (if model.middle then move (200,0) else identity) 
-        ,
-        roundedRect 140 30 5
-        |> filled (rgb 121 248 245)
-        |> move (0, -30)
-        |> move (-200, 0)
-        |> (if model.bottom then move (200,0) else identity)
-        ,
-        roundedRect 140 30 5
-        |> filled (rgb 121 248 245)
-        |> move (0, 30)
-        |> move (-200, 0)
-        |> (if model.top then move (200,0) else identity),
-        --play button
-        curve (-58.60,35.084) [Pull (-58.60,13.108) (-58.60,-8.867),Pull (-57.53,-13.09) (-52.81,-10.40),Pull (-36.43,-0.385) (-20.04,9.6385),Pull (-16.58,12.722) (-20.04,15.807),Pull (-36.62,26.024) (-53.20,36.240),Pull (-57.82,39.029) (-58.60,34.698)]
-        |> filled white
-        |> scale 0.27
-        |> move (-45, 26),
-        -- info circle
-        circle 6
-        |> filled white
-        |> move (-43.5,4.2)
-        |> move (-13, -5),
-        text "i"
-        |> filled black
-        |> move (-45,0)
-        |> move (-13,-5),
-        -- i changes color when highlighted
-        text "i"
-        |> filled (rgb 121 248 245)
-        |> move (-45,0)
-        |> move (-13,-5)
-        |> move (-200,0)
-        |> (if model.middle then move (200,0) else identity),
-        --music note
-        group[roundedRect 13 3.3 0.4
-        |> filled white
-        ,roundedRect 1.6 13 0.4
-        |> filled white
-        |> move (-5.7,-6)
-        ,roundedRect 1.6 13 0.4
-        |> filled white
-        |> move (5.7,-6),
-        oval 4 7
-        |> filled white
-        |> rotate (degrees -60)
-        |> move (-7.9,-13),
-        oval 4 7
-        |> filled white
-        |> rotate (degrees -60)
-        |> move (3.4,-13)]
-          |> move (-69, -33)
-          |> scale 0.8,
+          guitar model,
+          createMenu,
           
-        --sensor rectangles (if you hover on these on the menu 
-        --it will highlight the section)
-        rect 152 30 -- middle
-        |> filled yellow
-        |> makeTransparent 0
-        |> notifyEnter HoverMiddle
-        |> notifyLeave NonHoverMiddle,
-        rect 152 30 -- top
-        |> filled green
-        |> move (0, 30)
-        |> makeTransparent 0
-        |> notifyEnter HoverTop
-        |> notifyLeave NonHoverTop
-        |> notifyTap ToGameScreen,
-        rect 152 30 -- bottom
-        |> filled red
-        |> move (0, -30)
-        |> makeTransparent 0
-        |> notifyEnter HoverBottom
-        |> notifyLeave NonHoverBottom
+          -- rectangles that highlight when hovering
+          roundedRect 140 30 5
+          |> filled (rgb 121 248 245)
+          |> move (-200,0)
+          |> (if model.middle then move (200,0) else identity)
+          ,
+          roundedRect 140 30 5
+          |> filled (rgb 121 248 245)
+          |> move (0, -30)
+          |> move (-200,0)
+          |> (if model.bottom then move (200,0) else identity)
+          ,
+          roundedRect 140 30 5
+          |> filled (rgb 121 248 245)
+          |> move (0, 30)
+          |> move (-200,0)
+          |> (if model.top then move (200,0) else identity)
+          ,
+          --play button
+          curve (-58.60,35.084) [Pull (-58.60,13.108) (-58.60,-8.867),Pull (-57.53,-13.09) (-52.81,-10.40),Pull (-36.43,-0.385) (-20.04,9.6385),Pull (-16.58,12.722) (-20.04,15.807),Pull (-36.62,26.024) (-53.20,36.240),Pull (-57.82,39.029) (-58.60,34.698)]
+          |> filled white
+          |> scale 0.27
+          |> move (-45, 26),
+          -- info circle
+          circle 6
+          |> filled white
+          |> move (-43.5,4.2)
+          |> move (-13, -5),
+          text "i"
+          |> filled black
+          |> move (-45,0)
+          |> move (-13,-5),
+          -- i changes color when highlighted
+          text "i"
+          |> filled (rgb 121 248 245)
+          |> move (-45,0)
+          |> move (-13,-5)
+          |> move (-200,0)
+          |> (if model.middle then move (200,0) else identity),
+          --music note
+          musicButton
+          |> move (0, 1),
+            
+          --sensor rectangles (if you hover on these on the menu 
+          --it will highlight the section)
+          rect 152 30 -- middle
+          |> filled yellow
+          |> makeTransparent 0
+          |> notifyEnter HoverMiddle
+          |> notifyTap ToHowToPlay
+          |> notifyLeave NonHoverMiddle,
+          rect 152 30 -- top
+          |> filled green
+          |> move (0, 30)
+          |> makeTransparent 0
+          |> notifyEnter HoverTop
+          |> notifyLeave NonHoverTop
+          |> notifyTap ToPickASong,
+          rect 152 30 -- bottom
+          |> filled red
+          |> move (0, -30)
+          |> makeTransparent 0
+          |> notifyEnter HoverBottom
+          |> notifyLeave NonHoverBottom
+          ]
+      PickASong ->
+        group
+        [
+          -- starry background and gradient
+          [
+          rect 200 200
+          |> filled (rotateGradient (degrees 270) (gradient [stop (rgb 75 0 130) 1, stop (rgb 221 160 221) 100, stop pink 1]))
+          ,
+          nightSky
+          |> rotate (degrees 3*(model.time))
+          ] |> group
+            |> move (0, -30),
+          -- guitar only shows up in background if user has already played game
+          guitar model
+          |> move (-3000, 0)
+          |>(if model.gameplayed then move (3000,0) else identity),
+          createMenu,
+          text "SELECT A SONG TO PLAY: "
+          |> sansserif
+          |> centered
+          |> filled white
+          |> scale 0.6
+          |> move (0,40)
+          ,
+          -- rectangles that highlight when hovering
+          roundedRect 140 27 5
+          |> filled (rgb 121 248 245)
+          |> move (0, -3)
+          |> move (-200,0)
+          |> (if model.middle then move (200,0) else identity)
+          ,
+          roundedRect 140 27 5
+          |> filled (rgb 121 248 245)
+          |> move (0, -30)
+          |> move (-200,0)
+          |>(if model.bottom then move (200,0) else identity)
+          ,
+          roundedRect 140 27 5
+          |> filled (rgb 121 248 245)
+          |> move (0, 24)
+          |> move (-200,0)
+          |> (if model.top then move (200,0) else identity)
+          ,
+          -- song names
+          text "Twinkle Twinkle Little Star"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (0,21)
+          ,
+          text "Smoke On"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-24,-7)
+          ,
+          text "Sxfuhjjkbyt"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-23,-34)
+          , 
+          -- music notes
+          musicButton
+          |> move (0,1), 
+          musicButton 
+          |> move (0, 28), 
+          musicButton
+          |> move (0,56)
+          ,
+          --sensor rectangles (if you hover on these on the menu 
+          --it will highlight the section)
+          rect 152 30 -- middle
+          |> filled yellow
+          |> makeTransparent 0
+          |> notifyEnter HoverMiddle
+          |> notifyTap ToGameScreen
+          |> notifyLeave NonHoverMiddle,
+          rect 152 30 -- top
+          |> filled green
+          |> move (0, 30)
+          |> makeTransparent 0
+          |> notifyEnter HoverTop
+          |> notifyLeave NonHoverTop
+          |> notifyTap ToGameScreen
+          ,
+          rect 152 30 -- bottom
+          |> filled red
+          |> move (0, -30)
+          |> makeTransparent 0
+          |> notifyEnter HoverBottom
+          |> notifyLeave NonHoverBottom
+          |> notifyTap ToGameScreen
+          ]
+
+      HowToPlay ->
+        group
+        [
+        -- starry background and gradient
+        [
+          rect 200 200
+          |> filled (rotateGradient (degrees 270) (gradient [stop (rgb 75 0 130) 1, stop (rgb 221 160 221) 100, stop pink 1]))
+          ,
+          nightSky
+          |> rotate (degrees 3*(model.time))
+          ] |> group
+            |> move (0, -30),
+        guitar model,
+        createMenu,
+        text "HOW TO PLAY: "
+          |> sansserif
+          |> centered
+          |> filled white
+          |> scale 0.6
+          |> move (0,38),
+
+        --back button hollow
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+          |> outlined (solid 1.5) white
+          |> scale 0.4
+          |> rotate (degrees 45)]
+          |> move (-45, 64),
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+          |> filled white
+          |> scale 0.4
+          |> rotate (degrees 45)
+          |> move (-45, 64) -- -54, 90
+          ]
+          |> move (-200, 200)
+          |> (if model.hovering2 then move (200,-200) else identity),
+        -- sensor for back button
+           rect 20 25
+          |> filled red
+          |> move (-69,31)
+          |> makeTransparent 0
+          |> notifyEnter HoverPause
+          |> notifyLeave NonHoverPause
+          |> notifyTap ToInfoScreen
         ]
-        
+
       GameScreen ->
         group
         [
@@ -344,7 +466,7 @@ game model =
           ]
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
-          -- sensor for pause button
+          -- sensor for back button
            rect 20 25
           |> filled red
           |> move (-83,51)
@@ -454,6 +576,45 @@ nightSky =
     |> rotate (degrees 152)
     |> move (0, 60)
     ]
+
+createMenu = 
+  group [
+        rect 300 300
+        |> filled black
+        |> makeTransparent 0.5,
+        --- black menu box
+        roundedRect 152 102 5
+        |> filled black,
+        roundedRect 147 97 5
+        |> outlined (solid 1) (rgb 189 0 81)
+  ]
+
+-- music button for picking song page
+musicButton = 
+  group[
+        roundedRect 13 3.3 0.4
+        |> filled white
+
+        ,roundedRect 1.6 13 0.4
+        |> filled white
+        |> move (-5.7,-6)
+
+        ,roundedRect 1.6 13 0.4
+        |> filled white
+        |> move (5.7,-6)
+        ,
+        oval 4 7
+        |> filled white
+        |> rotate (degrees -60)
+        |> move (-7.9,-13)
+        ,
+        oval 4 7
+        |> filled white
+        |> rotate (degrees -60)
+        |> move (3.4,-13)
+        ]
+        |> move (-69, -33)
+        |> scale 0.8 
 
 guitar model = group[
           curve (37.667,-10.63) [Pull (43.820,-15.29) (41.852,-24.58),Pull (37.667,-35.46) (24.762,-38.53),Pull (12.821,-38.64) (11.160,-44.11),Pull (12.132,-54.56) (32.784,-57.72),Pull (51.591,-55.95) (65.918,-50.39),Pull (82.166,-43.27) (95.215,-45.51),Pull (95.215,1.9182) (95.215,49.351),Pull (86.627,47.896) (68.359,55.280),Pull (40.298,62.358) (34.877,47.956),Pull (35.923,41.974) (45.689,40.632),Pull (58.344,37.467) (59.640,25.983),Pull (61.277,12.230) (49.874,10.637),Pull (44.991,8.7193) (40.108,6.8010),Pull (39.062,-2.092) (38.016,-10.98)]
@@ -751,3 +912,4 @@ guitar model = group[
             |> scale 2.7
             |> rotate (degrees 180)
             |> move (30,-10)]
+
