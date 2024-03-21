@@ -43,7 +43,8 @@ type alias Model = { time : Float
                     , hoveringstart : Bool
                     , bottom : Bool
                     , middle : Bool
-                    , top: Bool}
+                    , top: Bool
+                    , gameplayed: Bool}
 
 type Msg = Tick Float GetKeyState
         | ToTitleScreen
@@ -73,8 +74,12 @@ type Msg = Tick Float GetKeyState
         | NonHoverMiddle
         | HoverBottom
         | NonHoverBottom
+        | ToHowToPlay
+        | ToPickASong
+        
 
 type State = TitleScreen
         | InfoScreen
         | GameScreen
-
+        | HowToPlay
+        | PickASong
