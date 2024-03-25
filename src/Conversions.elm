@@ -49,54 +49,54 @@ noteTimeToSecond noteTime
 noteToStartPosition : Note -> (Float, Float)
 noteToStartPosition note 
     = case note of
-        C -> (-50, 50)
-        CSharp -> (-45, 50)
-        D -> (-40, 50)
-        DSharp -> (-35, 50)
-        E -> (-30, 50)
-        F -> (-25, 50)
-        FSharp -> (-20, 50)
-        G -> (-15, 50)
-        GSharp -> (-10, 50)
-        A -> (-5, 50)
-        ASharp -> (0, 50)
-        B -> (5, 50)
+        C -> (-90, 50)
+        CSharp -> (-75, 50)
+        D -> (-60, 50)
+        DSharp -> (-44, 50)
+        E -> (-75, 50)
+        F -> (-60, 50)
+        FSharp -> (-44, 50)
+        G -> (-29, 50)
+        GSharp -> (-90, 50)
+        A -> (-75, 50)
+        ASharp -> (-60, 50)
+        B -> (-44, 50)
         Rest -> (0, 50)
 
 -- Given a Note, it returns the position where the note should end/disappear as a Tuple of Floats.
 noteToEndPosition : Note -> (Float, Float)
 noteToEndPosition note 
     = case note of
-        C -> (-50, -50)
-        CSharp -> (-45, -50)
-        D -> (-40, -50)
-        DSharp -> (-35, -50)
-        E -> (-30, -50)
-        F -> (-25, -50)
-        FSharp -> (-20, -50)
-        G -> (-15, -50)
-        GSharp -> (-10, -50)
-        A -> (-5, -50)
-        ASharp -> (0, -50)
-        B -> (5, -50)
+        C -> (-90, -19)
+        CSharp -> (-75, -19)
+        D -> (-60, -19)
+        DSharp -> (-44, -19)
+        E -> (-75, -31)
+        F -> (-60, -31)
+        FSharp -> (-44, -31)
+        G -> (-28, -31)
+        GSharp -> (-90, -24.5)
+        A -> (-75, -24.5)
+        ASharp -> (-60, -24.5)
+        B -> (-44, -24.5)
         Rest -> (0, -50)
 
 -- Given a Note, it returns the associated y-coordinate as a Float.
 noteToEndYPosition : Note -> Float
 noteToEndYPosition note
     = case note of
-        C -> -40
-        CSharp -> -40
-        D -> -45
-        DSharp -> -45
-        E -> -45
-        F -> -45
-        FSharp -> -45
-        G -> -50
-        GSharp -> -50
-        A -> -50
-        ASharp -> -50
-        B -> -55
+        C -> -19
+        CSharp -> -19
+        D -> -19
+        DSharp -> -19
+        E -> -31
+        F -> -31
+        FSharp -> -31
+        G -> -31
+        GSharp -> -24.5
+        A -> -24.5
+        ASharp -> -24.5
+        B -> -24.5
         Rest -> -60
 
 -- Given a two Tuples of Floats, this function adds their elements together and returns a Tuple of Floats.
@@ -117,18 +117,18 @@ bpmToSeconds bpm
 noteToXPosition : Note -> Float
 noteToXPosition note =
     case note of
-        C -> -50
-        CSharp -> -45
-        D -> -40
-        DSharp -> -35
-        E -> -30
-        F -> -25
-        FSharp -> -20
-        G -> -15
-        GSharp -> -10
-        A -> -5
-        ASharp -> 0
-        B -> 5
+        C -> -90
+        CSharp -> -75
+        D -> -60
+        DSharp -> -44
+        E -> -75
+        F -> -60
+        FSharp -> -44
+        G -> -28
+        GSharp -> -90
+        A -> -75
+        ASharp -> -60
+        B -> -44
         Rest -> 10
 
 -- Takes in a Song, finds the first Tuple in the List, finds the Note, then returns the associated start position  

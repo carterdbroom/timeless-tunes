@@ -3,6 +3,10 @@ module Game exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
+import GameMechanics exposing (..)
+import Songs exposing (..)
+import Conversions exposing (..)
+import Shapes exposing (..)
 
 game model =
     case model.state of
@@ -412,7 +416,7 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
         -- sensor for back button
-           rect 20 25
+          rect 20 25
           |> filled red
           |> move (-69,31)
           |> makeTransparent 0
@@ -476,6 +480,32 @@ game model =
           |> notifyTap ToInfoScreen, 
 
         guitar model
+        ,
+        --drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
+        --|> move (0, -noteSpeed*model.time)
+        quarterNote black green 0.5 (noteToEndPosition C)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition CSharp)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition D)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition E)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition DSharp)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition F)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition FSharp)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition G)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition GSharp)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition A)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition ASharp)
+        ,
+        quarterNote black green 0.5 (noteToEndPosition B)
         ]    
 
 nightSky =

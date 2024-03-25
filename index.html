@@ -8824,9 +8824,11 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp = F2(
 			});
 	});
 var $author$project$Types$TitleScreen = {$: 'TitleScreen'};
-var $author$project$Main$init = {bottom: false, hovering: false, hovering2: false, hoveringstart: false, middle: false, state: $author$project$Types$TitleScreen, string1: false, string2: false, string3: false, string4: false, string5: false, string6: false, time: 0, top: false};
+var $author$project$Main$init = {bottom: false, gameplayed: false, hovering: false, hovering2: false, hoveringstart: false, middle: false, state: $author$project$Types$TitleScreen, string1: false, string2: false, string3: false, string4: false, string5: false, string6: false, time: 0, top: false};
 var $author$project$Types$GameScreen = {$: 'GameScreen'};
+var $author$project$Types$HowToPlay = {$: 'HowToPlay'};
 var $author$project$Types$InfoScreen = {$: 'InfoScreen'};
+var $author$project$Types$PickASong = {$: 'PickASong'};
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -8854,16 +8856,52 @@ var $author$project$Main$update = F2(
 					case 'GameScreen':
 						return _Utils_update(
 							model,
-							{state: $author$project$Types$InfoScreen});
+							{bottom: false, middle: false, state: $author$project$Types$InfoScreen, top: false});
+					case 'HowToPlay':
+						return _Utils_update(
+							model,
+							{middle: false, state: $author$project$Types$InfoScreen, top: false});
 					default:
 						return model;
 				}
 			case 'ToGameScreen':
 				var _v3 = model.state;
-				if (_v3.$ === 'TitleScreen') {
+				switch (_v3.$) {
+					case 'TitleScreen':
+						return _Utils_update(
+							model,
+							{gameplayed: true, state: $author$project$Types$GameScreen});
+					case 'InfoScreen':
+						return _Utils_update(
+							model,
+							{hovering2: false, state: $author$project$Types$GameScreen});
+					case 'PickASong':
+						return _Utils_update(
+							model,
+							{gameplayed: true, hovering2: false, state: $author$project$Types$GameScreen});
+					default:
+						return model;
+				}
+			case 'ToPickASong':
+				var _v4 = model.state;
+				switch (_v4.$) {
+					case 'InfoScreen':
+						return _Utils_update(
+							model,
+							{state: $author$project$Types$PickASong});
+					case 'TitleScreen':
+						return _Utils_update(
+							model,
+							{state: $author$project$Types$PickASong});
+					default:
+						return model;
+				}
+			case 'ToHowToPlay':
+				var _v5 = model.state;
+				if (_v5.$ === 'InfoScreen') {
 					return _Utils_update(
 						model,
-						{state: $author$project$Types$GameScreen});
+						{hovering2: false, state: $author$project$Types$HowToPlay});
 				} else {
 					return model;
 				}
@@ -8969,28 +9007,478 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
+var $author$project$Types$A = {$: 'A'};
+var $author$project$Types$ASharp = {$: 'ASharp'};
+var $author$project$Types$B = {$: 'B'};
+var $author$project$Types$C = {$: 'C'};
+var $author$project$Types$CSharp = {$: 'CSharp'};
+var $author$project$Types$D = {$: 'D'};
+var $author$project$Types$DSharp = {$: 'DSharp'};
+var $author$project$Types$E = {$: 'E'};
+var $author$project$Types$F = {$: 'F'};
+var $author$project$Types$FSharp = {$: 'FSharp'};
+var $author$project$Types$G = {$: 'G'};
+var $author$project$Types$GSharp = {$: 'GSharp'};
+var $author$project$Types$HoverBottom = {$: 'HoverBottom'};
+var $author$project$Types$HoverMiddle = {$: 'HoverMiddle'};
+var $author$project$Types$HoverPause = {$: 'HoverPause'};
+var $author$project$Types$HoverPlay = {$: 'HoverPlay'};
+var $author$project$Types$HoverTop = {$: 'HoverTop'};
+var $author$project$Types$NonHoverBottom = {$: 'NonHoverBottom'};
+var $author$project$Types$NonHoverMiddle = {$: 'NonHoverMiddle'};
+var $author$project$Types$NonHoverPause = {$: 'NonHoverPause'};
+var $author$project$Types$NonHoverPlay = {$: 'NonHoverPlay'};
+var $author$project$Types$NonHoverTop = {$: 'NonHoverTop'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull = F2(
+	function (a, b) {
+		return {$: 'Pull', a: a, b: b};
+	});
+var $author$project$Types$ToGameScreen = {$: 'ToGameScreen'};
+var $author$project$Types$ToHowToPlay = {$: 'ToHowToPlay'};
+var $author$project$Types$ToInfoScreen = {$: 'ToInfoScreen'};
+var $author$project$Types$ToPickASong = {$: 'ToPickASong'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$AlignCentred = {$: 'AlignCentred'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Face = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {$: 'Face', a: a, b: b, c: c, d: d, e: e, f: f, g: g, h: h};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Text = F2(
+	function (a, b) {
+		return {$: 'Text', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
+	if (stencil.$ === 'Text') {
+		var _v1 = stencil.a;
+		var si = _v1.a;
+		var bo = _v1.b;
+		var i = _v1.c;
+		var u = _v1.d;
+		var s = _v1.e;
+		var sel = _v1.f;
+		var f = _v1.g;
+		var c = _v1.h;
+		var str = stencil.b;
+		return A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Text,
+			A8($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Face, si, bo, i, u, s, sel, f, $MacCASOutreach$graphicsvg$GraphicSVG$Secret$AlignCentred),
+			str);
+	} else {
+		var a = stencil;
+		return a;
+	}
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle = function (a) {
+	return {$: 'Circle', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle(r);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient = function (a) {
+	return {$: 'Gradient', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$multAlpha = F2(
+	function (color, n) {
+		var colRec = $avh4$elm_color$Color$toRgba(color);
+		return $avh4$elm_color$Color$fromRgba(
+			_Utils_update(
+				colRec,
+				{alpha: colRec.alpha * n}));
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent = F2(
+	function (alpha, shape) {
+		_v0$3:
+		while (true) {
+			switch (shape.$) {
+				case 'Inked':
+					if (shape.a.$ === 'Nothing') {
+						if ((shape.b.$ === 'Just') && (shape.b.a.b.$ === 'Solid')) {
+							var _v1 = shape.a;
+							var _v2 = shape.b.a;
+							var lineType = _v2.a;
+							var colour = _v2.b.a;
+							var st = shape.c;
+							return A3(
+								$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked,
+								$elm$core$Maybe$Nothing,
+								$elm$core$Maybe$Just(
+									_Utils_Tuple2(
+										lineType,
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)))),
+								st);
+						} else {
+							break _v0$3;
+						}
+					} else {
+						if (shape.a.a.$ === 'Solid') {
+							if (shape.b.$ === 'Just') {
+								if (shape.b.a.b.$ === 'Solid') {
+									var colour = shape.a.a.a;
+									var _v3 = shape.b.a;
+									var lineType = _v3.a;
+									var sColour = _v3.b.a;
+									var st = shape.c;
+									return A3(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked,
+										$elm$core$Maybe$Just(
+											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
+												A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
+										$elm$core$Maybe$Just(
+											_Utils_Tuple2(
+												lineType,
+												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, sColour, alpha)))),
+										st);
+								} else {
+									break _v0$3;
+								}
+							} else {
+								var colour = shape.a.a.a;
+								var _v4 = shape.b;
+								var st = shape.c;
+								return A3(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked,
+									$elm$core$Maybe$Just(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
+									$elm$core$Maybe$Nothing,
+									st);
+							}
+						} else {
+							break _v0$3;
+						}
+					}
+				case 'ForeignObject':
+					var w = shape.a;
+					var h = shape.b;
+					var htm = shape.c;
+					return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$ForeignObject, w, h, htm);
+				case 'Move':
+					var s = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Move,
+						s,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Rotate':
+					var r = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Rotate,
+						r,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Scale':
+					var sx = shape.a;
+					var sy = shape.b;
+					var sh = shape.c;
+					return A3(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Scale,
+						sx,
+						sy,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Skew':
+					var skx = shape.a;
+					var sky = shape.b;
+					var sh = shape.c;
+					return A3(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Skew,
+						skx,
+						sky,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Transformed':
+					var tm = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Transformed,
+						tm,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Group':
+					var list = shape.a;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Group(
+						A2(
+							$elm$core$List$map,
+							$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent(alpha),
+							list));
+				case 'GroupOutline':
+					var cmbndshp = shape.a;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$GroupOutline(
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, cmbndshp));
+				case 'Link':
+					var s = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Link,
+						s,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'AlphaMask':
+					var reg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$AlphaMask,
+						reg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Clip':
+					var reg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Clip,
+						reg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Everything':
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Everything;
+				case 'Notathing':
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Notathing;
+				case 'Tap':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Tap,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TapAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TapAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'EnterShape':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$EnterShape,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'EnterAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$EnterAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Exit':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Exit,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'ExitAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$ExitAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseDown':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseDown,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseDownAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseDownAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseUp':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseUp,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseUpAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseUpAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MoveOverAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MoveOverAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchStart':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchStart,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchEnd':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchEnd,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchStartAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchStartAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchEndAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchEndAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchMoveAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchMoveAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				default:
+					if (shape.c.$ === 'Solid') {
+						var s = shape.a;
+						var th = shape.b;
+						var colour = shape.c.a;
+						return A3(
+							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$GraphPaper,
+							s,
+							th,
+							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
+								A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)));
+					} else {
+						var s = shape.a;
+						var th = shape.b;
+						var gr = shape.c.a;
+						return A3(
+							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$GraphPaper,
+							s,
+							th,
+							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient(gr));
+					}
+			}
+		}
+		var a = shape.a;
+		var b = shape.b;
+		var c = shape.c;
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked, a, b, c);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$outlined = F3(
+	function (style, outlineClr, stencil) {
+		var lineStyle = function () {
+			if (style.$ === 'NoLine') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				return $elm$core$Maybe$Just(
+					_Utils_Tuple2(style, outlineClr));
+			}
+		}();
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked, $elm$core$Maybe$Nothing, lineStyle, stencil);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
+	function (r, g, b) {
+		return A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, r, g, b, 1);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$RoundRect = F3(
+	function (a, b, c) {
+		return {$: 'RoundRect', a: a, b: b, c: c};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$roundedRect = F3(
+	function (w, h, r) {
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$RoundRect, w, h, r);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Unbroken = function (a) {
+	return {$: 'Unbroken', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$solid = function (th) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Unbroken(th);
+};
+var $author$project$Game$createMenu = $MacCASOutreach$graphicsvg$GraphicSVG$group(
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+			0.5,
+			A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 300, 300))),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+			$MacCASOutreach$graphicsvg$GraphicSVG$black,
+			A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 152, 102, 5)),
+			A3(
+			$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+			$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
+			A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 189, 0, 81),
+			A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 147, 97, 5))
+		]));
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$BezierPath = F2(
+	function (a, b) {
+		return {$: 'BezierPath', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper = function (_v0) {
+	var _v1 = _v0.a;
+	var a = _v1.a;
+	var b = _v1.b;
+	var _v2 = _v0.b;
+	var c = _v2.a;
+	var d = _v2.b;
+	return _Utils_Tuple2(
+		_Utils_Tuple2(a, b),
+		_Utils_Tuple2(c, d));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$curve = F2(
+	function (_v0, list) {
+		var a = _v0.a;
+		var b = _v0.b;
+		return A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Secret$BezierPath,
+			_Utils_Tuple2(a, b),
+			A2($elm$core$List$map, $MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper, list));
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Broken = F2(
+	function (a, b) {
+		return {$: 'Broken', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$dashed = function (th) {
+	return A2(
+		$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Broken,
+		_List_fromArray(
+			[
+				_Utils_Tuple2(th * 5, th * 2.5)
+			]),
+		th);
+};
+var $elm$core$Basics$degrees = function (angleInDegrees) {
+	return (angleInDegrees * $elm$core$Basics$pi) / 180;
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient = F2(
+	function (a, b) {
+		return {$: 'LinearGradient', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$gradient = function (stops) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient(
+		A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient, 0, stops));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$green = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 115, 210, 22, 1);
 var $author$project$Types$Hover1 = {$: 'Hover1'};
 var $author$project$Types$Hover2 = {$: 'Hover2'};
 var $author$project$Types$Hover3 = {$: 'Hover3'};
 var $author$project$Types$Hover4 = {$: 'Hover4'};
 var $author$project$Types$Hover5 = {$: 'Hover5'};
 var $author$project$Types$Hover6 = {$: 'Hover6'};
-var $author$project$Types$HoverPause = {$: 'HoverPause'};
-var $author$project$Types$HoverPlay = {$: 'HoverPlay'};
 var $author$project$Types$NonHover1 = {$: 'NonHover1'};
 var $author$project$Types$NonHover2 = {$: 'NonHover2'};
 var $author$project$Types$NonHover3 = {$: 'NonHover3'};
 var $author$project$Types$NonHover4 = {$: 'NonHover4'};
 var $author$project$Types$NonHover5 = {$: 'NonHover5'};
 var $author$project$Types$NonHover6 = {$: 'NonHover6'};
-var $author$project$Types$NonHoverPause = {$: 'NonHoverPause'};
-var $author$project$Types$NonHoverPlay = {$: 'NonHoverPlay'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull = F2(
-	function (a, b) {
-		return {$: 'Pull', a: a, b: b};
-	});
-var $author$project$Types$ToGameScreen = {$: 'ToGameScreen'};
-var $author$project$Types$ToInfoScreen = {$: 'ToInfoScreen'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$NoLine = {$: 'NoLine'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$blank = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 0, 0, 0, 0);
 var $MacCASOutreach$graphicsvg$GraphicSVG$subtract = F2(
@@ -9292,95 +9780,837 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$addOutline = F3(
 			}
 		}
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$AlignCentred = {$: 'AlignCentred'};
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Face = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {$: 'Face', a: a, b: b, c: c, d: d, e: e, f: f, g: g, h: h};
+var $MacCASOutreach$graphicsvg$GraphicSVG$grey = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 211, 215, 207, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$EnterShape, msg, shape);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Text = F2(
-	function (a, b) {
-		return {$: 'Text', a: a, b: b};
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Exit, msg, shape);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
-	if (stencil.$ === 'Text') {
-		var _v1 = stencil.a;
-		var si = _v1.a;
-		var bo = _v1.b;
-		var i = _v1.c;
-		var u = _v1.d;
-		var s = _v1.e;
-		var sel = _v1.f;
-		var f = _v1.g;
-		var c = _v1.h;
-		var str = stencil.b;
-		return A2(
-			$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Text,
-			A8($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Face, si, bo, i, u, s, sel, f, $MacCASOutreach$graphicsvg$GraphicSVG$Secret$AlignCentred),
-			str);
-	} else {
-		var a = stencil;
-		return a;
-	}
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle = function (a) {
-	return {$: 'Circle', a: a};
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
-	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Circle(r);
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$BezierPath = F2(
-	function (a, b) {
-		return {$: 'BezierPath', a: a, b: b};
+var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 204, 0, 0, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$rotate = F2(
+	function (theta, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Rotate, theta, shape);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper = function (_v0) {
-	var _v1 = _v0.a;
-	var a = _v1.a;
-	var b = _v1.b;
-	var _v2 = _v0.b;
-	var c = _v2.a;
-	var d = _v2.b;
-	return _Utils_Tuple2(
-		_Utils_Tuple2(a, b),
-		_Utils_Tuple2(c, d));
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$curve = F2(
-	function (_v0, list) {
-		var a = _v0.a;
-		var b = _v0.b;
-		return A2(
-			$MacCASOutreach$graphicsvg$GraphicSVG$Secret$BezierPath,
-			_Utils_Tuple2(a, b),
-			A2($elm$core$List$map, $MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper, list));
+var $MacCASOutreach$graphicsvg$GraphicSVG$scale = F2(
+	function (s, shape) {
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Scale, s, s, shape);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Broken = F2(
-	function (a, b) {
-		return {$: 'Broken', a: a, b: b};
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$dashed = function (th) {
-	return A2(
-		$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Broken,
+var $author$project$Game$guitar = function (model) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$group(
 		_List_fromArray(
 			[
-				_Utils_Tuple2(th * 5, th * 2.5)
-			]),
-		th);
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+				0.5,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-55, -25),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+						1.6,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							$MacCASOutreach$graphicsvg$GraphicSVG$black,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+								_Utils_Tuple2(37.667, -10.63),
+								_List_fromArray(
+									[
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(43.820, -15.29),
+										_Utils_Tuple2(41.852, -24.58)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(37.667, -35.46),
+										_Utils_Tuple2(24.762, -38.53)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(12.821, -38.64),
+										_Utils_Tuple2(11.160, -44.11)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(12.132, -54.56),
+										_Utils_Tuple2(32.784, -57.72)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(51.591, -55.95),
+										_Utils_Tuple2(65.918, -50.39)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(82.166, -43.27),
+										_Utils_Tuple2(95.215, -45.51)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(95.215, 1.9182),
+										_Utils_Tuple2(95.215, 49.351)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(86.627, 47.896),
+										_Utils_Tuple2(68.359, 55.280)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(40.298, 62.358),
+										_Utils_Tuple2(34.877, 47.956)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(35.923, 41.974),
+										_Utils_Tuple2(45.689, 40.632)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(58.344, 37.467),
+										_Utils_Tuple2(59.640, 25.983)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(61.277, 12.230),
+										_Utils_Tuple2(49.874, 10.637)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(44.991, 8.7193),
+										_Utils_Tuple2(40.108, 6.8010)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+										_Utils_Tuple2(39.062, -2.092),
+										_Utils_Tuple2(38.016, -10.98))
+									])))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-50, -27),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+					1.6,
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 67, 29, 228),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+							_Utils_Tuple2(37.667, -10.63),
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(43.820, -15.29),
+									_Utils_Tuple2(41.852, -24.58)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(37.667, -35.46),
+									_Utils_Tuple2(24.762, -38.53)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(12.821, -38.64),
+									_Utils_Tuple2(11.160, -44.11)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(12.132, -54.56),
+									_Utils_Tuple2(32.784, -57.72)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(51.591, -55.95),
+									_Utils_Tuple2(65.918, -50.39)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(82.166, -43.27),
+									_Utils_Tuple2(95.215, -45.51)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(95.215, 1.9182),
+									_Utils_Tuple2(95.215, 49.351)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(86.627, 47.896),
+									_Utils_Tuple2(68.359, 55.280)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(40.298, 62.358),
+									_Utils_Tuple2(34.877, 47.956)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(35.923, 41.974),
+									_Utils_Tuple2(45.689, 40.632)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(58.344, 37.467),
+									_Utils_Tuple2(59.640, 25.983)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(61.277, 12.230),
+									_Utils_Tuple2(49.874, 10.637)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(44.991, 8.7193),
+									_Utils_Tuple2(40.108, 6.8010)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+									_Utils_Tuple2(39.062, -2.092),
+									_Utils_Tuple2(38.016, -10.98))
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(68, -10),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(180),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+						2.7,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(47, 6.7),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 82, 81, 80),
+								A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 90, 14)))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(30, -10),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(180),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+						2.7,
+						$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(60, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(54, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(48, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(42, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(36, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(30, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(24, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(18, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(10, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(2, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-6, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-12, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-18, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2)))
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(30, -10),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(180),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+						2.7,
+						$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-20, 0),
+									$MacCASOutreach$graphicsvg$GraphicSVG$group(
+										_List_fromArray(
+											[
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-10, 0),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$move,
+													_Utils_Tuple2(-33, 7),
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+														$MacCASOutreach$graphicsvg$GraphicSVG$black,
+														A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 9.9, 30)))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-10, 0),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$move,
+													_Utils_Tuple2(0, 7),
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+														A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 87, 205),
+														$MacCASOutreach$graphicsvg$GraphicSVG$circle(15)))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-10, 0),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$move,
+													_Utils_Tuple2(0, 7),
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+														A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 192, 234, 255),
+														$MacCASOutreach$graphicsvg$GraphicSVG$circle(14)))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-10, 0),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$move,
+													_Utils_Tuple2(0, 7),
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+														$MacCASOutreach$graphicsvg$GraphicSVG$black,
+														$MacCASOutreach$graphicsvg$GraphicSVG$circle(12.5)))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-48, 8),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$black,
+													A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 20, 2))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-46, 1),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-46, 3.3),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-46, 5.6),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-46, 7.9),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-46, 10.1),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-46, 12.4),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
+												A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(20, 0),
+												$MacCASOutreach$graphicsvg$GraphicSVG$group(
+													_List_fromArray(
+														[
+															(model.string1 ? A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+															$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+															$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
+															A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$move,
+																_Utils_Tuple2(4, 12.4),
+																A2(
+																	$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+																	$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+																	A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
+															(model.string2 ? A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+															$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+															$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
+															A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$move,
+																_Utils_Tuple2(4, 3.3),
+																A2(
+																	$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+																	$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+																	A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
+															(model.string3 ? A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+															$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+															$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
+															A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$move,
+																_Utils_Tuple2(4, 5.6),
+																A2(
+																	$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+																	$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+																	A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
+															(model.string4 ? A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+															$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+															$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
+															A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$move,
+																_Utils_Tuple2(4, 7.9),
+																A2(
+																	$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+																	$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+																	A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
+															(model.string5 ? A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+															$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+															$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
+															A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$move,
+																_Utils_Tuple2(4, 10.1),
+																A2(
+																	$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+																	$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+																	A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
+															(model.string6 ? A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+															$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+															$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
+															A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$move,
+																_Utils_Tuple2(4, 1),
+																A2(
+																	$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+																	$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+																	A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5))))
+														])))
+											]))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(16, 1.5),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+										0.86,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 63, 65, 65),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+												_Utils_Tuple2(55.52, 10.88),
+												_List_fromArray(
+													[
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(55.52, 6.7200),
+														_Utils_Tuple2(55.52, 2.56)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(58.079, -1.760),
+														_Utils_Tuple2(66.08, -2.24)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(66.08, 6.24),
+														_Utils_Tuple2(66.08, 14.72)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(57.339, 14.599),
+														_Utils_Tuple2(55.84, 9.92))
+													]))))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(81, 7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 63, 65, 65),
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 26, 15, 5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(80, 3),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(75, 3),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(85, 3),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(85, 11),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(80, 11),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(75, 11),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(75, 15),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(80, 15),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(85, 15),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(75, -1),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(80, -1),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(85, -1),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(85, 16),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(75, 16),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(80, 16),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(75, -2),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(80, -2),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(85, -2),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(70, 11.5),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(-10),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 10, 0.5)))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(71, 1.8),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(10),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 9, 0.5)))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(72, 3.3),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 17.5, 0.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(74, 8.3),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(14),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 23, 0.5)))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(74, 5.8),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(-11),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 23, 0.5)))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(70, 10.1),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$grey,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 0.5))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(45, 6.8),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(33, 6.8),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(21, 6.8),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(6, 9),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(6, 4.5),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-3, 6.7),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$white,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
+									$MacCASOutreach$graphicsvg$GraphicSVG$group(
+									_List_fromArray(
+										[
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Types$NonHover1,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+													$author$project$Types$Hover1,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(4, 12.4),
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+															$MacCASOutreach$graphicsvg$GraphicSVG$red,
+															A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Types$NonHover2,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+													$author$project$Types$Hover2,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(4, 3.3),
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+															$MacCASOutreach$graphicsvg$GraphicSVG$red,
+															A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Types$NonHover3,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+													$author$project$Types$Hover3,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(4, 5.6),
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+															$MacCASOutreach$graphicsvg$GraphicSVG$red,
+															A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Types$NonHover4,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+													$author$project$Types$Hover4,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(4, 7.9),
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+															$MacCASOutreach$graphicsvg$GraphicSVG$red,
+															A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Types$NonHover5,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+													$author$project$Types$Hover5,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(4, 10.1),
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+															$MacCASOutreach$graphicsvg$GraphicSVG$red,
+															A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Types$NonHover6,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+													$author$project$Types$Hover6,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(4, 1),
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+															$MacCASOutreach$graphicsvg$GraphicSVG$red,
+															A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4))))))
+										]))
+								])))))
+			]));
 };
-var $elm$core$Basics$degrees = function (angleInDegrees) {
-	return (angleInDegrees * $elm$core$Basics$pi) / 180;
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient = function (a) {
-	return {$: 'Gradient', a: a};
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient = F2(
-	function (a, b) {
-		return {$: 'LinearGradient', a: a, b: b};
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$gradient = function (stops) {
-	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient(
-		A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient, 0, stops));
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$green = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 115, 210, 22, 1);
-var $MacCASOutreach$graphicsvg$GraphicSVG$grey = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 211, 215, 207, 1);
 var $MacCASOutreach$graphicsvg$GraphicSVG$longdash = function (th) {
 	return A2(
 		$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Broken,
@@ -9390,302 +10620,62 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$longdash = function (th) {
 			]),
 		th);
 };
-var $MacCASOutreach$graphicsvg$GraphicSVG$multAlpha = F2(
-	function (color, n) {
-		var colRec = $avh4$elm_color$Color$toRgba(color);
-		return $avh4$elm_color$Color$fromRgba(
-			_Utils_update(
-				colRec,
-				{alpha: colRec.alpha * n}));
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Oval = F2(
+	function (a, b) {
+		return {$: 'Oval', a: a, b: b};
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent = F2(
-	function (alpha, shape) {
-		_v0$3:
-		while (true) {
-			switch (shape.$) {
-				case 'Inked':
-					if (shape.a.$ === 'Nothing') {
-						if ((shape.b.$ === 'Just') && (shape.b.a.b.$ === 'Solid')) {
-							var _v1 = shape.a;
-							var _v2 = shape.b.a;
-							var lineType = _v2.a;
-							var colour = _v2.b.a;
-							var st = shape.c;
-							return A3(
-								$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked,
-								$elm$core$Maybe$Nothing,
-								$elm$core$Maybe$Just(
-									_Utils_Tuple2(
-										lineType,
-										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)))),
-								st);
-						} else {
-							break _v0$3;
-						}
-					} else {
-						if (shape.a.a.$ === 'Solid') {
-							if (shape.b.$ === 'Just') {
-								if (shape.b.a.b.$ === 'Solid') {
-									var colour = shape.a.a.a;
-									var _v3 = shape.b.a;
-									var lineType = _v3.a;
-									var sColour = _v3.b.a;
-									var st = shape.c;
-									return A3(
-										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked,
-										$elm$core$Maybe$Just(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
-										$elm$core$Maybe$Just(
-											_Utils_Tuple2(
-												lineType,
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, sColour, alpha)))),
-										st);
-								} else {
-									break _v0$3;
-								}
-							} else {
-								var colour = shape.a.a.a;
-								var _v4 = shape.b;
-								var st = shape.c;
-								return A3(
-									$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked,
-									$elm$core$Maybe$Just(
-										$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
-									$elm$core$Maybe$Nothing,
-									st);
-							}
-						} else {
-							break _v0$3;
-						}
-					}
-				case 'ForeignObject':
-					var w = shape.a;
-					var h = shape.b;
-					var htm = shape.c;
-					return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$ForeignObject, w, h, htm);
-				case 'Move':
-					var s = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Move,
-						s,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Rotate':
-					var r = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Rotate,
-						r,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Scale':
-					var sx = shape.a;
-					var sy = shape.b;
-					var sh = shape.c;
-					return A3(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Scale,
-						sx,
-						sy,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Skew':
-					var skx = shape.a;
-					var sky = shape.b;
-					var sh = shape.c;
-					return A3(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Skew,
-						skx,
-						sky,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Transformed':
-					var tm = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Transformed,
-						tm,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Group':
-					var list = shape.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Group(
+var $MacCASOutreach$graphicsvg$GraphicSVG$oval = F2(
+	function (w, h) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Oval, w, h);
+	});
+var $author$project$Game$musicButton = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+	0.8,
+	A2(
+		$MacCASOutreach$graphicsvg$GraphicSVG$move,
+		_Utils_Tuple2(-69, -33),
+		$MacCASOutreach$graphicsvg$GraphicSVG$group(
+			_List_fromArray(
+				[
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					$MacCASOutreach$graphicsvg$GraphicSVG$white,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 13, 3.3, 0.4)),
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-5.7, -6),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						$MacCASOutreach$graphicsvg$GraphicSVG$white,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1.6, 13, 0.4))),
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(5.7, -6),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						$MacCASOutreach$graphicsvg$GraphicSVG$white,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1.6, 13, 0.4))),
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-7.9, -13),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+						$elm$core$Basics$degrees(-60),
 						A2(
-							$elm$core$List$map,
-							$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent(alpha),
-							list));
-				case 'GroupOutline':
-					var cmbndshp = shape.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$GroupOutline(
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, cmbndshp));
-				case 'Link':
-					var s = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Link,
-						s,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'AlphaMask':
-					var reg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$AlphaMask,
-						reg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Clip':
-					var reg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Clip,
-						reg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Everything':
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Everything;
-				case 'Notathing':
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Notathing;
-				case 'Tap':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Tap,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TapAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TapAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'EnterShape':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$EnterShape,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'EnterAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$EnterAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Exit':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Exit,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'ExitAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$ExitAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseDown':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseDown,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseDownAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseDownAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseUp':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseUp,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseUpAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MouseUpAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MoveOverAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$MoveOverAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchStart':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchStart,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchEnd':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchEnd,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchStartAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchStartAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchEndAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchEndAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchMoveAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Secret$TouchMoveAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				default:
-					if (shape.c.$ === 'Solid') {
-						var s = shape.a;
-						var th = shape.b;
-						var colour = shape.c.a;
-						return A3(
-							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$GraphPaper,
-							s,
-							th,
-							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Solid(
-								A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)));
-					} else {
-						var s = shape.a;
-						var th = shape.b;
-						var gr = shape.c.a;
-						return A3(
-							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$GraphPaper,
-							s,
-							th,
-							$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Gradient(gr));
-					}
-			}
-		}
-		var a = shape.a;
-		var b = shape.b;
-		var c = shape.c;
-		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked, a, b, c);
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$rotate = F2(
-	function (theta, shape) {
-		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Rotate, theta, shape);
-	});
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							$MacCASOutreach$graphicsvg$GraphicSVG$white,
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$oval, 4, 7)))),
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(3.4, -13),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+						$elm$core$Basics$degrees(-60),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							$MacCASOutreach$graphicsvg$GraphicSVG$white,
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$oval, 4, 7))))
+				]))));
 var $author$project$Game$nightSky = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -10224,44 +11214,123 @@ var $author$project$Game$nightSky = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 										]))))
 						]))))
 		]));
-var $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter = F2(
-	function (msg, shape) {
-		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$EnterShape, msg, shape);
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave = F2(
-	function (msg, shape) {
-		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Exit, msg, shape);
-	});
+var $author$project$Conversions$noteToEndPosition = function (note) {
+	switch (note.$) {
+		case 'C':
+			return _Utils_Tuple2(-90, -19);
+		case 'CSharp':
+			return _Utils_Tuple2(-75, -19);
+		case 'D':
+			return _Utils_Tuple2(-60, -19);
+		case 'DSharp':
+			return _Utils_Tuple2(-44, -19);
+		case 'E':
+			return _Utils_Tuple2(-75, -31);
+		case 'F':
+			return _Utils_Tuple2(-60, -31);
+		case 'FSharp':
+			return _Utils_Tuple2(-44, -31);
+		case 'G':
+			return _Utils_Tuple2(-28, -31);
+		case 'GSharp':
+			return _Utils_Tuple2(-90, -24.5);
+		case 'A':
+			return _Utils_Tuple2(-75, -24.5);
+		case 'ASharp':
+			return _Utils_Tuple2(-60, -24.5);
+		case 'B':
+			return _Utils_Tuple2(-44, -24.5);
+		default:
+			return _Utils_Tuple2(0, -50);
+	}
+};
 var $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap = F2(
 	function (msg, shape) {
 		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Tap, msg, shape);
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$outlined = F3(
-	function (style, outlineClr, stencil) {
-		var lineStyle = function () {
-			if (style.$ === 'NoLine') {
-				return $elm$core$Maybe$Nothing;
-			} else {
-				return $elm$core$Maybe$Just(
-					_Utils_Tuple2(style, outlineClr));
-			}
-		}();
-		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Inked, $elm$core$Maybe$Nothing, lineStyle, stencil);
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Oval = F2(
-	function (a, b) {
-		return {$: 'Oval', a: a, b: b};
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$oval = F2(
-	function (w, h) {
-		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Oval, w, h);
-	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$pink = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 255, 105, 180, 1);
 var $MacCASOutreach$graphicsvg$GraphicSVG$purple = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 117, 80, 123, 1);
-var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 204, 0, 0, 1);
-var $MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
-	function (r, g, b) {
-		return A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, r, g, b, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$scaleX = F2(
+	function (s, shape) {
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Scale, s, 1, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$scaleY = F2(
+	function (s, shape) {
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Scale, 1, s, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$skewY = F2(
+	function (sky, shape) {
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Skew, 0, sky, shape);
+	});
+var $author$project$Shapes$quarterNote = F4(
+	function (outlineColour, colour, size, position) {
+		return A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$move,
+			position,
+			A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+				size,
+				$MacCASOutreach$graphicsvg$GraphicSVG$group(
+					_List_fromArray(
+						[
+							$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+									0.8,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(-30),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$skewY,
+											-0.3,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												outlineColour,
+												$MacCASOutreach$graphicsvg$GraphicSVG$circle(5))))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(3, 8),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$scaleY,
+										0.85,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$scaleX,
+											1.3,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												outlineColour,
+												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 16, 1)))))
+								])),
+							$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+									0.7,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(-30),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$skewY,
+											-0.3,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												colour,
+												$MacCASOutreach$graphicsvg$GraphicSVG$circle(5))))),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(3, 7.5),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+										0.8,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											colour,
+											A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 17, 1))))
+								]))
+						]))));
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient = F2(
 	function (r, grad) {
@@ -10275,14 +11344,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient = F2(
 			var radialGrad = grad;
 			return radialGrad;
 		}
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$RoundRect = F3(
-	function (a, b, c) {
-		return {$: 'RoundRect', a: a, b: b, c: c};
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$roundedRect = F3(
-	function (w, h, r) {
-		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$RoundRect, w, h, r);
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Sansserif = {$: 'Sansserif'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$sansserif = function (stencil) {
@@ -10305,16 +11366,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$sansserif = function (stencil) {
 		var a = stencil;
 		return a;
 	}
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$scale = F2(
-	function (s, shape) {
-		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Scale, s, s, shape);
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Unbroken = function (a) {
-	return {$: 'Unbroken', a: a};
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$solid = function (th) {
-	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Unbroken(th);
 };
 var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Stop = F3(
 	function (a, b, c) {
@@ -10597,7 +11648,7 @@ var $author$project$Game$game = function (model) {
 														$MacCASOutreach$graphicsvg$GraphicSVG$text('PRESS START'))))))),
 									A2(
 									$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
-									$author$project$Types$ToGameScreen,
+									$author$project$Types$ToPickASong,
 									A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
 										$author$project$Types$NonHoverPlay,
@@ -10615,7 +11666,6 @@ var $author$project$Game$game = function (model) {
 														$MacCASOutreach$graphicsvg$GraphicSVG$red,
 														A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 80, 20, 5)))))))
 								])),
-							$MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil),
 							A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
 							_Utils_Tuple2(0, -90),
@@ -10788,14 +11838,7 @@ var $author$project$Game$game = function (model) {
 												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
 												A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 35, 81, 193),
 												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 170, 1))))
-									]))),
-							A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(0, -65),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								1,
-								$MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)))
+									])))
 						])));
 		case 'InfoScreen':
 			return $MacCASOutreach$graphicsvg$GraphicSVG$group(
@@ -10831,852 +11874,41 @@ var $author$project$Game$game = function (model) {
 									$elm$core$Basics$degrees(3) * model.time,
 									$author$project$Game$nightSky)
 								]))),
-						(model.hovering ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
-						_Utils_Tuple2(113, -153)) : $elm$core$Basics$identity)(
+						$author$project$Game$guitar(model),
+						$author$project$Game$createMenu,
+						(model.middle ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(-200, 200),
-							$MacCASOutreach$graphicsvg$GraphicSVG$group(
-								_List_fromArray(
-									[
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-										0.4,
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(57, -3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-													_Utils_Tuple2(-61.68, 27.759),
-													_List_fromArray(
-														[
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.68, 12.337),
-															_Utils_Tuple2(-61.68, -3.084)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-60.55, -5.453),
-															_Utils_Tuple2(-55.90, -5.783)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.81, -5.240),
-															_Utils_Tuple2(-50.12, -2.698)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.12, 12.530),
-															_Utils_Tuple2(-50.12, 27.759)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.37, 31.299),
-															_Utils_Tuple2(-55.51, 32)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.52, 31.306),
-															_Utils_Tuple2(-61.68, 27.373))
-														]))))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-										0.4,
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(74, -3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-													_Utils_Tuple2(-61.68, 27.759),
-													_List_fromArray(
-														[
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.68, 12.337),
-															_Utils_Tuple2(-61.68, -3.084)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-60.55, -5.453),
-															_Utils_Tuple2(-55.90, -5.783)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.81, -5.240),
-															_Utils_Tuple2(-50.12, -2.698)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.12, 12.530),
-															_Utils_Tuple2(-50.12, 27.759)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.37, 31.299),
-															_Utils_Tuple2(-55.51, 32)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.52, 31.306),
-															_Utils_Tuple2(-61.68, 27.373))
-														])))))
-									])))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-						0.5,
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(-55, -25),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								1.6,
-								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-									$MacCASOutreach$graphicsvg$GraphicSVG$black,
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-										_Utils_Tuple2(37.667, -10.63),
-										_List_fromArray(
-											[
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(43.820, -15.29),
-												_Utils_Tuple2(41.852, -24.58)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(37.667, -35.46),
-												_Utils_Tuple2(24.762, -38.53)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(12.821, -38.64),
-												_Utils_Tuple2(11.160, -44.11)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(12.132, -54.56),
-												_Utils_Tuple2(32.784, -57.72)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(51.591, -55.95),
-												_Utils_Tuple2(65.918, -50.39)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(82.166, -43.27),
-												_Utils_Tuple2(95.215, -45.51)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(95.215, 1.9182),
-												_Utils_Tuple2(95.215, 49.351)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(86.627, 47.896),
-												_Utils_Tuple2(68.359, 55.280)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(40.298, 62.358),
-												_Utils_Tuple2(34.877, 47.956)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(35.923, 41.974),
-												_Utils_Tuple2(45.689, 40.632)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(58.344, 37.467),
-												_Utils_Tuple2(59.640, 25.983)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(61.277, 12.230),
-												_Utils_Tuple2(49.874, 10.637)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(44.991, 8.7193),
-												_Utils_Tuple2(40.108, 6.8010)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(39.062, -2.092),
-												_Utils_Tuple2(38.016, -10.98))
-											])))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(-50, -27),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-							1.6,
+							_Utils_Tuple2(-200, 0),
 							A2(
 								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 67, 29, 228),
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 140, 30, 5)))),
+						(model.bottom ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-200, 0),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(0, -30),
 								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-									_Utils_Tuple2(37.667, -10.63),
-									_List_fromArray(
-										[
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(43.820, -15.29),
-											_Utils_Tuple2(41.852, -24.58)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(37.667, -35.46),
-											_Utils_Tuple2(24.762, -38.53)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(12.821, -38.64),
-											_Utils_Tuple2(11.160, -44.11)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(12.132, -54.56),
-											_Utils_Tuple2(32.784, -57.72)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(51.591, -55.95),
-											_Utils_Tuple2(65.918, -50.39)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(82.166, -43.27),
-											_Utils_Tuple2(95.215, -45.51)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(95.215, 1.9182),
-											_Utils_Tuple2(95.215, 49.351)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(86.627, 47.896),
-											_Utils_Tuple2(68.359, 55.280)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(40.298, 62.358),
-											_Utils_Tuple2(34.877, 47.956)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(35.923, 41.974),
-											_Utils_Tuple2(45.689, 40.632)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(58.344, 37.467),
-											_Utils_Tuple2(59.640, 25.983)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(61.277, 12.230),
-											_Utils_Tuple2(49.874, 10.637)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(44.991, 8.7193),
-											_Utils_Tuple2(40.108, 6.8010)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(39.062, -2.092),
-											_Utils_Tuple2(38.016, -10.98))
-										]))))),
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 140, 30, 5))))),
+						(model.top ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
 						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(68, -10),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-							$elm$core$Basics$degrees(180),
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-200, 0),
 							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								2.7,
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(0, 30),
 								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$move,
-									_Utils_Tuple2(47, 6.7),
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-										A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 82, 81, 80),
-										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 90, 14)))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(30, -10),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-							$elm$core$Basics$degrees(180),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								2.7,
-								$MacCASOutreach$graphicsvg$GraphicSVG$group(
-									_List_fromArray(
-										[
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(60, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(54, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(48, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(42, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(36, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(30, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(24, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(18, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(10, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(2, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-6, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-12, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-18, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2)))
-										]))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(30, -10),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-							$elm$core$Basics$degrees(180),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								2.7,
-								$MacCASOutreach$graphicsvg$GraphicSVG$group(
-									_List_fromArray(
-										[
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-20, 0),
-											$MacCASOutreach$graphicsvg$GraphicSVG$group(
-												_List_fromArray(
-													[
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(-33, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																$MacCASOutreach$graphicsvg$GraphicSVG$black,
-																A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 9.9, 30)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(0, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 87, 205),
-																$MacCASOutreach$graphicsvg$GraphicSVG$circle(15)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(0, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 192, 234, 255),
-																$MacCASOutreach$graphicsvg$GraphicSVG$circle(14)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(0, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																$MacCASOutreach$graphicsvg$GraphicSVG$black,
-																$MacCASOutreach$graphicsvg$GraphicSVG$circle(12.5)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-48, 8),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$black,
-															A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 20, 2))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 1),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 3.3),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 5.6),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 7.9),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 10.1),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 12.4),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(20, 0),
-														$MacCASOutreach$graphicsvg$GraphicSVG$group(
-															_List_fromArray(
-																[
-																	(model.string1 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																		$author$project$Types$NonHover1,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover1,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 12.4),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))))),
-																	(model.string2 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																		$author$project$Types$NonHover2,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover2,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 3.3),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))))),
-																	(model.string3 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																		$author$project$Types$NonHover3,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover3,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 5.6),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))))),
-																	(model.string4 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																		$author$project$Types$NonHover4,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover4,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 7.9),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))))),
-																	(model.string5 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																		$author$project$Types$NonHover5,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover5,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 10.1),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))))),
-																	(model.string6 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																		$author$project$Types$NonHover6,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover6,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 1),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5))))))
-																])))
-													]))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(16, 1.5),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-												0.86,
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 63, 65, 65),
-													A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-														_Utils_Tuple2(55.52, 10.88),
-														_List_fromArray(
-															[
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(55.52, 6.7200),
-																_Utils_Tuple2(55.52, 2.56)),
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(58.079, -1.760),
-																_Utils_Tuple2(66.08, -2.24)),
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(66.08, 6.24),
-																_Utils_Tuple2(66.08, 14.72)),
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(57.339, 14.599),
-																_Utils_Tuple2(55.84, 9.92))
-															]))))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(81, 7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 63, 65, 65),
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 26, 15, 5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 11),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 11),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 11),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 15),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 15),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 15),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, -1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, -1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, -1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 16),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 16),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 16),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, -2),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, -2),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, -2),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(70, 11.5),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(-10),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 10, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(71, 1.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(10),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 9, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(72, 3.3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 17.5, 0.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(74, 8.3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(14),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 23, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(74, 5.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(-11),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 23, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(70, 10.1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 0.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(45, 6.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(33, 6.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(21, 6.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(6, 9),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(6, 4.5),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-3, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1)))
-										]))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-						0.5,
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-							$MacCASOutreach$graphicsvg$GraphicSVG$black,
-							A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 300, 300))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-						$MacCASOutreach$graphicsvg$GraphicSVG$black,
-						A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 152, 102, 5)),
-						A3(
-						$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
-						$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
-						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 189, 0, 81),
-						A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 147, 97, 5)),
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 140, 30, 5))))),
 						A2(
 						$MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(-45, 26),
@@ -11736,81 +11968,450 @@ var $author$project$Game$game = function (model) {
 								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
 								$MacCASOutreach$graphicsvg$GraphicSVG$black,
 								$MacCASOutreach$graphicsvg$GraphicSVG$text('i')))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-						0.8,
+						(model.middle ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(-69, -33),
+							_Utils_Tuple2(-200, 0),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(-13, -5),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-45, 0),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('i')))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 1),
+						$author$project$Game$musicButton),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+						$author$project$Types$NonHoverMiddle,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+							$author$project$Types$ToHowToPlay,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Types$HoverMiddle,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+									0,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$yellow,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+						$author$project$Types$ToPickASong,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+							$author$project$Types$NonHoverTop,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Types$HoverTop,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+									0,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(0, 30),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$green,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+						$author$project$Types$NonHoverBottom,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+							$author$project$Types$HoverBottom,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+								0,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(0, -30),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$red,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))))
+					]));
+		case 'PickASong':
+			return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+				_List_fromArray(
+					[
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, -30),
+						$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient,
+										$elm$core$Basics$degrees(270),
+										$MacCASOutreach$graphicsvg$GraphicSVG$gradient(
+											_List_fromArray(
+												[
+													A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$stop,
+													A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 75, 0, 130),
+													1),
+													A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$stop,
+													A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 221, 160, 221),
+													100),
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$stop, $MacCASOutreach$graphicsvg$GraphicSVG$pink, 1)
+												]))),
+									A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 200, 200)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+									$elm$core$Basics$degrees(3) * model.time,
+									$author$project$Game$nightSky)
+								]))),
+						(model.gameplayed ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(3000, 0)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-3000, 0),
+							$author$project$Game$guitar(model))),
+						$author$project$Game$createMenu,
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 40),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+							0.6,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$white,
+								$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+									$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('SELECT A SONG TO PLAY: ')))))),
+						(model.middle ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-200, 0),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(0, -3),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 140, 27, 5))))),
+						(model.bottom ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-200, 0),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(0, -30),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 140, 27, 5))))),
+						(model.top ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, 0)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-200, 0),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(0, 24),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
+									A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 140, 27, 5))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 21),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+							0.6,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$white,
+								$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+									$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('Twinkle Twinkle Little Star')))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(-24, -7),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+							0.6,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$white,
+								$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+									$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('Smoke On')))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(-23, -34),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+							0.6,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$white,
+								$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+									$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('Sxfuhjjkbyt')))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 1),
+						$author$project$Game$musicButton),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 28),
+						$author$project$Game$musicButton),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 56),
+						$author$project$Game$musicButton),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+						$author$project$Types$NonHoverMiddle,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+							$author$project$Types$ToGameScreen,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Types$HoverMiddle,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+									0,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										$MacCASOutreach$graphicsvg$GraphicSVG$yellow,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+						$author$project$Types$ToGameScreen,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+							$author$project$Types$NonHoverTop,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Types$HoverTop,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+									0,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(0, 30),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$green,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+						$author$project$Types$ToGameScreen,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+							$author$project$Types$NonHoverBottom,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Types$HoverBottom,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+									0,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(0, -30),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$red,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))))))
+					]));
+		case 'HowToPlay':
+			return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+				_List_fromArray(
+					[
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, -30),
+						$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient,
+										$elm$core$Basics$degrees(270),
+										$MacCASOutreach$graphicsvg$GraphicSVG$gradient(
+											_List_fromArray(
+												[
+													A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$stop,
+													A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 75, 0, 130),
+													1),
+													A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$stop,
+													A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 221, 160, 221),
+													100),
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$stop, $MacCASOutreach$graphicsvg$GraphicSVG$pink, 1)
+												]))),
+									A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 200, 200)),
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+									$elm$core$Basics$degrees(3) * model.time,
+									$author$project$Game$nightSky)
+								]))),
+						$author$project$Game$guitar(model),
+						$author$project$Game$createMenu,
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 38),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+							0.6,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$white,
+								$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+									$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('HOW TO PLAY: ')))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(-45, 64),
+						$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+									$elm$core$Basics$degrees(45),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+										0.4,
+										A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(1.5),
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+												_Utils_Tuple2(-95.63, -16.72),
+												_List_fromArray(
+													[
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-85.01, -25.14),
+														_Utils_Tuple2(-78.90, -20)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-75.66, -15.91),
+														_Utils_Tuple2(-81.09, -11.27)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-83.81, -13.81),
+														_Utils_Tuple2(-86.54, -16.36)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-86.54, -8.363),
+														_Utils_Tuple2(-86.54, -0.363)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-78.54, -0.181),
+														_Utils_Tuple2(-70.54, 0)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-73.09, -2.727),
+														_Utils_Tuple2(-75.63, -5.454)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-67.19, -13.67),
+														_Utils_Tuple2(-72, -21.09)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-81.38, -30.94),
+														_Utils_Tuple2(-96, -16.72))
+													])))))
+								]))),
+						(model.hovering2 ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
+						_Utils_Tuple2(200, -200)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-200, 200),
 							$MacCASOutreach$graphicsvg$GraphicSVG$group(
 								_List_fromArray(
 									[
 										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-										$MacCASOutreach$graphicsvg$GraphicSVG$white,
-										A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 13, 3.3, 0.4)),
-										A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(-5.7, -6),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$white,
-											A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1.6, 13, 0.4))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(5.7, -6),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$white,
-											A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1.6, 13, 0.4))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(-7.9, -13),
+										_Utils_Tuple2(-45, 64),
 										A2(
 											$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-											$elm$core$Basics$degrees(-60),
+											$elm$core$Basics$degrees(45),
 											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$oval, 4, 7)))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(3.4, -13),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-											$elm$core$Basics$degrees(-60),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$oval, 4, 7))))
+												$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+												0.4,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+														_Utils_Tuple2(-95.63, -16.72),
+														_List_fromArray(
+															[
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-85.01, -25.14),
+																_Utils_Tuple2(-78.90, -20)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-75.66, -15.91),
+																_Utils_Tuple2(-81.09, -11.27)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-83.81, -13.81),
+																_Utils_Tuple2(-86.54, -16.36)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-86.54, -8.363),
+																_Utils_Tuple2(-86.54, -0.363)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-78.54, -0.181),
+																_Utils_Tuple2(-70.54, 0)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-73.09, -2.727),
+																_Utils_Tuple2(-75.63, -5.454)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-67.19, -13.67),
+																_Utils_Tuple2(-72, -21.09)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-81.38, -30.94),
+																_Utils_Tuple2(-96, -16.72))
+															]))))))
 									])))),
 						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-						0,
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+						$author$project$Types$ToInfoScreen,
 						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-							$MacCASOutreach$graphicsvg$GraphicSVG$yellow,
-							A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-						0,
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(0, 30),
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+							$author$project$Types$NonHoverPause,
 							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								$MacCASOutreach$graphicsvg$GraphicSVG$green,
-								A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-						0,
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(0, -30),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								$MacCASOutreach$graphicsvg$GraphicSVG$red,
-								A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Types$HoverPause,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+									0,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(-69, 31),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$red,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 25)))))))
 					]));
 		default:
 			return $MacCASOutreach$graphicsvg$GraphicSVG$group(
@@ -11846,8 +12447,63 @@ var $author$project$Game$game = function (model) {
 									$elm$core$Basics$degrees(3) * model.time,
 									$author$project$Game$nightSky)
 								]))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(-54, 90),
+						$MacCASOutreach$graphicsvg$GraphicSVG$group(
+							_List_fromArray(
+								[
+									A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+									$elm$core$Basics$degrees(45),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+										0.6,
+										A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(1.5),
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+												_Utils_Tuple2(-95.63, -16.72),
+												_List_fromArray(
+													[
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-85.01, -25.14),
+														_Utils_Tuple2(-78.90, -20)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-75.66, -15.91),
+														_Utils_Tuple2(-81.09, -11.27)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-83.81, -13.81),
+														_Utils_Tuple2(-86.54, -16.36)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-86.54, -8.363),
+														_Utils_Tuple2(-86.54, -0.363)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-78.54, -0.181),
+														_Utils_Tuple2(-70.54, 0)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-73.09, -2.727),
+														_Utils_Tuple2(-75.63, -5.454)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-67.19, -13.67),
+														_Utils_Tuple2(-72, -21.09)),
+														A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+														_Utils_Tuple2(-81.38, -30.94),
+														_Utils_Tuple2(-96, -16.72))
+													])))))
+								]))),
 						(model.hovering2 ? $MacCASOutreach$graphicsvg$GraphicSVG$move(
-						_Utils_Tuple2(113, -153)) : $elm$core$Basics$identity)(
+						_Utils_Tuple2(200, -200)) : $elm$core$Basics$identity)(
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
 							_Utils_Tuple2(-200, 200),
@@ -11855,171 +12511,83 @@ var $author$project$Game$game = function (model) {
 								_List_fromArray(
 									[
 										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-										0.4,
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(-54, 90),
 										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(57, -3),
+											$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+											$elm$core$Basics$degrees(45),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+												0.6,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+														_Utils_Tuple2(-95.63, -16.72),
+														_List_fromArray(
+															[
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-85.01, -25.14),
+																_Utils_Tuple2(-78.90, -20)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-75.66, -15.91),
+																_Utils_Tuple2(-81.09, -11.27)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-83.81, -13.81),
+																_Utils_Tuple2(-86.54, -16.36)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-86.54, -8.363),
+																_Utils_Tuple2(-86.54, -0.363)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-78.54, -0.181),
+																_Utils_Tuple2(-70.54, 0)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-73.09, -2.727),
+																_Utils_Tuple2(-75.63, -5.454)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-67.19, -13.67),
+																_Utils_Tuple2(-72, -21.09)),
+																A2(
+																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
+																_Utils_Tuple2(-81.38, -30.94),
+																_Utils_Tuple2(-96, -16.72))
+															])))))),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(-52, 50),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 87, 205),
+											A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 37, 10, 1))),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(-52, 50),
+										A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+											$MacCASOutreach$graphicsvg$GraphicSVG$dashed(0.3),
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 37, 10, 1))),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(-52, 48),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+											0.5,
 											A2(
 												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
 												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-													_Utils_Tuple2(-61.68, 27.759),
-													_List_fromArray(
-														[
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.68, 12.337),
-															_Utils_Tuple2(-61.68, -3.084)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-60.55, -5.453),
-															_Utils_Tuple2(-55.90, -5.783)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.81, -5.240),
-															_Utils_Tuple2(-50.12, -2.698)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.12, 12.530),
-															_Utils_Tuple2(-50.12, 27.759)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.37, 31.299),
-															_Utils_Tuple2(-55.51, 32)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.52, 31.306),
-															_Utils_Tuple2(-61.68, 27.373))
-														]))))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-										0.4,
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(74, -3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-													_Utils_Tuple2(-61.68, 27.759),
-													_List_fromArray(
-														[
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.68, 12.337),
-															_Utils_Tuple2(-61.68, -3.084)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-60.55, -5.453),
-															_Utils_Tuple2(-55.90, -5.783)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.81, -5.240),
-															_Utils_Tuple2(-50.12, -2.698)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.12, 12.530),
-															_Utils_Tuple2(-50.12, 27.759)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-50.37, 31.299),
-															_Utils_Tuple2(-55.51, 32)),
-															A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-															_Utils_Tuple2(-61.52, 31.306),
-															_Utils_Tuple2(-61.68, 27.373))
-														])))))
+												$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+													$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+														$MacCASOutreach$graphicsvg$GraphicSVG$text('quit game?'))))))
 									])))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(-87, 47),
-						$MacCASOutreach$graphicsvg$GraphicSVG$group(
-							_List_fromArray(
-								[
-									A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-									0.4,
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(57, -3),
-										A3(
-											$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
-											$MacCASOutreach$graphicsvg$GraphicSVG$solid(2),
-											$MacCASOutreach$graphicsvg$GraphicSVG$white,
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-												_Utils_Tuple2(-61.68, 27.759),
-												_List_fromArray(
-													[
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-61.68, 12.337),
-														_Utils_Tuple2(-61.68, -3.084)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-60.55, -5.453),
-														_Utils_Tuple2(-55.90, -5.783)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-50.81, -5.240),
-														_Utils_Tuple2(-50.12, -2.698)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-50.12, 12.530),
-														_Utils_Tuple2(-50.12, 27.759)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-50.37, 31.299),
-														_Utils_Tuple2(-55.51, 32)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-61.52, 31.306),
-														_Utils_Tuple2(-61.68, 27.373))
-													]))))),
-									A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-									0.4,
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(74, -3),
-										A3(
-											$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
-											$MacCASOutreach$graphicsvg$GraphicSVG$solid(2),
-											$MacCASOutreach$graphicsvg$GraphicSVG$white,
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-												_Utils_Tuple2(-61.68, 27.759),
-												_List_fromArray(
-													[
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-61.68, 12.337),
-														_Utils_Tuple2(-61.68, -3.084)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-60.55, -5.453),
-														_Utils_Tuple2(-55.90, -5.783)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-50.81, -5.240),
-														_Utils_Tuple2(-50.12, -2.698)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-50.12, 12.530),
-														_Utils_Tuple2(-50.12, 27.759)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-50.37, 31.299),
-														_Utils_Tuple2(-55.51, 32)),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-														_Utils_Tuple2(-61.52, 31.306),
-														_Utils_Tuple2(-61.68, 27.373))
-													])))))
-								]))),
 						A2(
 						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
 						$author$project$Types$ToInfoScreen,
@@ -12038,810 +12606,80 @@ var $author$project$Game$game = function (model) {
 										A2(
 											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
 											$MacCASOutreach$graphicsvg$GraphicSVG$red,
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 12, 15))))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 25))))))),
+						$author$project$Game$guitar(model),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
 						0.5,
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$move,
-							_Utils_Tuple2(-55, -25),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								1.6,
-								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-									$MacCASOutreach$graphicsvg$GraphicSVG$black,
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-										_Utils_Tuple2(37.667, -10.63),
-										_List_fromArray(
-											[
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(43.820, -15.29),
-												_Utils_Tuple2(41.852, -24.58)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(37.667, -35.46),
-												_Utils_Tuple2(24.762, -38.53)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(12.821, -38.64),
-												_Utils_Tuple2(11.160, -44.11)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(12.132, -54.56),
-												_Utils_Tuple2(32.784, -57.72)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(51.591, -55.95),
-												_Utils_Tuple2(65.918, -50.39)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(82.166, -43.27),
-												_Utils_Tuple2(95.215, -45.51)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(95.215, 1.9182),
-												_Utils_Tuple2(95.215, 49.351)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(86.627, 47.896),
-												_Utils_Tuple2(68.359, 55.280)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(40.298, 62.358),
-												_Utils_Tuple2(34.877, 47.956)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(35.923, 41.974),
-												_Utils_Tuple2(45.689, 40.632)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(58.344, 37.467),
-												_Utils_Tuple2(59.640, 25.983)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(61.277, 12.230),
-												_Utils_Tuple2(49.874, 10.637)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(44.991, 8.7193),
-												_Utils_Tuple2(40.108, 6.8010)),
-												A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-												_Utils_Tuple2(39.062, -2.092),
-												_Utils_Tuple2(38.016, -10.98))
-											])))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(-50, -27),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-							1.6,
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 67, 29, 228),
-								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-									_Utils_Tuple2(37.667, -10.63),
-									_List_fromArray(
-										[
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(43.820, -15.29),
-											_Utils_Tuple2(41.852, -24.58)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(37.667, -35.46),
-											_Utils_Tuple2(24.762, -38.53)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(12.821, -38.64),
-											_Utils_Tuple2(11.160, -44.11)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(12.132, -54.56),
-											_Utils_Tuple2(32.784, -57.72)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(51.591, -55.95),
-											_Utils_Tuple2(65.918, -50.39)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(82.166, -43.27),
-											_Utils_Tuple2(95.215, -45.51)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(95.215, 1.9182),
-											_Utils_Tuple2(95.215, 49.351)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(86.627, 47.896),
-											_Utils_Tuple2(68.359, 55.280)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(40.298, 62.358),
-											_Utils_Tuple2(34.877, 47.956)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(35.923, 41.974),
-											_Utils_Tuple2(45.689, 40.632)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(58.344, 37.467),
-											_Utils_Tuple2(59.640, 25.983)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(61.277, 12.230),
-											_Utils_Tuple2(49.874, 10.637)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(44.991, 8.7193),
-											_Utils_Tuple2(40.108, 6.8010)),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-											_Utils_Tuple2(39.062, -2.092),
-											_Utils_Tuple2(38.016, -10.98))
-										]))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(68, -10),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-							$elm$core$Basics$degrees(180),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								2.7,
-								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$move,
-									_Utils_Tuple2(47, 6.7),
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-										A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 82, 81, 80),
-										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 90, 14)))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(30, -10),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-							$elm$core$Basics$degrees(180),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								2.7,
-								$MacCASOutreach$graphicsvg$GraphicSVG$group(
-									_List_fromArray(
-										[
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(60, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(54, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(48, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(42, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(36, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(30, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(24, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(18, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(10, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(2, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-6, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-12, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-18, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$black,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 1, 14, 2)))
-										]))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(30, -10),
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-							$elm$core$Basics$degrees(180),
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-								2.7,
-								$MacCASOutreach$graphicsvg$GraphicSVG$group(
-									_List_fromArray(
-										[
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-20, 0),
-											$MacCASOutreach$graphicsvg$GraphicSVG$group(
-												_List_fromArray(
-													[
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(-33, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																$MacCASOutreach$graphicsvg$GraphicSVG$black,
-																A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 9.9, 30)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(0, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 87, 205),
-																$MacCASOutreach$graphicsvg$GraphicSVG$circle(15)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(0, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 192, 234, 255),
-																$MacCASOutreach$graphicsvg$GraphicSVG$circle(14)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-10, 0),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$move,
-															_Utils_Tuple2(0, 7),
-															A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																$MacCASOutreach$graphicsvg$GraphicSVG$black,
-																$MacCASOutreach$graphicsvg$GraphicSVG$circle(12.5)))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-48, 8),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$black,
-															A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 20, 2))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 1),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 3.3),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 5.6),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 7.9),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 10.1),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(-46, 12.4),
-														A2(
-															$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-															$MacCASOutreach$graphicsvg$GraphicSVG$white,
-															$MacCASOutreach$graphicsvg$GraphicSVG$circle(1))),
-														A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$move,
-														_Utils_Tuple2(20, 0),
-														$MacCASOutreach$graphicsvg$GraphicSVG$group(
-															_List_fromArray(
-																[
-																	(model.string1 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																		_Utils_Tuple2(4, 12.4),
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																			$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
-																	A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																	$author$project$Types$NonHover1,
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-																		0,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover1,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 12.4),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$red,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
-																	(model.string2 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																		_Utils_Tuple2(4, 3.3),
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																			$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
-																	A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																	$author$project$Types$NonHover2,
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																		$author$project$Types$Hover2,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-																			0,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 3.3),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$red,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
-																	(model.string3 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																		_Utils_Tuple2(4, 5.6),
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																			$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
-																	A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																	$author$project$Types$NonHover3,
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																		$author$project$Types$Hover3,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																			_Utils_Tuple2(4, 5.6),
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-																				0,
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$red,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
-																	(model.string4 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																		_Utils_Tuple2(4, 7.9),
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																			$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
-																	A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																	$author$project$Types$NonHover4,
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-																		0,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																			$author$project$Types$Hover4,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 7.9),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$red,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
-																	(model.string5 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																		_Utils_Tuple2(4, 10.1),
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																			$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
-																	A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																	$author$project$Types$NonHover5,
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																		$author$project$Types$Hover5,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-																			0,
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																				_Utils_Tuple2(4, 10.1),
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$red,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4)))))),
-																	(model.string6 ? A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
-																	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
-																	$MacCASOutreach$graphicsvg$GraphicSVG$grey) : $elm$core$Basics$identity)(
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																		_Utils_Tuple2(4, 1),
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																			$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-																			A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 0.5)))),
-																	A2(
-																	$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-																	$author$project$Types$NonHover6,
-																	A2(
-																		$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-																		$author$project$Types$Hover6,
-																		A2(
-																			$MacCASOutreach$graphicsvg$GraphicSVG$move,
-																			_Utils_Tuple2(4, 1),
-																			A2(
-																				$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-																				0,
-																				A2(
-																					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-																					$MacCASOutreach$graphicsvg$GraphicSVG$red,
-																					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 140, 2.4))))))
-																])))
-													]))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(16, 1.5),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$scale,
-												0.86,
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 63, 65, 65),
-													A2(
-														$MacCASOutreach$graphicsvg$GraphicSVG$curve,
-														_Utils_Tuple2(55.52, 10.88),
-														_List_fromArray(
-															[
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(55.52, 6.7200),
-																_Utils_Tuple2(55.52, 2.56)),
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(58.079, -1.760),
-																_Utils_Tuple2(66.08, -2.24)),
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(66.08, 6.24),
-																_Utils_Tuple2(66.08, 14.72)),
-																A2(
-																$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull,
-																_Utils_Tuple2(57.339, 14.599),
-																_Utils_Tuple2(55.84, 9.92))
-															]))))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(81, 7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 63, 65, 65),
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 26, 15, 5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 11),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 11),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 11),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												$MacCASOutreach$graphicsvg$GraphicSVG$circle(1.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 15),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 15),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 15),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, -1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, -1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, -1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 1.5, 2))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, 16),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, 16),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, 16),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(75, -2),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(80, -2),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(85, -2),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 2, 3))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(70, 11.5),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(-10),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 10, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(71, 1.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(10),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 9, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(72, 3.3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 17.5, 0.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(74, 8.3),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(14),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 23, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(74, 5.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
-												$elm$core$Basics$degrees(-11),
-												A2(
-													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-													$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 23, 0.5)))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(70, 10.1),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$grey,
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 0.5))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(45, 6.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(33, 6.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(21, 6.8),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 3, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(6, 9),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(6, 4.5),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1))),
-											A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$move,
-											_Utils_Tuple2(-3, 6.7),
-											A2(
-												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-												$MacCASOutreach$graphicsvg$GraphicSVG$white,
-												A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 2, 1.5, 1)))
-										])))))
+						$author$project$Conversions$noteToEndPosition($author$project$Types$C)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$CSharp)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$D)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$E)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$DSharp)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$F)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$FSharp)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$G)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$GSharp)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$A)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$ASharp)),
+						A4(
+						$author$project$Shapes$quarterNote,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						$MacCASOutreach$graphicsvg$GraphicSVG$green,
+						0.5,
+						$author$project$Conversions$noteToEndPosition($author$project$Types$B))
 					]));
 	}
 };

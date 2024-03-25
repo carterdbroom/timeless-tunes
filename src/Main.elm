@@ -20,8 +20,8 @@ yDistance (s1, s2) (e1, e2) =
 myShapes model =
   [
     game model
-    --drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
-    --|> move (0, -noteSpeed*model.time)
+    
+    
 
   ]
 
