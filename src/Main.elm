@@ -96,6 +96,10 @@ update msg model
       NonHoverMiddle -> {model | middle = False}
       HoverBottom -> {model | bottom = True}
       NonHoverBottom -> {model | bottom = False}
+      SetSongTwinkle -> {model | GameMode = Twinkle}
+      SetSongSmoke -> {model | GameMode = Smoke}
+      SetSongEye -> {model | GameMode = Eye}
+        
   
 
 init = { time = 0
@@ -112,7 +116,8 @@ init = { time = 0
       , bottom = False
       , middle = False
       , top = False
-      , gameplayed = False}
+      , gameplayed = False
+      , GameMode = Twinkle}
       
 view model = collage 192 128 (myShapes model)
 
