@@ -531,9 +531,11 @@ game model =
         ,
         quarterNote black green 0.5 (noteToEndPosition B)
         ,
+
+        guitarbuttons model
+          |> makeTransparent 0,
+          
         guitarsensors model
-        , 
-        guitarbuttons
         ]    
 
 nightSky =
@@ -1232,7 +1234,7 @@ guitarsensors model = group[
   
   ]
 
-guitarbuttons = group[
+guitarbuttons model= group[
 
 
   circle 5
@@ -1442,6 +1444,290 @@ guitarbuttons = group[
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-54,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+  
+    -- new collumn
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87,-25.5)
+      |> scale 0.5 -- 
+      |> makeTransparent 0.9,
+    circle 5
+      |> outlined (solid 1.8) (rgb 4 251 4)
+      |> move (-87,-25.5)
+      |> scale 0.5 
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87,-38)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+      
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-87,-38)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87,-50.5)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-87,-50.5)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+    
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87,-63)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-87,-63)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87,-75)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-87,-75)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87,-87)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-87,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    -- new collumn
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-120,-25.5)
+      |> scale 0.5 -- 
+      |> makeTransparent 0.9,
+    circle 5
+      |> outlined (solid 1.8) (rgb 4 251 4)
+      |> move (-120,-25.5)
+      |> scale 0.5 
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-120,-38)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+      
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-120,-38)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-120,-50.5)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-120,-50.5)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+    
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-120,-63)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-120,-63)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-120,-75)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-120,-75)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-120,-87)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-120,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    -- new collumn
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-153,-25.5)
+      |> scale 0.5 -- 
+      |> makeTransparent 0.9,
+    circle 5
+      |> outlined (solid 1.8) (rgb 4 251 4)
+      |> move (-153,-25.5)
+      |> scale 0.5 
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-153,-38)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+      
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-153,-38)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-153,-50.5)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-153,-50.5)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+    
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-153,-63)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-153,-63)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-153,-75)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-153,-75)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-153,-87)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-153,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    -- new collumn
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-186,-25.5)
+      |> scale 0.5 -- 
+      |> makeTransparent 0.9,
+    circle 5
+      |> outlined (solid 1.8) (rgb 4 251 4)
+      |> move (-186,-25.5)
+      |> scale 0.5 
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-186,-38)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+      
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-186,-38)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-186,-50.5)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-186,-50.5)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+    
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-186,-63)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-186,-63)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-186,-75)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-186,-75)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-186,-87)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-186,-87)     
       |> scale 0.5      
       |> makeTransparent 0.7
     ]
