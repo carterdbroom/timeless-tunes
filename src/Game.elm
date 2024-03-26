@@ -504,38 +504,6 @@ game model =
           |> notifyTap ToInfoScreen, 
 
         guitar model
-        ,
-        --drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
-        --|> move (0, -noteSpeed*model.time)
-        quarterNote black green 0.5 (noteToEndPosition C)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition CSharp)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition D)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition E)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition DSharp)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition F)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition FSharp)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition G)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition GSharp)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition A)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition ASharp)
-        ,
-        quarterNote black green 0.5 (noteToEndPosition B)
-        ,
-
-        guitarbuttons model
-          |> makeTransparent 0,
-          
-        guitarsensors model
         ]    
 
 nightSky =
