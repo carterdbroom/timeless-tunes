@@ -257,7 +257,30 @@ game model =
           --music note
           musicButton
           |> move (0, 1),
-            
+          
+          -- titles for buttons
+          -- song names
+          text "play game"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-26,27)
+          ,
+          text "how to play"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-25,-3)
+          ,
+          text "more options"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-23,-34),
+
           --sensor rectangles (if you hover on these on the menu 
           --it will highlight the section)
           rect 152 30 -- middle
@@ -324,21 +347,21 @@ game model =
           |> (if model.top then move (200,0) else identity)
           ,
           -- song names
-          text "Twinkle Twinkle Little Star"
+          text "twinkle twinkle little star"
           |> sansserif
           |> centered 
           |> filled white
           |> scale 0.6
-          |> move (0,21)
+          |> move (-2,21)
           ,
-          text "Smoke On"
+          text "smoke on"
           |> sansserif
           |> centered 
           |> filled white
           |> scale 0.6
           |> move (-24,-7)
           ,
-          text "Sxfuhjjkbyt"
+          text "sxfuhjjkbyt"
           |> sansserif
           |> centered 
           |> filled white
@@ -398,7 +421,8 @@ game model =
           |> filled white
           |> scale 0.6
           |> move (0,38),
-
+        -- how to play description
+        description,
         --back button hollow
          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
@@ -506,6 +530,10 @@ game model =
         quarterNote black green 0.5 (noteToEndPosition ASharp)
         ,
         quarterNote black green 0.5 (noteToEndPosition B)
+        ,
+        guitarsensors model
+        , 
+        guitarbuttons
         ]    
 
 nightSky =
@@ -667,16 +695,13 @@ guitar model = group[
 
           group[roundedRect 1 14 2 
           |> filled black
-          |> move (60,6.7), 
-          roundedRect 1 14 2 
-          |> filled black
           |> move (54,6.7), 
           roundedRect 1 14 2 
           |> filled black
-          |> move (48,6.7),
+          |> move (48,6.7), 
           roundedRect 1 14 2 
           |> filled black
-          |> move (42,6.7), 
+          |> move (42,6.7),
           roundedRect 1 14 2 
           |> filled black
           |> move (36,6.7), 
@@ -688,13 +713,16 @@ guitar model = group[
           |> move (24,6.7), 
           roundedRect 1 14 2 
           |> filled black
-          |> move (18,6.7),
+          |> move (18,6.7), 
           roundedRect 1 14 2 
           |> filled black
-          |> move (10,6.7), 
+          |> move (12,6.7),
           roundedRect 1 14 2 
           |> filled black
-          |> move (2,6.7), 
+          |> move (6,6.7), 
+          roundedRect 1 14 2 
+          |> filled black
+          |> move (0,6.7), 
           roundedRect 1 14 2 
           |> filled black
           |> move (-6,6.7), 
@@ -885,10 +913,10 @@ guitar model = group[
           |> move (21,6.8)
           , roundedRect 2 1.5 1 
           |> filled white
-          |> move (6,9), 
+          |> move (3,9), --6
           roundedRect 2 1.5 1 
           |> filled white
-          |> move (6,4.5), 
+          |> move (3,4.5), 
           roundedRect 2 1.5 1 
           |> filled white
           |> move (-3,6.7),
@@ -896,7 +924,7 @@ guitar model = group[
           -- sensor wires
           group[
           rect 140 2.4
-          |> filled red
+          |> filled green
           |> move (4,12.4)
           |> notifyEnter Hover1
           |> notifyLeave NonHover1
@@ -910,14 +938,14 @@ guitar model = group[
           |> makeTransparent 0
           , 
           rect 140 2.4
-          |> filled red
+          |> filled yellow
           |> move (4,5.6)
           |> notifyEnter Hover3
           |> notifyLeave NonHover3
           |> makeTransparent 0
           , 
           rect 140 2.4
-          |> filled red
+          |> filled blue
           |> move (4,7.9)
           |> notifyEnter Hover4
           |> notifyLeave NonHover4
@@ -942,4 +970,478 @@ guitar model = group[
             |> scale 2.7
             |> rotate (degrees 180)
             |> move (30,-10)]
+description = group[
+  text "after selecting your song of choice to play, notes"
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,22),
+  text "will appear on the game screen and begin falling."
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,15),
+  text "you must tap on the green note at the correct time"
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,8),
+  text "at the correct placement on the guitar."
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,1),  
+  text "continue tapping the notes until the song has" 
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,-10),
+  text "finished."
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,-17),
+  text "by using the back arrow button, you are able to"
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,-28),
+  text "switch the song and practice with another song."
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,-35),
+  text "have fun and enjoy playing!"
+    |> sansserif
+    |> centered
+    |> filled white
+    |> scale 0.5
+    |> move (0,-42)]
 
+guitarsensors model = group[
+
+  group[
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (6,-12.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-10.5,-12.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-27,-12.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-43.5,-12.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-60,-12.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-76.5,-12.5)
+  |> makeTransparent 0]
+    |> notifyEnter Hover6
+    |> notifyLeave NonHover6,
+  
+  ---new row
+  group[
+  rect 16.5 6
+  |> filled red
+  |> move (6,-18.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-10.5,-18.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-27,-18.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-43.5,-18.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-60,-18.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-76.5,-18.75)
+  |> makeTransparent 0]
+    |> notifyEnter Hover2
+    |> notifyLeave NonHover2,
+-- new row
+
+  group[rect 16.5 6
+  |> filled yellow
+  |> move (6,-24.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-10.5,-24.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-27,-24.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-43.5,-24.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-60,-24.75)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-76.5,-24.75)
+  |> makeTransparent 0]
+    |> notifyEnter Hover3
+    |> notifyLeave NonHover3,
+
+-- new row
+  group[
+  rect 16.5 6.48
+  |> filled red
+  |> move (6,-31)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-10.5,-31)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-27,-31)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-43.5,-31)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-60,-31)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-76.5,-31)
+  |> makeTransparent 0]
+    |> notifyEnter Hover4
+    |> notifyLeave NonHover4,
+
+  -- new row
+  group[
+  rect 16.5 6
+  |> filled green
+  |> move (6,-37.25)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-10.5,-37.25)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-27,-37.25)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-43.5,-37.25)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled yellow
+  |> move (-60,-37.25)
+  |> makeTransparent 0,
+
+  rect 16.5 6
+  |> filled red
+  |> move (-76.5,-37.25)
+  |> makeTransparent 0]
+    |> notifyEnter Hover5
+    |> notifyLeave NonHover5,
+
+  -- new row
+  group[
+  rect 16.5 6.48
+  |> filled red
+  |> move (6,-43.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-10.5,-43.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-27,-43.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-43.5,-43.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled red
+  |> move (-60,-43.5)
+  |> makeTransparent 0,
+
+  rect 16.5 6.48
+  |> filled yellow
+  |> move (-76.5,-43.5)
+  |> makeTransparent 0]
+    |> notifyEnter Hover1
+    |> notifyLeave NonHover1
+  
+  ]
+
+guitarbuttons = group[
+
+
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (12,-25.5)
+    |> scale 0.5 -- 
+    |> makeTransparent 0.9,
+  circle 5
+    |> outlined (solid 1.8) (rgb 4 251 4)
+    |> move (12,-25.5)
+    |> scale 0.5 
+    |> makeTransparent 0.7,
+
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (12,-38)
+    |> scale 0.5 --      
+    |> makeTransparent 0.9,   
+    
+  circle 5     
+    |> outlined (solid 1.8) (rgb 4 251 4)     
+    |> move (12,-38)     
+    |> scale 0.5      
+    |> makeTransparent 0.7,
+
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (12,-50.5)
+    |> scale 0.5 --      
+    |> makeTransparent 0.9,   
+  
+  circle 5     
+    |> outlined (solid 1.8) (rgb 4 251 4)     
+    |> move (12,-50.5)     
+    |> scale 0.5      
+    |> makeTransparent 0.7,
+  
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (12,-63)
+    |> scale 0.5 --      
+    |> makeTransparent 0.9,   
+  circle 5     
+    |> outlined (solid 1.8) (rgb 4 251 4)     
+    |> move (12,-63)     
+    |> scale 0.5      
+    |> makeTransparent 0.7,
+
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (12,-75)
+    |> scale 0.5 --      
+    |> makeTransparent 0.9,   
+
+  circle 5     
+    |> outlined (solid 1.8) (rgb 4 251 4)     
+    |> move (12,-75)     
+    |> scale 0.5      
+    |> makeTransparent 0.7,
+
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (12,-87)
+    |> scale 0.5 --      
+    |> makeTransparent 0.9,   
+  circle 5     
+    |> outlined (solid 1.8) (rgb 4 251 4)     
+    |> move (12,-87)     
+    |> scale 0.5      
+    |> makeTransparent 0.7,
+
+-- new collumn
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-21,-25.5)
+      |> scale 0.5 -- 
+      |> makeTransparent 0.9,
+    circle 5
+      |> outlined (solid 1.8) (rgb 4 251 4)
+      |> move (-21,-25.5)
+      |> scale 0.5 
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-21,-38)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+      
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-21,-38)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-21,-50.5)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-21,-50.5)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+    
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-21,-63)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-21,-63)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-21,-75)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-21,-75)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-21,-87)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-21,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+  -- new collumn
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-54,-25.5)
+      |> scale 0.5 -- 
+      |> makeTransparent 0.9,
+    circle 5
+      |> outlined (solid 1.8) (rgb 4 251 4)
+      |> move (-54,-25.5)
+      |> scale 0.5 
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-54,-38)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+      
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-54,-38)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-54,-50.5)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-54,-50.5)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+    
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-54,-63)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-54,-63)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-54,-75)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-54,-75)     
+      |> scale 0.5      
+      |> makeTransparent 0.7,
+
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-54,-87)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 1.8) (rgb 4 251 4)     
+      |> move (-54,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7
+    ]
