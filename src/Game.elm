@@ -383,14 +383,16 @@ game model =
           |> makeTransparent 0
           |> notifyEnter HoverMiddle
           |> notifyTap ToGameScreen
-          |> notifyLeave NonHoverMiddle,
-          rect 152 30 -- top
+          |> notifyLeave NonHoverMiddle
+          |> notifyTap ChangeSmokeOn,
+         rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
           |> notifyEnter HoverTop
           |> notifyLeave NonHoverTop
           |> notifyTap ToGameScreen
+          |> notifyTap ChangeTwinkleT
           ,
           rect 152 30 -- bottom
           |> filled red
@@ -399,6 +401,7 @@ game model =
           |> notifyEnter HoverBottom
           |> notifyLeave NonHoverBottom
           |> notifyTap ToGameScreen
+          |> notifyTap ChangeThird
           ]
 
       HowToPlay ->
@@ -502,9 +505,11 @@ game model =
           |> notifyEnter HoverPause
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen, 
-
-        guitar model
-        ]    
+        guitar model,
+        guitarbuttons model
+          |> makeTransparent 0,
+        guitarsensors model
+         ]    
 
 nightSky =
   group
