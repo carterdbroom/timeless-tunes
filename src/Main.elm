@@ -20,8 +20,6 @@ yDistance (s1, s2) (e1, e2) =
 myShapes model =
   [
     game model
-    
-    
 
   ]
 
@@ -96,10 +94,14 @@ update msg model
       NonHoverMiddle -> {model | middle = False}
       HoverBottom -> {model | bottom = True}
       NonHoverBottom -> {model | bottom = False}
-  
+      ChangeTwinkleT -> {model | songname = TwinkleT}
+      ChangeSmokeOn -> {model | songname = SmokeOn}
+      ChangeThird -> {model | songname = Third}
+        
 
 init = { time = 0
       , state = TitleScreen
+      , songname = TwinkleT
       , hovering = False 
       , hovering2 = False
       , string1 = False
@@ -117,4 +119,3 @@ init = { time = 0
 view model = collage 192 128 (myShapes model)
 
 main = gameApp Tick { model = init, view = view, update = update, title = "Timeless Tunes" }
-
