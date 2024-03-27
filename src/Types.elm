@@ -32,6 +32,7 @@ type Song
 
 type alias Model = { time : Float
                     , state : State
+                    , songname : SongState
                     , hovering : Bool 
                     , hovering2 : Bool
                     , string1 : Bool
@@ -44,7 +45,8 @@ type alias Model = { time : Float
                     , bottom : Bool
                     , middle : Bool
                     , top: Bool
-                    , gameplayed: Bool}
+                    , gameplayed: Bool
+                    }
 
 type Msg = Tick Float GetKeyState
         | ToTitleScreen
@@ -76,6 +78,9 @@ type Msg = Tick Float GetKeyState
         | NonHoverBottom
         | ToHowToPlay
         | ToPickASong
+        | ChangeTwinkleT
+        | ChangeSmokeOn
+        | ChangeThird
         
 
 type State = TitleScreen
@@ -83,3 +88,7 @@ type State = TitleScreen
         | GameScreen
         | HowToPlay
         | PickASong
+
+type SongState = TwinkleT
+        | SmokeOn
+        | Third
