@@ -383,14 +383,16 @@ game model =
           |> makeTransparent 0
           |> notifyEnter HoverMiddle
           |> notifyTap ToGameScreen
-          |> notifyLeave NonHoverMiddle,
-          rect 152 30 -- top
+          |> notifyLeave NonHoverMiddle
+          |> notifyTap ChangeSmokeOn,
+         rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
           |> notifyEnter HoverTop
           |> notifyLeave NonHoverTop
           |> notifyTap ToGameScreen
+          |> notifyTap ChangeTwinkleT
           ,
           rect 152 30 -- bottom
           |> filled red
@@ -399,6 +401,7 @@ game model =
           |> notifyEnter HoverBottom
           |> notifyLeave NonHoverBottom
           |> notifyTap ToGameScreen
+          |> notifyTap ChangeThird
           ]
 
       HowToPlay ->
@@ -507,6 +510,7 @@ game model =
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen, 
 
+
         guitar model
         ,
         if 
@@ -517,6 +521,14 @@ game model =
         else
           group[]
         ]    
+
+
+        --guitarbuttons model
+          --|> makeTransparent 0,
+        --guitarsensors model
+          --|> makeTransparent 0
+         --]    
+
 
 nightSky =
   group
@@ -951,7 +963,7 @@ guitar model = group[
             |> group
             |> scale 2.7
             |> rotate (degrees 180)
-            |> move (30,-10)]
+            |> move (30,-10)] 
 description = group[
   text "after selecting your song of choice to play, notes"
     |> sansserif
@@ -1010,248 +1022,83 @@ description = group[
 
 guitarsensors model = group[
 
-  group[
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (6,-12.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled red
-  |> move (-10.5,-12.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-27,-12.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled red
-  |> move (-43.5,-12.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-60,-12.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled red
-  |> move (-76.5,-12.5)
-  |> makeTransparent 0]
-    |> notifyEnter Hover6
-    |> notifyLeave NonHover6,
   
   ---new row
   group[
-  rect 16.5 6
-  |> filled red
-  |> move (6,-18.75)
-  |> makeTransparent 0,
-
+  --d sharp
   rect 16.5 6
   |> filled yellow
   |> move (-10.5,-18.75)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- d
   rect 16.5 6
   |> filled red
   |> move (-27,-18.75)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- c sharp
   rect 16.5 6
   |> filled yellow
   |> move (-43.5,-18.75)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- c
   rect 16.5 6
   |> filled red
   |> move (-60,-18.75)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled yellow
-  |> move (-76.5,-18.75)
-  |> makeTransparent 0]
+  |> makeTransparent 0.5]
     |> notifyEnter Hover2
     |> notifyLeave NonHover2,
--- new row
 
-  group[rect 16.5 6
-  |> filled yellow
-  |> move (6,-24.75)
-  |> makeTransparent 0,
-
+  group[
+  -- b
   rect 16.5 6
   |> filled red
   |> move (-10.5,-24.75)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- a sharp
   rect 16.5 6
   |> filled yellow
   |> move (-27,-24.75)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- a
   rect 16.5 6
   |> filled red
   |> move (-43.5,-24.75)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- g sharp
   rect 16.5 6
   |> filled yellow
   |> move (-60,-24.75)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled red
-  |> move (-76.5,-24.75)
-  |> makeTransparent 0]
+  |> makeTransparent 0.5]
     |> notifyEnter Hover3
     |> notifyLeave NonHover3,
 
--- new row
   group[
+  -- g
   rect 16.5 6.48
   |> filled red
   |> move (6,-31)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- f sharp
   rect 16.5 6.48
   |> filled yellow
   |> move (-10.5,-31)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- f
   rect 16.5 6.48
   |> filled red
   |> move (-27,-31)
-  |> makeTransparent 0,
-
+  |> makeTransparent 0.5,
+  -- e
   rect 16.5 6.48
   |> filled yellow
   |> move (-43.5,-31)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled red
-  |> move (-60,-31)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-76.5,-31)
-  |> makeTransparent 0]
+  |> makeTransparent 0.5]
     |> notifyEnter Hover4
-    |> notifyLeave NonHover4,
-
-  -- new row
-  group[
-  rect 16.5 6
-  |> filled green
-  |> move (6,-37.25)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled red
-  |> move (-10.5,-37.25)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled yellow
-  |> move (-27,-37.25)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled red
-  |> move (-43.5,-37.25)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled yellow
-  |> move (-60,-37.25)
-  |> makeTransparent 0,
-
-  rect 16.5 6
-  |> filled red
-  |> move (-76.5,-37.25)
-  |> makeTransparent 0]
-    |> notifyEnter Hover5
-    |> notifyLeave NonHover5,
-
-  -- new row
-  group[
-  rect 16.5 6.48
-  |> filled red
-  |> move (6,-43.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-10.5,-43.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled red
-  |> move (-27,-43.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-43.5,-43.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled red
-  |> move (-60,-43.5)
-  |> makeTransparent 0,
-
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-76.5,-43.5)
-  |> makeTransparent 0]
-    |> notifyEnter Hover1
-    |> notifyLeave NonHover1
-  
-  ]
+    |> notifyLeave NonHover4]
 
 guitarbuttons model= group[
 
-
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (12,-25.5)
-    |> scale 0.5 -- 
-    |> makeTransparent 0.9,
-  circle 5
-    |> outlined (solid 1.8) (rgb 4 251 4)
-    |> move (12,-25.5)
-    |> scale 0.5 
-    |> makeTransparent 0.7,
-
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (12,-38)
-    |> scale 0.5 --      
-    |> makeTransparent 0.9,   
-    
-  circle 5     
-    |> outlined (solid 1.8) (rgb 4 251 4)     
-    |> move (12,-38)     
-    |> scale 0.5      
-    |> makeTransparent 0.7,
-
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (12,-50.5)
-    |> scale 0.5 --      
-    |> makeTransparent 0.9,   
-  
-  circle 5     
-    |> outlined (solid 1.8) (rgb 4 251 4)     
-    |> move (12,-50.5)     
-    |> scale 0.5      
-    |> makeTransparent 0.7,
-  
+-- new g
   circle 5
     |> filled (rgb 4 251 4)
     |> move (12,-63)
@@ -1263,54 +1110,18 @@ guitarbuttons model= group[
     |> scale 0.5      
     |> makeTransparent 0.7,
 
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (12,-75)
-    |> scale 0.5 --      
-    |> makeTransparent 0.9,   
-
-  circle 5     
-    |> outlined (solid 1.8) (rgb 4 251 4)     
-    |> move (12,-75)     
-    |> scale 0.5      
-    |> makeTransparent 0.7,
-
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (12,-87)
-    |> scale 0.5 --      
-    |> makeTransparent 0.9,   
-  circle 5     
-    |> outlined (solid 1.8) (rgb 4 251 4)     
-    |> move (12,-87)     
-    |> scale 0.5      
-    |> makeTransparent 0.7,
-
--- new collumn
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-21,-25.5)
-      |> scale 0.5 -- 
-      |> makeTransparent 0.9,
-    circle 5
-      |> outlined (solid 1.8) (rgb 4 251 4)
-      |> move (-21,-25.5)
-      |> scale 0.5 
-      |> makeTransparent 0.7,
-
+-- new d sharp
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-21,-38)
       |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-      
+      |> makeTransparent 0.9, 
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-21,-38)     
       |> scale 0.5      
       |> makeTransparent 0.7,
-
+-- new b
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-21,-50.5)
@@ -1322,7 +1133,7 @@ guitarbuttons model= group[
       |> move (-21,-50.5)     
       |> scale 0.5      
       |> makeTransparent 0.7,
-    
+-- new f sharp
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-21,-63)
@@ -1332,55 +1143,21 @@ guitarbuttons model= group[
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-21,-63)     
       |> scale 0.5      
-      |> makeTransparent 0.7,
+      |> makeTransparent 0.7, 
 
+-- new d
     circle 5
       |> filled (rgb 4 251 4)
-      |> move (-21,-75)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-21,-75)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-21,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-21,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-  -- new collumn
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-54,-25.5)
-      |> scale 0.5 -- 
-      |> makeTransparent 0.9,
-    circle 5
-      |> outlined (solid 1.8) (rgb 4 251 4)
-      |> move (-54,-25.5)
-      |> scale 0.5 
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
+      -- filled red
       |> move (-54,-38)
       |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-      
+      |> makeTransparent 0.9,    
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-54,-38)     
       |> scale 0.5      
       |> makeTransparent 0.7,
-
+--new a sharp
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-54,-50.5)
@@ -1393,6 +1170,7 @@ guitarbuttons model= group[
       |> scale 0.5      
       |> makeTransparent 0.7,
     
+-- new f
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-54,-63)
@@ -1404,54 +1182,19 @@ guitarbuttons model= group[
       |> scale 0.5      
       |> makeTransparent 0.7,
 
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-54,-75)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-54,-75)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-54,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-54,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-  
-    -- new collumn
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87,-25.5)
-      |> scale 0.5 -- 
-      |> makeTransparent 0.9,
-    circle 5
-      |> outlined (solid 1.8) (rgb 4 251 4)
-      |> move (-87,-25.5)
-      |> scale 0.5 
-      |> makeTransparent 0.7,
-
+-- new c sharp
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-87,-38)
       |> scale 0.5 --      
       |> makeTransparent 0.9,   
-      
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-87,-38)     
       |> scale 0.5      
       |> makeTransparent 0.7,
 
+-- new a
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-87,-50.5)
@@ -1464,6 +1207,7 @@ guitarbuttons model= group[
       |> scale 0.5      
       |> makeTransparent 0.7,
     
+-- new e
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-87,-63)
@@ -1475,239 +1219,26 @@ guitarbuttons model= group[
       |> scale 0.5      
       |> makeTransparent 0.7,
 
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87,-75)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-87,-75)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-87,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    -- new collumn
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-120,-25.5)
-      |> scale 0.5 -- 
-      |> makeTransparent 0.9,
-    circle 5
-      |> outlined (solid 1.8) (rgb 4 251 4)
-      |> move (-120,-25.5)
-      |> scale 0.5 
-      |> makeTransparent 0.7,
-
+-- new c
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-120,-38)
       |> scale 0.5 --      
       |> makeTransparent 0.9,   
-      
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-120,-38)     
       |> scale 0.5      
       |> makeTransparent 0.7,
-
+      
+--g sharp
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-120,-50.5)
-      |> scale 0.5 --      
+      |> scale 0.5      
       |> makeTransparent 0.9,   
-    
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-120,-50.5)     
       |> scale 0.5      
-      |> makeTransparent 0.7,
-    
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-120,-63)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-120,-63)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-120,-75)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-120,-75)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-120,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-120,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    -- new collumn
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-153,-25.5)
-      |> scale 0.5 -- 
-      |> makeTransparent 0.9,
-    circle 5
-      |> outlined (solid 1.8) (rgb 4 251 4)
-      |> move (-153,-25.5)
-      |> scale 0.5 
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-153,-38)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-      
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-153,-38)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-153,-50.5)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-153,-50.5)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-    
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-153,-63)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-153,-63)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-153,-75)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-153,-75)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-153,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-153,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    -- new collumn
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-186,-25.5)
-      |> scale 0.5 -- 
-      |> makeTransparent 0.9,
-    circle 5
-      |> outlined (solid 1.8) (rgb 4 251 4)
-      |> move (-186,-25.5)
-      |> scale 0.5 
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-186,-38)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-      
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-186,-38)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-186,-50.5)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-186,-50.5)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-    
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-186,-63)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-186,-63)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-186,-75)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-186,-75)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-186,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-186,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7
-    ]
+      |> makeTransparent 0.7]

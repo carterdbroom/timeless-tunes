@@ -93,7 +93,10 @@ update msg model
       NonHoverMiddle -> {model | middle = False}
       HoverBottom -> {model | bottom = True}
       NonHoverBottom -> {model | bottom = False}
-  
+      ChangeTwinkleT -> {model | songname = TwinkleT}
+      ChangeSmokeOn -> {model | songname = SmokeOn}
+      ChangeThird -> {model | songname = Third}
+        
 
 init = { time = 0, 
         state = TitleScreen, 
@@ -112,8 +115,8 @@ init = { time = 0,
         gameplayed = False,
         startTime = 0
       }
+
       
 view model = collage 192 128 (myShapes model)
 
 main = gameApp Tick { model = init, view = view, update = update, title = "Timeless Tunes" }
-
