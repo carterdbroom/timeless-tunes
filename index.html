@@ -8824,11 +8824,14 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp = F2(
 			});
 	});
 var $author$project$Types$TitleScreen = {$: 'TitleScreen'};
-var $author$project$Main$init = {bottom: false, gameplayed: false, hovering: false, hovering2: false, hoveringstart: false, middle: false, startTime: 0, state: $author$project$Types$TitleScreen, string1: false, string2: false, string3: false, string4: false, string5: false, string6: false, time: 0, top: false};
+var $author$project$Types$TwinkleT = {$: 'TwinkleT'};
+var $author$project$Main$init = {bottom: false, gameplayed: false, hovering: false, hovering2: false, hoveringstart: false, middle: false, songname: $author$project$Types$TwinkleT, startTime: 0, state: $author$project$Types$TitleScreen, string1: false, string2: false, string3: false, string4: false, string5: false, string6: false, time: 0, top: false};
 var $author$project$Types$GameScreen = {$: 'GameScreen'};
 var $author$project$Types$HowToPlay = {$: 'HowToPlay'};
 var $author$project$Types$InfoScreen = {$: 'InfoScreen'};
 var $author$project$Types$PickASong = {$: 'PickASong'};
+var $author$project$Types$SmokeOn = {$: 'SmokeOn'};
+var $author$project$Types$Third = {$: 'Third'};
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -8997,16 +9000,31 @@ var $author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{bottom: true});
-			default:
+			case 'NonHoverBottom':
 				return _Utils_update(
 					model,
 					{bottom: false});
+			case 'ChangeTwinkleT':
+				return _Utils_update(
+					model,
+					{songname: $author$project$Types$TwinkleT});
+			case 'ChangeSmokeOn':
+				return _Utils_update(
+					model,
+					{songname: $author$project$Types$SmokeOn});
+			default:
+				return _Utils_update(
+					model,
+					{songname: $author$project$Types$Third});
 		}
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
+var $author$project$Types$ChangeSmokeOn = {$: 'ChangeSmokeOn'};
+var $author$project$Types$ChangeThird = {$: 'ChangeThird'};
+var $author$project$Types$ChangeTwinkleT = {$: 'ChangeTwinkleT'};
 var $author$project$Types$HoverBottom = {$: 'HoverBottom'};
 var $author$project$Types$HoverMiddle = {$: 'HoverMiddle'};
 var $author$project$Types$HoverPause = {$: 'HoverPause'};
@@ -9627,21 +9645,21 @@ var $author$project$Conversions$noteToEndYPosition = function (note) {
 		case 'DSharp':
 			return -19;
 		case 'E':
-			return -31;
+			return -31.5;
 		case 'F':
-			return -31;
+			return -31.5;
 		case 'FSharp':
-			return -31;
+			return -31.5;
 		case 'G':
-			return -31;
+			return -31.5;
 		case 'GSharp':
-			return -24.5;
+			return -25.25;
 		case 'A':
-			return -24.5;
+			return -25.25;
 		case 'ASharp':
-			return -24.5;
+			return -25.25;
 		case 'B':
-			return -24.5;
+			return -25.25;
 		default:
 			return -60;
 	}
@@ -9664,29 +9682,29 @@ var $author$project$GameMechanics$calculateNoteDistance = F2(
 var $author$project$Conversions$noteToXPosition = function (note) {
 	switch (note.$) {
 		case 'C':
-			return -90;
+			return -60;
 		case 'CSharp':
-			return -75;
+			return -43.5;
 		case 'D':
-			return -60;
+			return -27;
 		case 'DSharp':
-			return -44;
+			return -10.5;
 		case 'E':
-			return -75;
+			return -43.5;
 		case 'F':
-			return -60;
+			return -27;
 		case 'FSharp':
-			return -44;
+			return -10.5;
 		case 'G':
-			return -28;
+			return 6;
 		case 'GSharp':
-			return -90;
-		case 'A':
-			return -75;
-		case 'ASharp':
 			return -60;
+		case 'A':
+			return -43.5;
+		case 'ASharp':
+			return -27;
 		case 'B':
-			return -44;
+			return -10.5;
 		default:
 			return 10;
 	}
@@ -10031,29 +10049,29 @@ var $author$project$Conversions$getStartNoteShapeFromSong = function (song) {
 var $author$project$Conversions$noteToStartPosition = function (note) {
 	switch (note.$) {
 		case 'C':
-			return _Utils_Tuple2(-90, 50);
+			return _Utils_Tuple2(-60, 50);
 		case 'CSharp':
-			return _Utils_Tuple2(-75, 50);
+			return _Utils_Tuple2(-43.5, 50);
 		case 'D':
-			return _Utils_Tuple2(-60, 50);
+			return _Utils_Tuple2(-27, 50);
 		case 'DSharp':
-			return _Utils_Tuple2(-44, 50);
+			return _Utils_Tuple2(-10.5, 50);
 		case 'E':
-			return _Utils_Tuple2(-75, 50);
+			return _Utils_Tuple2(-43.5, 50);
 		case 'F':
-			return _Utils_Tuple2(-60, 50);
+			return _Utils_Tuple2(-27, 50);
 		case 'FSharp':
-			return _Utils_Tuple2(-44, 50);
+			return _Utils_Tuple2(-10.5, 50);
 		case 'G':
-			return _Utils_Tuple2(-29, 50);
+			return _Utils_Tuple2(6, 50);
 		case 'GSharp':
-			return _Utils_Tuple2(-90, 50);
-		case 'A':
-			return _Utils_Tuple2(-75, 50);
-		case 'ASharp':
 			return _Utils_Tuple2(-60, 50);
+		case 'A':
+			return _Utils_Tuple2(-43.5, 50);
+		case 'ASharp':
+			return _Utils_Tuple2(-27, 50);
 		case 'B':
-			return _Utils_Tuple2(-44, 50);
+			return _Utils_Tuple2(-10.5, 50);
 		default:
 			return _Utils_Tuple2(0, 50);
 	}
@@ -12725,59 +12743,68 @@ var $author$project$Game$game = function (model) {
 						_Utils_Tuple2(0, 56),
 						$author$project$Game$musicButton),
 						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-						$author$project$Types$NonHoverMiddle,
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+						$author$project$Types$ChangeSmokeOn,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+							$author$project$Types$NonHoverMiddle,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+								$author$project$Types$ToGameScreen,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+									$author$project$Types$HoverMiddle,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+										0,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$yellow,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+						$author$project$Types$ChangeTwinkleT,
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
 							$author$project$Types$ToGameScreen,
 							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-								$author$project$Types$HoverMiddle,
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+								$author$project$Types$NonHoverTop,
 								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-									0,
+									$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+									$author$project$Types$HoverTop,
 									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-										$MacCASOutreach$graphicsvg$GraphicSVG$yellow,
-										A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))))),
+										$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+										0,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$move,
+											_Utils_Tuple2(0, 30),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												$MacCASOutreach$graphicsvg$GraphicSVG$green,
+												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))))))),
 						A2(
 						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
-						$author$project$Types$ToGameScreen,
+						$author$project$Types$ChangeThird,
 						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-							$author$project$Types$NonHoverTop,
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+							$author$project$Types$ToGameScreen,
 							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-								$author$project$Types$HoverTop,
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+								$author$project$Types$NonHoverBottom,
 								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-									0,
+									$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+									$author$project$Types$HoverBottom,
 									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(0, 30),
+										$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+										0,
 										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$green,
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))))),
-						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
-						$author$project$Types$ToGameScreen,
-						A2(
-							$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
-							$author$project$Types$NonHoverBottom,
-							A2(
-								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
-								$author$project$Types$HoverBottom,
-								A2(
-									$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
-									0,
-									A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(0, -30),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$red,
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30)))))))
+											$MacCASOutreach$graphicsvg$GraphicSVG$move,
+											_Utils_Tuple2(0, -30),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												$MacCASOutreach$graphicsvg$GraphicSVG$red,
+												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 152, 30))))))))
 					]));
 		case 'HowToPlay':
 			return $MacCASOutreach$graphicsvg$GraphicSVG$group(

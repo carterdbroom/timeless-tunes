@@ -45,7 +45,9 @@ type alias Model = { time : Float,
                     middle : Bool, 
                     top : Bool, 
                     gameplayed : Bool,
-                    startTime : Float 
+                    startTime : Float,
+                    songname : SongState
+                }
 
 
 type Msg = Tick Float GetKeyState

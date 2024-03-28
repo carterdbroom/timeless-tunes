@@ -113,7 +113,8 @@ init = { time = 0,
         middle = False, 
         top = False, 
         gameplayed = False,
-        startTime = 0
+        startTime = 0,
+        songname = TwinkleT
       }
 
       
