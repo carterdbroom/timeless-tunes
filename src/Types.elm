@@ -30,23 +30,23 @@ type NoteTime
 type Song
     = Twinkle (List (Note, NoteTime))
 
-type alias Model = { time : Float, 
-                    state : State, 
-                    hovering : Bool, 
-                    hovering2 : Bool, 
-                    string1 : Bool, 
-                    string2 : Bool, 
-                    string3 : Bool, 
-                    string4 : Bool, 
-                    string5 : Bool, 
-                    string6 : Bool, 
-                    hoveringstart : Bool, 
-                    bottom : Bool,
-                    middle : Bool, 
-                    top : Bool, 
-                    gameplayed : Bool,
-                    startTime : Float 
-
+type alias Model = { time : Float
+                    , state : State
+                    , songname : SongState
+                    , hovering : Bool 
+                    , hovering2 : Bool
+                    , string1 : Bool
+                    , string2 : Bool
+                    , string3 : Bool
+                    , string4 : Bool
+                    , string5 : Bool
+                    , string6 : Bool
+                    , hoveringstart : Bool
+                    , bottom : Bool
+                    , middle : Bool
+                    , top: Bool
+                    , gameplayed: Bool
+                    }
 
 type Msg = Tick Float GetKeyState
         | ToTitleScreen
