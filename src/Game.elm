@@ -450,6 +450,10 @@ game model =
         ]
 
       GameScreen ->
+        let 
+          timer = model.time - model.startTime
+        in
+          
         group
         [
         -- starry background and gradient
@@ -504,6 +508,14 @@ game model =
           |> notifyTap ToInfoScreen, 
 
         guitar model
+        ,
+        if 
+          timer > 0
+        then
+          drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
+          |> move (0, -noteSpeed*timer)
+        else
+          group[]
         ]    
 
 nightSky =
