@@ -20,7 +20,6 @@ yDistance (s1, s2) (e1, e2) =
 myShapes model =
   [
     game model
-
   ]
 
 
@@ -47,11 +46,11 @@ update msg model
       ToGameScreen ->
         case model.state of
           TitleScreen ->
-            { model | state = GameScreen, gameplayed = True}
+            { model | state = GameScreen, gameplayed = True, startTime = model.time}
           InfoScreen ->
-            { model | state = GameScreen, hovering2 = False}
+            { model | state = GameScreen, hovering2 = False, startTime = model.time}
           PickASong ->
-            { model | state = GameScreen, gameplayed = True, hovering2 = False}
+            { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time}
           _ ->
             model
       ToPickASong ->
@@ -99,22 +98,24 @@ update msg model
       ChangeThird -> {model | songname = Third}
         
 
-init = { time = 0
-      , state = TitleScreen
-      , songname = TwinkleT
-      , hovering = False 
-      , hovering2 = False
-      , string1 = False
-      , string2 = False
-      , string3 = False
-      , string4 = False
-      , string5 = False
-      , string6 = False
-      , hoveringstart = False
-      , bottom = False
-      , middle = False
-      , top = False
-      , gameplayed = False}
+init = { time = 0, 
+        state = TitleScreen, 
+        hovering = False , 
+        hovering2 = False, 
+        string1 = False, 
+        string2 = False, 
+        string3 = False, 
+        string4 = False, 
+        string5 = False, 
+        string6 = False, 
+        hoveringstart = False, 
+        bottom = False, 
+        middle = False, 
+        top = False, 
+        gameplayed = False,
+        startTime = 0
+      }
+
       
 view model = collage 192 128 (myShapes model)
 
