@@ -520,14 +520,11 @@ game model =
           |> move (0, -noteSpeed*timer)
         else
           group[]
-        ]    
-
-
-        --guitarbuttons model
-          --|> makeTransparent 0,
+        ,
+        noteToGuitarGuideButton model.guideNote
         --guitarsensors model
-          --|> makeTransparent 0
-        --]    
+          --|> makeTransparent 1
+        ]    
 
 
 nightSky =

@@ -7,7 +7,7 @@ import Types exposing (..)
 import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToSecond, noteTypeToNoteShape, getStartNoteShapeFromSong, getStartPositionFromSong)
 import Songs exposing (twinkle)
 import Game exposing (game)
-import GameMechanics exposing (drawTrack, calculateDropTime, yPos, noteSpeed)
+import GameMechanics exposing (drawTrack, yPos, noteSpeed, updateNoteGuides)
 import Shapes exposing (quarterNote, halfNote, wholeNote)
 
 
@@ -26,7 +26,14 @@ myShapes model =
 
 update msg model 
   = case msg of
-      Tick t _ -> { model | time = t }
+      
+      Tick t _ -> 
+        case model.state of
+          GameScreen ->
+            -- THIS MAY HAVE TO BE FIXED
+            { model | time = t, guideNote = updateNoteGuides twinkle (-noteSpeed*(model.time - model.startTime)) 0 }
+          _ ->
+            { model | time = t }
       ToTitleScreen ->
         case model.state of
           InfoScreen ->
@@ -97,6 +104,7 @@ update msg model
       ChangeSmokeOn -> {model | songname = SmokeOn}
       ChangeThird -> {model | songname = Third}
         
+  
 
 init = { time = 0, 
         state = TitleScreen, 
@@ -114,7 +122,8 @@ init = { time = 0,
         top = False, 
         gameplayed = False,
         startTime = 0,
-        songname = TwinkleT
+        songname = TwinkleT,
+        guideNote = Rest
       }
 
       

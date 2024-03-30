@@ -181,3 +181,165 @@ noteTypeToNoteShape noteTime =
             group[]
         EighthRest ->
             group[]
+
+noteToGuitarGuideButton : Note -> Shape userMsg
+noteToGuitarGuideButton note =
+    case note of
+        C -> 
+            group [
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-120,-38)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-120,-38)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        CSharp -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-87,-38)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-87,-38)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        D -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-54,-38)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,    
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-54,-38)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        DSharp -> 
+            group [
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-21,-38)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-21,-38)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        E -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-87,-63)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-87,-63)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        F -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-54,-63)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-54,-63)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        FSharp -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-21,-63)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-21,-63)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        G -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (12,-63)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (12,-63)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        GSharp -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-120,-50.5)
+            |> scale 0.5      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-120,-50.5)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        A -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-87,-50.5)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-87,-50.5)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        ASharp -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-54,-50.5)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-54,-50.5)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        B -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-21,-50.5)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 1.8) (rgb 4 251 4)     
+            |> move (-21,-50.5)     
+            |> scale 0.5      
+            |> makeTransparent 0.7
+            ]
+        Rest -> 
+            group[]

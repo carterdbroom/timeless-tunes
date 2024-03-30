@@ -46,7 +46,8 @@ type alias Model = { time : Float,
                     top : Bool, 
                     gameplayed : Bool,
                     startTime : Float,
-                    songname : SongState
+                    songname : SongState,
+                    guideNote : Note
                 }
 
 
