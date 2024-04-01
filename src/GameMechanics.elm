@@ -23,15 +23,12 @@ calculateNoteDistance (note1, notetime1) (note2, notetime2) =
         endPos2 = noteToEndYPosition note2
     in
         if
-            (noteToEndYPosition note1) < (noteToEndYPosition note2)
+            endPos1 < endPos2
         then
-            noteSpeed*time + (endPos1 - endPos2)
-        else if
-            (noteToEndYPosition note1) > (noteToEndYPosition note2)
-        then
-            noteSpeed*time + (endPos1 - endPos2)
+            noteSpeed*time + (endPos2 - endPos1)
         else 
-            noteSpeed*time
+            noteSpeed*time + (endPos2 - endPos1)
+
 
 -- This function draws the "track" of notes. The function takes in a song and 
 -- draws a "track" that is one shape.
@@ -41,19 +38,17 @@ drawTrack song startPosition shape =
                 (x, y) -> 
                     case song of 
                         (x1::xs1) ->
-                            case x1 of
-                                (_,_) ->
-                                    case xs1 of
-                                        (x2::_) ->
-                                            case x2 of
-                                                (note2, noteTime2) ->
-                                                    group((move (x, y) shape)::[drawTrack xs1 (noteToXPosition note2, y + (calculateNoteDistance x1 x2)) (noteTypeToNoteShape noteTime2)])
-                                        _ ->
-                                            group[]
+                            case xs1 of
+                                (x2::_) ->
+                                    case x2 of
+                                        (note2, noteTime2) ->
+                                            group((move (x, y) shape)::[drawTrack xs1 (noteToXPosition note2, y + (calculateNoteDistance x1 x2)) (noteTypeToNoteShape noteTime2)])
+                                _ ->
+                                    group[]
                         _ ->
                             group[]
 
-
+{--
 -- THIS FUNCTION NEEDS TO BE FIXED
 updateNoteGuides : List ((Note, NoteTime)) -> Float -> Float -> Note
 updateNoteGuides  song songYPosition count  =
@@ -80,21 +75,32 @@ isPast note noteYPosition =
         False
     else
         True
+--}
 
-getNoteYPositionInTrack : List ((Note, NoteTime)) -> Float -> Float -> Float -> Float
-getNoteYPositionInTrack song noteNumber distance count = 
-    case song of 
-        (x1::xs1) ->
+updateNoteGuides : List ((Note, NoteTime)) -> Float -> Int -> Note
+updateNoteGuides song songYPosition count =
+    case song of
+        (x1 :: xs) ->
             case x1 of
-                (_,_) ->
-                    case xs1 of
-                        (x2::_) ->
-                            if count < noteNumber
-                            then
-                                getNoteYPositionInTrack xs1 4 (distance + (calculateNoteDistance x1 x2)) (count + 1)
-                            else
-                                distance
-                        _ ->
-                            0
+                (note, _) ->
+                    if isPast note (getNoteYPositionInTrack song (50 + songYPosition) count 0) then
+                        updateNoteGuides xs songYPosition (count + 1)
+                    else
+                        note
+        _ ->
+            Rest
+
+isPast : Note -> Float -> Bool
+isPast note noteYPosition =
+    (noteToEndYPosition note) >= noteYPosition
+
+getNoteYPositionInTrack : List ((Note, NoteTime)) -> Float -> Int -> Int -> Float
+getNoteYPositionInTrack song distance noteNumber count =
+    case song of
+        (x1 :: x2 :: xs) ->
+            if count == noteNumber then
+                distance
+            else
+                getNoteYPositionInTrack (x2 :: xs) (distance + calculateNoteDistance x1 x2) noteNumber (count + 1)
         _ ->
             0

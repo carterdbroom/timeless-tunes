@@ -8946,47 +8946,41 @@ var $author$project$GameMechanics$calculateNoteDistance = F2(
 		var time = $author$project$Conversions$noteTimeToSecond(notetime1);
 		var endPos2 = $author$project$Conversions$noteToEndYPosition(note2);
 		var endPos1 = $author$project$Conversions$noteToEndYPosition(note1);
-		return (_Utils_cmp(
-			$author$project$Conversions$noteToEndYPosition(note1),
-			$author$project$Conversions$noteToEndYPosition(note2)) < 0) ? (($author$project$GameMechanics$noteSpeed * time) + (endPos1 - endPos2)) : ((_Utils_cmp(
-			$author$project$Conversions$noteToEndYPosition(note1),
-			$author$project$Conversions$noteToEndYPosition(note2)) > 0) ? (($author$project$GameMechanics$noteSpeed * time) + (endPos1 - endPos2)) : ($author$project$GameMechanics$noteSpeed * time));
+		return (_Utils_cmp(endPos1, endPos2) < 0) ? (($author$project$GameMechanics$noteSpeed * time) + (endPos2 - endPos1)) : (($author$project$GameMechanics$noteSpeed * time) + (endPos2 - endPos1));
 	});
 var $author$project$GameMechanics$getNoteYPositionInTrack = F4(
-	function (song, noteNumber, distance, count) {
+	function (song, distance, noteNumber, count) {
 		getNoteYPositionInTrack:
 		while (true) {
-			if (song.b) {
+			if (song.b && song.b.b) {
 				var x1 = song.a;
-				var xs1 = song.b;
-				if (xs1.b) {
-					var x2 = xs1.a;
-					if (_Utils_cmp(count, noteNumber) < 0) {
-						var $temp$song = xs1,
-							$temp$noteNumber = 4,
-							$temp$distance = distance + A2($author$project$GameMechanics$calculateNoteDistance, x1, x2),
-							$temp$count = count + 1;
-						song = $temp$song;
-						noteNumber = $temp$noteNumber;
-						distance = $temp$distance;
-						count = $temp$count;
-						continue getNoteYPositionInTrack;
-					} else {
-						return distance;
-					}
+				var _v1 = song.b;
+				var x2 = _v1.a;
+				var xs = _v1.b;
+				if (_Utils_eq(count, noteNumber)) {
+					return distance;
 				} else {
-					return 0;
+					var $temp$song = A2($elm$core$List$cons, x2, xs),
+						$temp$distance = distance + A2($author$project$GameMechanics$calculateNoteDistance, x1, x2),
+						$temp$noteNumber = noteNumber,
+						$temp$count = count + 1;
+					song = $temp$song;
+					distance = $temp$distance;
+					noteNumber = $temp$noteNumber;
+					count = $temp$count;
+					continue getNoteYPositionInTrack;
 				}
 			} else {
 				return 0;
 			}
 		}
 	});
+var $elm$core$Basics$ge = _Utils_ge;
 var $author$project$GameMechanics$isPast = F2(
 	function (note, noteYPosition) {
-		return (_Utils_cmp(
-			$author$project$Conversions$noteToEndYPosition(note) - 5,
-			noteYPosition) < 0) ? false : true;
+		return _Utils_cmp(
+			$author$project$Conversions$noteToEndYPosition(note),
+			noteYPosition) > -1;
 	});
 var $author$project$GameMechanics$updateNoteGuides = F3(
 	function (song, songYPosition, count) {
@@ -8999,7 +8993,7 @@ var $author$project$GameMechanics$updateNoteGuides = F3(
 				if (A2(
 					$author$project$GameMechanics$isPast,
 					note,
-					A4($author$project$GameMechanics$getNoteYPositionInTrack, song, count, 0, 0))) {
+					A4($author$project$GameMechanics$getNoteYPositionInTrack, song, 50 + songYPosition, count, 0))) {
 					var $temp$song = xs,
 						$temp$songYPosition = songYPosition,
 						$temp$count = count + 1;
@@ -9022,10 +9016,12 @@ var $author$project$Main$update = F2(
 				var t = msg.a;
 				var _v1 = model.state;
 				if (_v1.$ === 'GameScreen') {
+					var elapsedTime = t - model.startTime;
+					var yPosition = (-$author$project$GameMechanics$noteSpeed) * elapsedTime;
 					return _Utils_update(
 						model,
 						{
-							guideNote: A3($author$project$GameMechanics$updateNoteGuides, $author$project$Songs$twinkle, (-$author$project$GameMechanics$noteSpeed) * (model.time - model.startTime), 0),
+							guideNote: A3($author$project$GameMechanics$updateNoteGuides, $author$project$Songs$twinkle, yPosition, 0),
 							time: t
 						});
 				} else {
@@ -12351,6 +12347,36 @@ var $author$project$Conversions$noteToGuitarGuideButton = function (note) {
 			return $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil);
 	}
 };
+var $author$project$Conversions$noteToString = function (note) {
+	switch (note.$) {
+		case 'C':
+			return 'C';
+		case 'CSharp':
+			return 'C#';
+		case 'D':
+			return 'D';
+		case 'DSharp':
+			return 'D#';
+		case 'E':
+			return 'E#';
+		case 'F':
+			return 'F';
+		case 'FSharp':
+			return 'F#';
+		case 'G':
+			return 'G';
+		case 'GSharp':
+			return 'G#';
+		case 'A':
+			return 'A';
+		case 'ASharp':
+			return 'A#';
+		case 'B':
+			return 'B';
+		default:
+			return 'Rest';
+	}
+};
 var $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap = F2(
 	function (msg, shape) {
 		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Tap, msg, shape);
@@ -12368,6 +12394,28 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient = F2(
 		} else {
 			var radialGrad = grad;
 			return radialGrad;
+		}
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$size = F2(
+	function (sze, stencil) {
+		if (stencil.$ === 'Text') {
+			var _v1 = stencil.a;
+			var si = _v1.a;
+			var bo = _v1.b;
+			var i = _v1.c;
+			var u = _v1.d;
+			var s = _v1.e;
+			var sel = _v1.f;
+			var f = _v1.g;
+			var c = _v1.h;
+			var str = stencil.b;
+			return A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$Secret$Text,
+				A8($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Face, sze, bo, i, u, s, sel, f, c),
+				str);
+		} else {
+			var a = stencil;
+			return a;
 		}
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Stop = F3(
@@ -13659,6 +13707,14 @@ var $author$project$Game$game = function (model) {
 								$author$project$Types$Twinkle($author$project$Songs$twinkle)),
 							$author$project$Conversions$getStartNoteShapeFromSong(
 								$author$project$Types$Twinkle($author$project$Songs$twinkle)))) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						$MacCASOutreach$graphicsvg$GraphicSVG$black,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$size,
+							50,
+							$MacCASOutreach$graphicsvg$GraphicSVG$text(
+								$author$project$Conversions$noteToString(model.guideNote)))),
 						$author$project$Conversions$noteToGuitarGuideButton(model.guideNote)
 					]));
 	}

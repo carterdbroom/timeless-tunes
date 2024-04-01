@@ -521,6 +521,14 @@ game model =
         else
           group[]
         ,
+        text (noteToString model.guideNote)
+        |> size 50
+        |> filled black
+        ,
+        --guitarbuttons model
+        --,
+        --quarterNote black green 0.5 (noteToEndPosition C)
+
         noteToGuitarGuideButton model.guideNote
         --guitarsensors model
           --|> makeTransparent 1
