@@ -303,6 +303,7 @@ game model =
           |> notifyEnter HoverBottom
           |> notifyLeave NonHoverBottom
           ]
+      -- make pick a song set model.time to 0
       PickASong ->
         group
         [
@@ -385,7 +386,7 @@ game model =
           |> notifyTap ToGameScreen
           |> notifyLeave NonHoverMiddle
           |> notifyTap ChangeSmokeOn,
-          rect 152 30 -- top
+         rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
@@ -427,14 +428,14 @@ game model =
         -- how to play description
         description,
         --back button hollow
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.4
           |> rotate (degrees 45)]
           |> move (-45, 64),
-        
-        -- back button gets filled in when hovering
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.4
           |> rotate (degrees 45)
@@ -456,7 +457,6 @@ game model =
         let 
           timer = model.time - model.startTime
         in
-          
         group
         [
         -- starry background and gradient
@@ -468,16 +468,19 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30)
-          ,
-        --back button hollow
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         ,
+         -- progress bar 
+         drawProgressBar (model.time)
+          |> move (-40, -56),
+         --back button hollow
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.6
           |> rotate (degrees 45)]
           |> move (-54, 90),
-        
-        -- back button gets filled in when hovering
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.6
           |> rotate (degrees 45)
@@ -502,33 +505,29 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
           -- sensor for back button
-          rect 20 25
+           rect 20 25
           |> filled red
           |> move (-83,51)
           |> makeTransparent 0
           |> notifyEnter HoverPause
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen, 
+        guitar model,
 
-
-        guitar model
-        ,
         if 
           timer > 0
         then
           drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
           |> move (0, -noteSpeed*timer)
         else
-          group[]
-        ]    
+          group[],
+        -- removed bracket here 
 
-
-        --guitarbuttons model
-          --|> makeTransparent 0,
-        --guitarsensors model
-          --|> makeTransparent 0
-        --]    
-
+        guitarbuttons model
+          |> makeTransparent 0,
+        guitarsensors model
+          |> makeTransparent 0
+         ]    
 
 nightSky =
   group
@@ -965,7 +964,7 @@ guitar model = group[
             |> rotate (degrees 180)
             |> move (30,-10)] 
 description = group[
-  text "after selecting your song of choice to play, notes"
+  text "after selecting your song of choice, notes"
     |> sansserif
     |> centered
     |> filled white
@@ -1223,8 +1222,7 @@ guitarbuttons model= group[
     circle 5
       |> filled (rgb 4 251 4)
       |> move (-120,-38)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
+      |> scale 0.5,   
     circle 5     
       |> outlined (solid 1.8) (rgb 4 251 4)     
       |> move (-120,-38)     
@@ -1242,3 +1240,68 @@ guitarbuttons model= group[
       |> move (-120,-50.5)     
       |> scale 0.5      
       |> makeTransparent 0.7]
+
+-- aidens progress bar 
+
+-- amount of beats/notes in the song
+beats : Float
+beats = 42
+
+-- bpm of the song
+beatsPerMin : Float
+beatsPerMin = 88
+
+-- how many seconds the song takes to play
+lengthOfSong : Float
+lengthOfSong = (beats / beatsPerMin) * 60
+
+-- stall time to let the first initial notes drop in
+stallTime : Float
+stallTime = 5
+
+-- total time that will take to fill the bar
+totalTime : Float
+totalTime = stallTime + lengthOfSong
+
+-- progress bar (outside) quantities
+length : Float
+length = 80
+width : Float
+width = 10
+roundness : Float
+roundness = 3
+
+-- progress bar (inside) quantities
+inLength : Float
+inLength = (length - 1)
+inWidth : Float
+inWidth = (width - 1)
+inRoundness : Float
+inRoundness = (roundness - 1)
+
+-- progress bar gradient design
+rotationDeg = 45
+lightBlue = (rgb 70 230 230)
+
+-- function that draws an animated progress bar
+drawProgressBar time =
+  [
+  -- outline of the bar
+  roundedRect length width roundness
+  |> outlined (solid 1) black
+  ,
+  -- animation to expand the bar
+  if time < totalTime then
+    group [
+      roundedRect ((inLength/totalTime)*time) inWidth inRoundness
+      |> filled (rotateGradient (degrees rotationDeg) (gradient [stop lightBlue -10, stop pink 20, stop pink 10]))
+    ]
+  -- when the song is fully complete stop expanding the bar
+  else
+    group [
+      roundedRect inLength inWidth inRoundness
+      |> filled (rotateGradient (degrees 45) (gradient [stop (rgb 70 230 230) -10, stop (pink) 20, stop pink 10]))
+      
+    ]
+  ] |> group
+
