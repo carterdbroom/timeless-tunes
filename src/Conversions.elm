@@ -144,6 +144,18 @@ getStartPositionFromSong song =
                             noteToStartPosition note
                 [] -> 
                     (0,0)
+
+-- Given a list of note tuples, returns the start position of the first note.
+getStartPositionFromList : List ((Note, NoteTime)) -> (Float, Float)
+getStartPositionFromList list =
+    case list of 
+        (head::_) ->
+            case head of
+                (note, _) ->
+                    noteToStartPosition note
+        [] ->
+            (0, 0)
+
 -- Takes in a Song, finds the first Tuple in the List, finds the NoteTime, then returns the associated Shape.
 getStartNoteShapeFromSong : Song -> Shape userMsg
 getStartNoteShapeFromSong song =

@@ -5,6 +5,9 @@ import Types exposing (..)
 import Shapes exposing (..)
 import Conversions exposing (noteTimeToSecond,noteToStartPosition,noteToEndPosition, noteToXPosition, noteToEndYPosition, noteTypeToNoteShape)
 import Conversions exposing (noteToGuitarGuideButton)
+import Html exposing (th)
+import Conversions exposing (getStartPositionFromSong)
+import Conversions exposing (getStartPositionFromList)
 
 -- The speed that the notes fall
 noteSpeed : Float
@@ -22,31 +25,46 @@ calculateNoteDistance (note1, notetime1) (note2, notetime2) =
         endPos1 = noteToEndYPosition note1
         endPos2 = noteToEndYPosition note2
     in
-        if
-            endPos1 < endPos2
-        then
-            noteSpeed*time + (endPos2 - endPos1)
-        else 
-            noteSpeed*time + (endPos2 - endPos1)
+        noteSpeed*time + (endPos2 - endPos1)
+
+{--
+test one
+drawTrack : List ((Note, NoteTime)) -> Float -> Int -> Int -> Shape userMsg 
+drawTrack song distance noteNumber count =
+    case song of
+        (head::tail) ->
+            case head of
+                (note, noteTime) ->
+                    if count == 0 then 
+                        (noteTypeToNoteShape noteTime) 
+                        |> move (getStartPositionFromList song)
+                    else
+                        group(move (noteToXPosition note, (getNoteYPositionInTrack song (50 + distance) noteNumber count)) (noteTypeToNoteShape noteTime)::[drawTrack tail (50 + distance) (noteNumber + 1) count])
+        [] ->
+            group[]
+--}
 
 
+
+
+-- This is the original
 -- This function draws the "track" of notes. The function takes in a song and 
 -- draws a "track" that is one shape.
 drawTrack : List ((Note, NoteTime)) -> (Float, Float) -> Shape userMsg -> Shape userMsg
 drawTrack song startPosition shape =
-            case startPosition of
-                (x, y) -> 
-                    case song of 
-                        (x1::xs1) ->
-                            case xs1 of
-                                (x2::_) ->
-                                    case x2 of
-                                        (note2, noteTime2) ->
-                                            group((move (x, y) shape)::[drawTrack xs1 (noteToXPosition note2, y + (calculateNoteDistance x1 x2)) (noteTypeToNoteShape noteTime2)])
-                                _ ->
-                                    group[]
+    case startPosition of
+        (x, y) -> 
+            case song of 
+                (x1::xs1) ->
+                    case xs1 of
+                        (x2::_) ->
+                            case x2 of
+                                (note2, noteTime2) ->
+                                    group((move (x, y) shape)::[drawTrack xs1 (noteToXPosition note2, y + (calculateNoteDistance x1 x2)) (noteTypeToNoteShape noteTime2)])
                         _ ->
                             group[]
+                _ ->
+                    group[]
 
 {--
 -- THIS FUNCTION NEEDS TO BE FIXED
@@ -102,5 +120,10 @@ getNoteYPositionInTrack song distance noteNumber count =
                 distance
             else
                 getNoteYPositionInTrack (x2 :: xs) (distance + calculateNoteDistance x1 x2) noteNumber (count + 1)
-        _ ->
+        [_] ->
+            if count == noteNumber then
+                distance 
+            else
+                0
+        [] ->
             0

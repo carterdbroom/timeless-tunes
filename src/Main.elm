@@ -19,9 +19,9 @@ yDistance (s1, s2) (e1, e2) =
     abs(s2 - e2)
 
 myShapes model =
-  [
-    game model
-  ]
+    [
+        game model
+    ]
 
 
 
@@ -31,10 +31,10 @@ update msg model =
             case model.state of
                 GameScreen ->
                     let
-                        elapsedTime = t - model.startTime
-                        yPosition = -noteSpeed * elapsedTime
+                        elapsedTime = model.time - model.startTime
+                        yPosition = -noteSpeed*elapsedTime
                     in
-                    { model | time = t, guideNote = updateNoteGuides twinkle yPosition 0 }
+                        { model | time = t, guideNote = updateNoteGuides twinkle yPosition 0 }
                 _ ->
                     { model | time = t }
         ToTitleScreen ->
@@ -132,7 +132,7 @@ update msg model =
         ChangeThird ->
             { model | songname = Third }
         
-  
+
 
 init = { time = 0, 
         state = TitleScreen, 
@@ -152,9 +152,9 @@ init = { time = 0,
         startTime = 0,
         songname = TwinkleT,
         guideNote = Rest
-      }
+    }
 
-      
+
 view model = collage 192 128 (myShapes model)
 
 main = gameApp Tick { model = init, view = view, update = update, title = "Timeless Tunes" }

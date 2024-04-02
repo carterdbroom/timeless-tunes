@@ -516,6 +516,10 @@ game model =
         if 
           timer > 0
         then
+          -- test version
+          --drawTrack twinkle 0 (List.length twinkle) 0
+          --|> move (0, -noteSpeed*timer)
+          -- What is was before
           drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
           |> move (0, -noteSpeed*timer)
         else

@@ -8946,29 +8946,33 @@ var $author$project$GameMechanics$calculateNoteDistance = F2(
 		var time = $author$project$Conversions$noteTimeToSecond(notetime1);
 		var endPos2 = $author$project$Conversions$noteToEndYPosition(note2);
 		var endPos1 = $author$project$Conversions$noteToEndYPosition(note1);
-		return (_Utils_cmp(endPos1, endPos2) < 0) ? (($author$project$GameMechanics$noteSpeed * time) + (endPos2 - endPos1)) : (($author$project$GameMechanics$noteSpeed * time) + (endPos2 - endPos1));
+		return ($author$project$GameMechanics$noteSpeed * time) + (endPos2 - endPos1);
 	});
 var $author$project$GameMechanics$getNoteYPositionInTrack = F4(
 	function (song, distance, noteNumber, count) {
 		getNoteYPositionInTrack:
 		while (true) {
-			if (song.b && song.b.b) {
-				var x1 = song.a;
-				var _v1 = song.b;
-				var x2 = _v1.a;
-				var xs = _v1.b;
-				if (_Utils_eq(count, noteNumber)) {
-					return distance;
+			if (song.b) {
+				if (song.b.b) {
+					var x1 = song.a;
+					var _v1 = song.b;
+					var x2 = _v1.a;
+					var xs = _v1.b;
+					if (_Utils_eq(count, noteNumber)) {
+						return distance;
+					} else {
+						var $temp$song = A2($elm$core$List$cons, x2, xs),
+							$temp$distance = distance + A2($author$project$GameMechanics$calculateNoteDistance, x1, x2),
+							$temp$noteNumber = noteNumber,
+							$temp$count = count + 1;
+						song = $temp$song;
+						distance = $temp$distance;
+						noteNumber = $temp$noteNumber;
+						count = $temp$count;
+						continue getNoteYPositionInTrack;
+					}
 				} else {
-					var $temp$song = A2($elm$core$List$cons, x2, xs),
-						$temp$distance = distance + A2($author$project$GameMechanics$calculateNoteDistance, x1, x2),
-						$temp$noteNumber = noteNumber,
-						$temp$count = count + 1;
-					song = $temp$song;
-					distance = $temp$distance;
-					noteNumber = $temp$noteNumber;
-					count = $temp$count;
-					continue getNoteYPositionInTrack;
+					return _Utils_eq(count, noteNumber) ? distance : 0;
 				}
 			} else {
 				return 0;
@@ -9016,7 +9020,7 @@ var $author$project$Main$update = F2(
 				var t = msg.a;
 				var _v1 = model.state;
 				if (_v1.$ === 'GameScreen') {
-					var elapsedTime = t - model.startTime;
+					var elapsedTime = model.time - model.startTime;
 					var yPosition = (-$author$project$GameMechanics$noteSpeed) * elapsedTime;
 					return _Utils_update(
 						model,
