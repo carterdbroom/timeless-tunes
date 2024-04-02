@@ -7,9 +7,8 @@ import Types exposing (..)
 import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToSecond, noteTypeToNoteShape, getStartNoteShapeFromSong, getStartPositionFromSong)
 import Songs exposing (twinkle)
 import Game exposing (game)
-import GameMechanics exposing (drawTrack, yPos, noteSpeed, updateNoteGuides)
 import Shapes exposing (quarterNote, halfNote, wholeNote)
-import GameMechanics exposing (isPast)
+import GameMechanics exposing (updateGuideNote, updateNoteList)
 
 
 
@@ -28,15 +27,7 @@ myShapes model =
 update msg model =
     case msg of
         Tick t _ ->
-            case model.state of
-                GameScreen ->
-                    let
-                        elapsedTime = model.time - model.startTime
-                        yPosition = -noteSpeed*elapsedTime
-                    in
-                        { model | time = t, guideNote = updateNoteGuides twinkle yPosition 0 }
-                _ ->
-                    { model | time = t }
+            { model | time = t }
         ToTitleScreen ->
             case model.state of
                 InfoScreen ->
@@ -56,11 +47,11 @@ update msg model =
         ToGameScreen ->
             case model.state of
                 TitleScreen ->
-                    { model | state = GameScreen, gameplayed = True, startTime = model.time }
+                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle }
                 InfoScreen ->
-                    { model | state = GameScreen, hovering2 = False, startTime = model.time }
+                    { model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle }
                 PickASong ->
-                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time }
+                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle }
                 _ ->
                     model
         ToPickASong ->
@@ -131,6 +122,8 @@ update msg model =
             { model | songname = SmokeOn }
         ChangeThird ->
             { model | songname = Third }
+        UpdateGuideNote list ->
+            { model | guideNote = updateGuideNote list, noteList = (updateNoteList model.noteList) }
         
 
 
@@ -151,7 +144,8 @@ init = { time = 0,
         gameplayed = False,
         startTime = 0,
         songname = TwinkleT,
-        guideNote = Rest
+        guideNote = Rest,
+        noteList = []
     }
 
 

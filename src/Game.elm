@@ -513,6 +513,7 @@ game model =
 
         guitar model
         ,
+        {--
         if 
           timer > 0
         then
@@ -529,11 +530,13 @@ game model =
         |> size 50
         |> filled black
         ,
+        --}
         --guitarbuttons model
         --,
         --quarterNote black green 0.5 (noteToEndPosition C)
 
         noteToGuitarGuideButton model.guideNote
+        |> notifyTap (UpdateGuideNote model.noteList)
         --guitarsensors model
           --|> makeTransparent 1
         ]    

@@ -47,7 +47,8 @@ type alias Model = { time : Float,
                     gameplayed : Bool,
                     startTime : Float,
                     songname : SongState,
-                    guideNote : Note
+                    guideNote : Note,
+                    noteList : (List ((Note, NoteTime)))
                 }
 
 
@@ -84,6 +85,7 @@ type Msg = Tick Float GetKeyState
         | ChangeTwinkleT
         | ChangeSmokeOn
         | ChangeThird
+        | UpdateGuideNote (List ((Note, NoteTime)))
         
 
 type State = TitleScreen

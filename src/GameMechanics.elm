@@ -17,6 +17,7 @@ noteSpeed = 20
 yPos : Float
 yPos = 50
 
+{--
 -- This function calculates the distance to space two notes.
 calculateNoteDistance : (Note, NoteTime) -> (Note, NoteTime) -> Float
 calculateNoteDistance (note1, notetime1) (note2, notetime2) = 
@@ -127,3 +128,24 @@ getNoteYPositionInTrack song distance noteNumber count =
                 0
         [] ->
             0
+--}
+updateGuideNote : List ((Note, NoteTime)) -> Note
+updateGuideNote list =
+    case list of
+        (head1 :: head2 ::_) ->
+            case head2 of 
+                (note, _) ->
+                    note
+        [x] ->
+            case x of
+                (note, _) ->
+                    note
+        [] ->
+            Rest
+updateNoteList : List ((Note, NoteTime)) -> List ((Note, NoteTime))
+updateNoteList list = 
+    case list of
+        (head :: tail) ->
+            tail
+        _ ->
+            []
