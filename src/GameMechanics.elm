@@ -8,6 +8,8 @@ import Conversions exposing (noteToGuitarGuideButton)
 import Html exposing (th)
 import Conversions exposing (getStartPositionFromSong)
 import Conversions exposing (getStartPositionFromList)
+import Process
+import Task
 
 -- The speed that the notes fall
 noteSpeed : Float
@@ -132,7 +134,7 @@ getNoteYPositionInTrack song distance noteNumber count =
 updateGuideNote : List ((Note, NoteTime)) -> Note
 updateGuideNote list =
     case list of
-        (head1 :: head2 ::_) ->
+        (_ :: head2 ::_) ->
             case head2 of 
                 (note, _) ->
                     note
@@ -145,7 +147,7 @@ updateGuideNote list =
 updateNoteList : List ((Note, NoteTime)) -> List ((Note, NoteTime))
 updateNoteList list = 
     case list of
-        (head :: tail) ->
-            tail
+        (_ :: tail) ->
+            tail  
         _ ->
             []

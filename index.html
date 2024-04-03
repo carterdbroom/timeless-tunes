@@ -9143,9 +9143,21 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
+var $author$project$Types$ASharp = {$: 'ASharp'};
+var $author$project$Types$B = {$: 'B'};
+var $author$project$Types$CSharp = {$: 'CSharp'};
 var $author$project$Types$ChangeSmokeOn = {$: 'ChangeSmokeOn'};
 var $author$project$Types$ChangeThird = {$: 'ChangeThird'};
 var $author$project$Types$ChangeTwinkleT = {$: 'ChangeTwinkleT'};
+var $author$project$Types$DSharp = {$: 'DSharp'};
+var $author$project$Types$FSharp = {$: 'FSharp'};
+var $author$project$Types$GSharp = {$: 'GSharp'};
+var $author$project$Types$Hover1 = {$: 'Hover1'};
+var $author$project$Types$Hover2 = {$: 'Hover2'};
+var $author$project$Types$Hover3 = {$: 'Hover3'};
+var $author$project$Types$Hover4 = {$: 'Hover4'};
+var $author$project$Types$Hover5 = {$: 'Hover5'};
+var $author$project$Types$Hover6 = {$: 'Hover6'};
 var $author$project$Types$HoverBottom = {$: 'HoverBottom'};
 var $author$project$Types$HoverMiddle = {$: 'HoverMiddle'};
 var $author$project$Types$HoverPause = {$: 'HoverPause'};
@@ -9744,12 +9756,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$gradient = function (stops) {
 		A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$LinearGradient, 0, stops));
 };
 var $MacCASOutreach$graphicsvg$GraphicSVG$green = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 115, 210, 22, 1);
-var $author$project$Types$Hover1 = {$: 'Hover1'};
-var $author$project$Types$Hover2 = {$: 'Hover2'};
-var $author$project$Types$Hover3 = {$: 'Hover3'};
-var $author$project$Types$Hover4 = {$: 'Hover4'};
-var $author$project$Types$Hover5 = {$: 'Hover5'};
-var $author$project$Types$Hover6 = {$: 'Hover6'};
 var $author$project$Types$NonHover1 = {$: 'NonHover1'};
 var $author$project$Types$NonHover2 = {$: 'NonHover2'};
 var $author$project$Types$NonHover3 = {$: 'NonHover3'};
@@ -11958,6 +11964,12 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap = F2(
 	function (msg, shape) {
 		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Secret$Tap, msg, shape);
 	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Path = function (a) {
+	return {$: 'Path', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$openPolygon = function (ptList) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Path(ptList);
+};
 var $MacCASOutreach$graphicsvg$GraphicSVG$pink = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 255, 105, 180, 1);
 var $MacCASOutreach$graphicsvg$GraphicSVG$rotateGradient = F2(
 	function (r, grad) {
@@ -12281,7 +12293,7 @@ var $author$project$Game$game = function (model) {
 														$MacCASOutreach$graphicsvg$GraphicSVG$text('PRESS START'))))))),
 									A2(
 									$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
-									$author$project$Types$ToGameScreen,
+									$author$project$Types$ToPickASong,
 									A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
 										$author$project$Types$NonHoverPlay,
@@ -12617,9 +12629,49 @@ var $author$project$Game$game = function (model) {
 										A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 121, 248, 245),
 										$MacCASOutreach$graphicsvg$GraphicSVG$text('i')))))),
 						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$move,
-						_Utils_Tuple2(0, 1),
-						$author$project$Game$musicButton),
+						$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+						0.38,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-147, -68),
+							$MacCASOutreach$graphicsvg$GraphicSVG$group(
+								_List_fromArray(
+									[
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(0, 10),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											$MacCASOutreach$graphicsvg$GraphicSVG$openPolygon(
+												_List_fromArray(
+													[
+														_Utils_Tuple2(0, 0),
+														_Utils_Tuple2(-20, -20),
+														_Utils_Tuple2(20, -20)
+													])))),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(10, -15),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 10, 20))),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(-10, -15),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 10, 20))),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(0, -10),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$white,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 12, 10)))
+									])))),
 						A2(
 						$MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(-26, 27),
@@ -13338,10 +13390,11 @@ var $author$project$Game$game = function (model) {
 											$MacCASOutreach$graphicsvg$GraphicSVG$red,
 											A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 25))))))),
 						$author$project$Game$guitar(model),
+						(_Utils_eq(model.guideNote, $author$project$Types$G) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover2) : (_Utils_eq(model.guideNote, $author$project$Types$GSharp) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover2) : (_Utils_eq(model.guideNote, $author$project$Types$FSharp) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover5) : (_Utils_eq(model.guideNote, $author$project$Types$B) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover6) : (_Utils_eq(model.guideNote, $author$project$Types$D) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover6) : (_Utils_eq(model.guideNote, $author$project$Types$E) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover6) : (_Utils_eq(model.guideNote, $author$project$Types$ASharp) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover4) : (_Utils_eq(model.guideNote, $author$project$Types$CSharp) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover4) : (_Utils_eq(model.guideNote, $author$project$Types$A) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover4) : (_Utils_eq(model.guideNote, $author$project$Types$C) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover1) : (_Utils_eq(model.guideNote, $author$project$Types$DSharp) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover1) : (_Utils_eq(model.guideNote, $author$project$Types$F) ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Types$Hover3) : $elm$core$Basics$identity))))))))))))(
 						A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
-						$author$project$Types$UpdateGuideNote(model.noteList),
-						$author$project$Conversions$noteToGuitarGuideButton(model.guideNote))
+							$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+							$author$project$Types$UpdateGuideNote(model.noteList),
+							$author$project$Conversions$noteToGuitarGuideButton(model.guideNote)))
 					]));
 	}
 };
