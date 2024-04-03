@@ -274,12 +274,13 @@ game model =
           |> scale 0.6
           |> move (-25,-3)
           ,
-          text "more options"
+          text "back to main screen"
           |> sansserif
           |> centered 
           |> filled white
           |> scale 0.6
-          |> move (-23,-34),
+          |> move (-10,-34)
+          |> notifyTap ToTitleScreen,
 
           --sensor rectangles (if you hover on these on the menu 
           --it will highlight the section)
@@ -461,16 +462,6 @@ game model =
           |> move (-3000, 0)
           |>(if model.gameplayed then move (3000,0) else identity)
         ]
-        |> scale 0.75
-        |> move (-30, 20),
-
-        guitar model
-        |> scale 0.8 
-        |> move (50, -20),
-
-        quarterNote black green 0.4 (0,0)
-        |> move (42, 20-(7*model.time))
-        |> (if modBy (round(model.time)) 5 == 0 then move (0, -30) else identity)
         ]
 
       GameScreen ->
@@ -992,13 +983,13 @@ description = group[
     |> filled white
     |> scale 0.5
     |> move (0,8),
-  text "The sounds will be formed as the buttons are tapped."
+  text "sounds will be formed as the buttons are tapped."
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,1),  
-  text "Monitor your progress using the progress bar. It" 
+  text "monitor your progress using the progress bar that" 
     |> sansserif
     |> centered
     |> filled white
