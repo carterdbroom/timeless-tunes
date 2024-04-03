@@ -119,7 +119,7 @@ game model =
             |> makeTransparent 0
             |> notifyEnter HoverPlay
             |> notifyLeave NonHoverPlay
-            |> notifyTap ToGameScreen -- change this, should be to menu
+            |> notifyTap ToPickASong -- change this, should be to menu
           ] |> group,
           -- the ground
           group [
@@ -253,6 +253,8 @@ game model =
           |> move (-13,-5)
           |> move (-200,0)
           |> (if model.middle then move (200,0) else identity),
+
+          -- house icon
            group[openPolygon [(0,0),(-20,-20),(20,-20)]
             |> filled white
             |> move (0,10), 
@@ -397,7 +399,7 @@ game model =
           |> notifyTap ToGameScreen
           |> notifyLeave NonHoverMiddle
           |> notifyTap ChangeSmokeOn,
-        rect 152 30 -- top
+         rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
@@ -443,16 +445,16 @@ game model =
         -- how to play description
         description,
         -- back button code only shows up if user has played the game before
-        group[
+         group[
         --back button hollow
-        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.4
           |> rotate (degrees 45)]
           |> move (-45, 64),
-        
-        -- back button gets filled in when hovering
-        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.4
           |> rotate (degrees 45)
@@ -468,7 +470,7 @@ game model =
           |> notifyEnter HoverPause
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen
-        ]
+         ]
           |> move (-3000, 0)
           |>(if model.gameplayed then move (3000,0) else identity)
         ]
@@ -489,11 +491,11 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30)
-          ,
+         ,
           -- PROGRESS BAR HERE
           progressBar model.totalSections model.sectionsCompleted
-
          ,
+
           -- song title depends on song selected
           text "twinkle twinkle"
             |> sansserif
@@ -516,9 +518,9 @@ game model =
           |> scale 0.6
           |> rotate (degrees 45)]
           |> move (-54, 90),
-        
-        -- back button gets filled in when hovering
-        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.6
           |> rotate (degrees 45)
@@ -543,7 +545,7 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
           -- sensor for back button
-          rect 20 25
+           rect 20 25
           |> filled red
           |> move (-83,51)
           |> makeTransparent 0
@@ -552,10 +554,25 @@ game model =
           |> notifyTap ToInfoScreen, 
 
 
-        guitar model
-        , 
+        guitar model,
+      
         noteToGuitarGuideButton model.guideNote
         |> notifyTap (UpdateGuideNote model.noteList)
+        |> (if model.guideNote == G then notifyEnter Hover2 
+        else if model.guideNote == GSharp then notifyEnter Hover2 
+        else if model.guideNote == FSharp then notifyEnter Hover5 
+        else if model.guideNote == B then notifyEnter Hover6
+        else if model.guideNote == D then notifyEnter Hover6
+        else if model.guideNote == E then notifyEnter Hover6
+        else if model.guideNote == ASharp then notifyEnter Hover4
+        else if model.guideNote == CSharp then notifyEnter Hover4
+        else if model.guideNote == A then notifyEnter Hover4
+        else if model.guideNote == C then notifyEnter Hover1
+        else if model.guideNote == DSharp then notifyEnter Hover1
+        else if model.guideNote == F then notifyEnter Hover3
+        else identity)
+
+        -- animate buttons
         ]    
 
 
@@ -1050,250 +1067,6 @@ description = group[
     |> scale 0.5
     |> move (0,-42)]
 
-g = group[
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (-130,-23)
-    |> scale 0.5
-    |> makeTransparent 0.9,   
-  circle 5     
-    |> outlined (solid 2.4) (rgb 4 251 4)     
-    |> move (-130,-23)     
-    |> scale 0.5      
-    |> makeTransparent 0.7]
-gsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-130,-23)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover2
-      |> notifyLeave NonHover2]
-      
-gsharp = group[
-  circle 5
-    |> filled (rgb 4 251 4)
-    |> move (-87.5,-23)
-    |> scale 0.5 --      
-    |> makeTransparent 0.9,   
-  circle 5     
-    |> outlined (solid 2.4) (rgb 4 251 4)     
-    |> move (-87.5,-23)     
-    |> scale 0.5      
-    |> makeTransparent 0.7]
-gsharpsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-87.5,-23)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover2
-      |> notifyLeave NonHover2]
-dsharp = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-2.5,-87)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9, 
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-2.5,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-dsharpsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-2.5,-87)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover1
-      |> notifyLeave NonHover1]
-b = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-172.5,-7)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-172.5,-7)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-bsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-172.5,-7)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover6
-      |> notifyLeave NonHover6]
-fsharp = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87.5,-71)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-87.5,-71)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-fsharpsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-87.5,-71)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover5
-      |> notifyLeave NonHover5]
-d = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      -- filled red
-      |> move (-45,-7)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,    
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-45,-7)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-dsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-45,-7)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover6
-      |> notifyLeave NonHover6]
-
-asharp = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-130,-55)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-130,-55)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-asharpsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-130,-55)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover4
-      |> notifyLeave NonHover4]
-
-f = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-45,-39)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-45,-39)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-fsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-45,-39)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover3
-      |> notifyLeave NonHover3]
-
-csharp = group[
-
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-2.5,-55)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-2.5,-55)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-csharpsensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-2.5,-55)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover4
-      |> notifyLeave NonHover4]
-
-a = group[
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-172.5,-55)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-172.5,-55)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-asensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-172.5,-55)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover4
-      |> notifyLeave NonHover4]
-
-e = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (40,-7) -- -120
-      |> scale 0.5
-      |> makeTransparent 0.9,   
-  circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (40,-7)   
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-
-esensor = group[
-  rect 40 13
-      |> filled red
-      |> move (40,-7)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover6
-      |> notifyLeave NonHover6]
-
-c = group[
-  circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87.5,-87)
-      |> scale 0.5
-      |> makeTransparent 0.9,  
-    circle 5     
-      |> outlined (solid 2.4) (rgb 4 251 4)     
-      |> move (-87.5,-87)     
-      |> scale 0.5      
-      |> makeTransparent 0.7]
-
-csensor = group[
-  rect 40 13
-      |> filled red
-      |> move (-87.5,-87)
-      |> scale 0.5
-      |> makeTransparent 0.9
-      |> notifyEnter Hover1
-      |> notifyLeave NonHover1]
-
--- aidens progress bar 
 progressBar total completed =
   group
   [
