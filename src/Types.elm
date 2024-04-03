@@ -48,7 +48,7 @@ type alias Model = { time : Float,
                     startTime : Float,
                     songname : SongState,
                     guideNote : Note,
-                    noteList : (List ((Note, NoteTime)))
+                    noteList : (List ((Note, NoteTime))),
                     totalSections : Float,
                     sectionsCompleted : Float
                 }
