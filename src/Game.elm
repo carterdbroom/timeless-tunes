@@ -119,7 +119,7 @@ game model =
             |> makeTransparent 0
             |> notifyEnter HoverPlay
             |> notifyLeave NonHoverPlay
-            |> notifyTap ToPickASong -- change this, should be to menu
+            |> notifyTap ToGameScreen -- change this, should be to menu
           ] |> group,
           -- the ground
           group [
@@ -273,12 +273,13 @@ game model =
           |> scale 0.6
           |> move (-25,-3)
           ,
-          text "more options"
+          text "back to main screen"
           |> sansserif
           |> centered 
           |> filled white
           |> scale 0.6
-          |> move (-23,-34),
+          |> move (-10,-34)
+          |> notifyTap ToTitleScreen,
 
           --sensor rectangles (if you hover on these on the menu 
           --it will highlight the section)
@@ -302,6 +303,7 @@ game model =
           |> notifyEnter HoverBottom
           |> notifyLeave NonHoverBottom
           ]
+      -- make pick a song set model.time to 0
       PickASong ->
         group
         [
@@ -384,7 +386,7 @@ game model =
           |> notifyTap ToGameScreen
           |> notifyLeave NonHoverMiddle
           |> notifyTap ChangeSmokeOn,
-          rect 152 30 -- top
+         rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
@@ -415,7 +417,11 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30),
-        guitar model,
+        -- guitar only shows up in background if user has already played game
+        guitar model
+          |> move (-3000, 0)
+          |>(if model.gameplayed then move (3000,0) else identity),
+        group[
         createMenu,
         text "HOW TO PLAY: "
           |> sansserif
@@ -425,15 +431,17 @@ game model =
           |> move (0,38),
         -- how to play description
         description,
+        -- back button code only shows up if user has played the game before
+         group[
         --back button hollow
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.4
           |> rotate (degrees 45)]
           |> move (-45, 64),
-        
-        -- back button gets filled in when hovering
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.4
           |> rotate (degrees 45)
@@ -449,13 +457,16 @@ game model =
           |> notifyEnter HoverPause
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen
+         ]
+          |> move (-3000, 0)
+          |>(if model.gameplayed then move (3000,0) else identity)
+        ]
         ]
 
       GameScreen ->
         let 
           timer = model.time - model.startTime
         in
-          
         group
         [
         -- starry background and gradient
@@ -467,16 +478,19 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30)
-          ,
-        --back button hollow
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         ,
+         -- progress bar 
+         drawProgressBar (model.time)
+          |> move (-40, -56),
+         --back button hollow
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.6
           |> rotate (degrees 45)]
           |> move (-54, 90),
-        
-        -- back button gets filled in when hovering
-          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+         
+         -- back button gets filled in when hovering
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.6
           |> rotate (degrees 45)
@@ -501,7 +515,7 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
           -- sensor for back button
-          rect 20 25
+           rect 20 25
           |> filled red
           |> move (-83,51)
           |> makeTransparent 0
@@ -539,6 +553,7 @@ game model =
         --guitarsensors model
           --|> makeTransparent 1
         ]    
+
 
 
 nightSky =
@@ -642,7 +657,7 @@ nightSky =
 
 createMenu = 
   group [
-        rect 300 300
+        rect 3000 3000
         |> filled black
         |> makeTransparent 0.5,
         --- black menu box
@@ -693,23 +708,21 @@ guitar model = group[
           rect 90 14
           |>  filled (rgb 82 81 80)
           |> move (47,6.7)
-          |> scale 2.7
+          |> scale 3.5
           |> rotate (degrees 180)
-          |> move (68,-10),
+          |> move (80,0), -- 68
 
 
-          group[roundedRect 1 14 2 
-          |> filled black
-          |> move (54,6.7), 
+          group[
           roundedRect 1 14 2 
           |> filled black
           |> move (48,6.7), 
           roundedRect 1 14 2 
           |> filled black
-          |> move (42,6.7),
+          |> move (42,6.7), 
           roundedRect 1 14 2 
           |> filled black
-          |> move (36,6.7), 
+          |> move (36,6.7),
           roundedRect 1 14 2 
           |> filled black
           |> move (30,6.7), 
@@ -731,36 +744,40 @@ guitar model = group[
           roundedRect 1 14 2 
           |> filled black
           |> move (-6,6.7), 
-          roundedRect 1 14 2 
+          roundedRect 1 14 2 -- this is closest to the right
           |> filled black
           |> move (-12,6.7), 
-          roundedRect 1 14 2 
-          |> filled black
-          |> move (-18,6.7)]
-            |> scale 2.7
+
+          -- pick up
+          roundedRect 5 15 3 
+          |> filled (hsl (degrees 252) 0.017 0.143)
+          |> move (-19,6.7), -- 18
+
+          -- dots on the pickup
+          roundedRect 1.5 1 2
+          |> filled (hsl (degrees 252) 0.03 0.505)
+          |> move (-19, 4.5),
+          roundedRect 1.5 1 2
+          |> filled (hsl (degrees 252) 0.03 0.505)
+          |> move (-19, 8.9),
+          roundedRect 1.5 1 2
+          |> filled (hsl (degrees 252) 0.03 0.505)
+          |> move (-19, 2.3),
+          roundedRect 1.5 1 2
+          |> filled (hsl (degrees 252) 0.03 0.505)
+          |> move (-19, 6.7),
+          roundedRect 1.5 1 2
+          |> filled (hsl (degrees 252) 0.03 0.505)
+          |> move (-19, 11.1)
+          
+          ]
+            |> scale 3.5
             |> rotate (degrees 180)
-            |> move (30,-10),
+            |> move (30,0),
 
 
           [
           group[
-
-          rect 9.9 30
-          |> filled black
-          |> move (-33, 7)
-          |> move (-10,0), 
-          circle 15
-          |> filled (rgb 150 87 205)
-          |> move (0, 7)
-          |> move (-10,0), 
-          circle 14
-          |> filled (rgb 192 234 255) 
-          |> move (0,7)
-          |> move (-10,0),
-          circle 12.5
-          |> filled black 
-          |> move (0,7)
-          |> move (-10,0),
 
 
           roundedRect 3 20 2
@@ -906,14 +923,12 @@ guitar model = group[
           rect 20 0.5 
           |> filled grey 
           |> move (70,10.1), 
+
           -- white dots on guitar
-          roundedRect 3 1.5 1 
-          |> filled white
-          |> move (45,6.8), 
-          roundedRect 3 1.5 1 
+          roundedRect 2.7 1.5 1 
           |> filled white
           |> move (33,6.8), 
-          roundedRect 3 1.5 1 
+          roundedRect 2.7 1.5 1 
           |> filled white
           |> move (21,6.8)
           , roundedRect 2 1.5 1 
@@ -972,41 +987,41 @@ guitar model = group[
           ]
           ]
             |> group
-            |> scale 2.7
+            |> scale 3.5
             |> rotate (degrees 180)
-            |> move (30,-10)] 
+            |> move (30,0)] 
 description = group[
-  text "after selecting your song of choice to play, notes"
+  text "after selecting your song of choice, green"
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,22),
-  text "will appear on the game screen and begin falling."
+  text "circles will appear on the guitar that you must tap"
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,15),
-  text "you must tap on the green note at the correct time"
+  text "continously until the song has completed."
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,8),
-  text "at the correct placement on the guitar."
+  text "sounds will be formed as the buttons are tapped."
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,1),  
-  text "continue tapping the notes until the song has" 
+  text "monitor your progress using the progress bar that" 
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,-10),
-  text "finished."
+  text "indicates how much of the song you have played."
     |> sansserif
     |> centered
     |> filled white
@@ -1031,225 +1046,309 @@ description = group[
     |> scale 0.5
     |> move (0,-42)]
 
-guitarsensors model = group[
-
-  
-  ---new row
-  group[
-  --d sharp
-  rect 16.5 6
-  |> filled yellow
-  |> move (-10.5,-18.75)
-  |> makeTransparent 0.5,
-  -- d
-  rect 16.5 6
-  |> filled red
-  |> move (-27,-18.75)
-  |> makeTransparent 0.5,
-  -- c sharp
-  rect 16.5 6
-  |> filled yellow
-  |> move (-43.5,-18.75)
-  |> makeTransparent 0.5,
-  -- c
-  rect 16.5 6
-  |> filled red
-  |> move (-60,-18.75)
-  |> makeTransparent 0.5]
-    |> notifyEnter Hover2
-    |> notifyLeave NonHover2,
-
-  group[
-  -- b
-  rect 16.5 6
-  |> filled red
-  |> move (-10.5,-24.75)
-  |> makeTransparent 0.5,
-  -- a sharp
-  rect 16.5 6
-  |> filled yellow
-  |> move (-27,-24.75)
-  |> makeTransparent 0.5,
-  -- a
-  rect 16.5 6
-  |> filled red
-  |> move (-43.5,-24.75)
-  |> makeTransparent 0.5,
-  -- g sharp
-  rect 16.5 6
-  |> filled yellow
-  |> move (-60,-24.75)
-  |> makeTransparent 0.5]
-    |> notifyEnter Hover3
-    |> notifyLeave NonHover3,
-
-  group[
-  -- g
-  rect 16.5 6.48
-  |> filled red
-  |> move (6,-31)
-  |> makeTransparent 0.5,
-  -- f sharp
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-10.5,-31)
-  |> makeTransparent 0.5,
-  -- f
-  rect 16.5 6.48
-  |> filled red
-  |> move (-27,-31)
-  |> makeTransparent 0.5,
-  -- e
-  rect 16.5 6.48
-  |> filled yellow
-  |> move (-43.5,-31)
-  |> makeTransparent 0.5]
-    |> notifyEnter Hover4
-    |> notifyLeave NonHover4]
-
-guitarbuttons model= group[
-
--- new g
+g = group[
   circle 5
     |> filled (rgb 4 251 4)
-    |> move (12,-63)
+    |> move (-130,-23)
+    |> scale 0.5
+    |> makeTransparent 0.9,   
+  circle 5     
+    |> outlined (solid 2.4) (rgb 4 251 4)     
+    |> move (-130,-23)     
+    |> scale 0.5      
+    |> makeTransparent 0.7]
+gsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-130,-23)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover2
+      |> notifyLeave NonHover2]
+      
+gsharp = group[
+  circle 5
+    |> filled (rgb 4 251 4)
+    |> move (-87.5,-23)
     |> scale 0.5 --      
     |> makeTransparent 0.9,   
   circle 5     
-    |> outlined (solid 1.8) (rgb 4 251 4)     
-    |> move (12,-63)     
+    |> outlined (solid 2.4) (rgb 4 251 4)     
+    |> move (-87.5,-23)     
     |> scale 0.5      
-    |> makeTransparent 0.7,
-
--- new d sharp
-    circle 5
+    |> makeTransparent 0.7]
+gsharpsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-87.5,-23)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover2
+      |> notifyLeave NonHover2]
+dsharp = group[
+  circle 5
       |> filled (rgb 4 251 4)
-      |> move (-21,-38)
+      |> move (-2.5,-87)
       |> scale 0.5 --      
       |> makeTransparent 0.9, 
     circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-21,-38)     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-2.5,-87)     
       |> scale 0.5      
-      |> makeTransparent 0.7,
--- new b
-    circle 5
+      |> makeTransparent 0.7]
+dsharpsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-2.5,-87)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover1
+      |> notifyLeave NonHover1]
+b = group[
+  circle 5
       |> filled (rgb 4 251 4)
-      |> move (-21,-50.5)
+      |> move (-172.5,-7)
       |> scale 0.5 --      
       |> makeTransparent 0.9,   
     
     circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-21,-50.5)     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-172.5,-7)     
       |> scale 0.5      
-      |> makeTransparent 0.7,
--- new f sharp
-    circle 5
+      |> makeTransparent 0.7]
+bsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-172.5,-7)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover6
+      |> notifyLeave NonHover6]
+fsharp = group[
+  circle 5
       |> filled (rgb 4 251 4)
-      |> move (-21,-63)
+      |> move (-87.5,-71)
       |> scale 0.5 --      
       |> makeTransparent 0.9,   
     circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-21,-63)     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-87.5,-71)     
       |> scale 0.5      
-      |> makeTransparent 0.7, 
-
--- new d
-    circle 5
+      |> makeTransparent 0.7]
+fsharpsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-87.5,-71)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover5
+      |> notifyLeave NonHover5]
+d = group[
+  circle 5
       |> filled (rgb 4 251 4)
       -- filled red
-      |> move (-54,-38)
+      |> move (-45,-7)
       |> scale 0.5 --      
       |> makeTransparent 0.9,    
     circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-54,-38)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
---new a sharp
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-54,-50.5)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-54,-50.5)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-    
--- new f
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-54,-63)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-54,-63)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
--- new c sharp
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87,-38)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-87,-38)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
--- new a
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87,-50.5)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-87,-50.5)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-    
--- new e
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-87,-63)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-87,-63)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-
--- new c
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-120,-38)
-      |> scale 0.5 --      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-120,-38)     
-      |> scale 0.5      
-      |> makeTransparent 0.7,
-      
---g sharp
-    circle 5
-      |> filled (rgb 4 251 4)
-      |> move (-120,-50.5)
-      |> scale 0.5      
-      |> makeTransparent 0.9,   
-    circle 5     
-      |> outlined (solid 1.8) (rgb 4 251 4)     
-      |> move (-120,-50.5)     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-45,-7)     
       |> scale 0.5      
       |> makeTransparent 0.7]
+dsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-45,-7)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover6
+      |> notifyLeave NonHover6]
+
+asharp = group[
+  circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-130,-55)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-130,-55)     
+      |> scale 0.5      
+      |> makeTransparent 0.7]
+asharpsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-130,-55)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover4
+      |> notifyLeave NonHover4]
+
+f = group[
+  circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-45,-39)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-45,-39)     
+      |> scale 0.5      
+      |> makeTransparent 0.7]
+fsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-45,-39)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover3
+      |> notifyLeave NonHover3]
+
+csharp = group[
+
+  circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-2.5,-55)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    circle 5     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-2.5,-55)     
+      |> scale 0.5      
+      |> makeTransparent 0.7]
+csharpsensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-2.5,-55)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover4
+      |> notifyLeave NonHover4]
+
+a = group[
+    circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-172.5,-55)
+      |> scale 0.5 --      
+      |> makeTransparent 0.9,   
+    
+    circle 5     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-172.5,-55)     
+      |> scale 0.5      
+      |> makeTransparent 0.7]
+asensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-172.5,-55)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover4
+      |> notifyLeave NonHover4]
+
+e = group[
+  circle 5
+      |> filled (rgb 4 251 4)
+      |> move (40,-7) -- -120
+      |> scale 0.5
+      |> makeTransparent 0.9,   
+  circle 5     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (40,-7)   
+      |> scale 0.5      
+      |> makeTransparent 0.7]
+
+esensor = group[
+  rect 40 13
+      |> filled red
+      |> move (40,-7)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover6
+      |> notifyLeave NonHover6]
+
+c = group[
+  circle 5
+      |> filled (rgb 4 251 4)
+      |> move (-87.5,-87)
+      |> scale 0.5
+      |> makeTransparent 0.9,  
+    circle 5     
+      |> outlined (solid 2.4) (rgb 4 251 4)     
+      |> move (-87.5,-87)     
+      |> scale 0.5      
+      |> makeTransparent 0.7]
+
+csensor = group[
+  rect 40 13
+      |> filled red
+      |> move (-87.5,-87)
+      |> scale 0.5
+      |> makeTransparent 0.9
+      |> notifyEnter Hover1
+      |> notifyLeave NonHover1]
+
+-- aidens progress bar 
+
+-- amount of beats/notes in the song
+beats : Float
+beats = 42
+
+-- bpm of the song
+beatsPerMin : Float
+beatsPerMin = 88
+
+-- how many seconds the song takes to play
+lengthOfSong : Float
+lengthOfSong = (beats / beatsPerMin) * 60
+
+-- stall time to let the first initial notes drop in
+stallTime : Float
+stallTime = 5
+
+-- total time that will take to fill the bar
+totalTime : Float
+totalTime = stallTime + lengthOfSong
+
+-- progress bar (outside) quantities
+length : Float
+length = 80
+width : Float
+width = 10
+roundness : Float
+roundness = 3
+
+-- progress bar (inside) quantities
+inLength : Float
+inLength = (length - 1)
+inWidth : Float
+inWidth = (width - 1)
+inRoundness : Float
+inRoundness = (roundness - 1)
+
+-- progress bar gradient design
+rotationDeg = 45
+lightBlue = (rgb 70 230 230)
+
+-- function that draws an animated progress bar
+drawProgressBar time =
+  [
+  -- outline of the bar
+  roundedRect length width roundness
+  |> outlined (solid 1) black
+  ,
+  -- animation to expand the bar
+  if time < totalTime then
+    group [
+      roundedRect ((inLength/totalTime)*time) inWidth inRoundness
+      |> filled (rotateGradient (degrees rotationDeg) (gradient [stop lightBlue -10, stop pink 20, stop pink 10]))
+    ]
+  -- when the song is fully complete stop expanding the bar
+  else
+    group [
+      roundedRect inLength inWidth inRoundness
+      |> filled (rotateGradient (degrees 45) (gradient [stop (rgb 70 230 230) -10, stop (pink) 20, stop pink 10]))
+      
+    ]
+  ] |> group
