@@ -478,12 +478,11 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30)
+          ,
+          -- PROGRESS BAR HERE
+          progressBar model.totalSections model.sectionsCompleted
 
          ,
-          -- progress bar 
-         drawProgressBar (model.time)
-          |> move (-33, 21),
-
           -- song title depends on song selected
           text "twinkle twinkle"
             |> sansserif
@@ -1284,65 +1283,20 @@ csensor = group[
       |> notifyLeave NonHover1]
 
 -- aidens progress bar 
-
--- amount of beats/notes in the song
-beats : Float
-beats = 42
-
--- bpm of the song
-beatsPerMin : Float
-beatsPerMin = 88
-
--- how many seconds the song takes to play
-lengthOfSong : Float
-lengthOfSong = (beats / beatsPerMin) * 60
-
--- stall time to let the first initial notes drop in
-stallTime : Float
-stallTime = 5
-
--- total time that will take to fill the bar
-totalTime : Float
-totalTime = stallTime + lengthOfSong
-
--- progress bar (outside) quantities
-length : Float
-length = 80
-width : Float
-width = 10
-roundness : Float
-roundness = 3
-
--- progress bar (inside) quantities
-inLength : Float
-inLength = (length - 1)
-inWidth : Float
-inWidth = (width - 1)
-inRoundness : Float
-inRoundness = (roundness - 1)
-
--- progress bar gradient design
-rotationDeg = 45
-lightBlue = (rgb 70 230 230)
-
--- function that draws an animated progress bar
-drawProgressBar time =
+progressBar total completed =
+  group
   [
-  -- outline of the bar
-  roundedRect length width roundness
-  |> outlined (solid 1) black
-  ,
-  -- animation to expand the bar
-  if time < totalTime then
-    group [
-      roundedRect ((inLength/totalTime)*time) inWidth inRoundness
-      |> filled (rotateGradient (degrees rotationDeg) (gradient [stop lightBlue -10, stop pink 20, stop pink 10]))
-    ]
-  -- when the song is fully complete stop expanding the bar
-  else
-    group [
-      roundedRect inLength inWidth inRoundness
+    -- INSIDE RECTANGLE
+    group
+    [
+      roundedRect (completed*(78/total)) 9 3
       |> filled (rotateGradient (degrees 45) (gradient [stop (rgb 70 230 230) -10, stop (pink) 20, stop pink 10]))
-      
     ]
-  ] |> group
+    ,
+    -- OUTSIDE RECTANGLE
+    group
+    [
+      roundedRect 80 10 3
+      |> outlined (solid 1) black
+    ]
+  ] |> move (-33, 21)
