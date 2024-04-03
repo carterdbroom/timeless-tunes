@@ -144,6 +144,18 @@ getStartPositionFromSong song =
                             noteToStartPosition note
                 [] -> 
                     (0,0)
+
+-- Given a list of note tuples, returns the start position of the first note.
+getStartPositionFromList : List ((Note, NoteTime)) -> (Float, Float)
+getStartPositionFromList list =
+    case list of 
+        (head::_) ->
+            case head of
+                (note, _) ->
+                    noteToStartPosition note
+        [] ->
+            (0, 0)
+
 -- Takes in a Song, finds the first Tuple in the List, finds the NoteTime, then returns the associated Shape.
 getStartNoteShapeFromSong : Song -> Shape userMsg
 getStartNoteShapeFromSong song =
@@ -181,3 +193,172 @@ noteTypeToNoteShape noteTime =
             group[]
         EighthRest ->
             group[]
+
+noteToGuitarGuideButton : Note -> Shape userMsg
+noteToGuitarGuideButton note =
+    case note of
+        C -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-87.5,-87)
+                |> scale 0.5
+                |> makeTransparent 0.9,  
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-87.5,-87)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        CSharp -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-2.5,-55)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 2.4) (rgb 4 251 4)     
+            |> move (-2.5,-55)     
+            |> scale 0.5      
+            |> makeTransparent 0.7]
+        D -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                -- filled red
+                |> move (-45,-7)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9,    
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-45,-7)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        DSharp -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-2.5,-87)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9, 
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-2.5,-87)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        E -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (40,-7) -- -120
+                |> scale 0.5
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (40,-7)   
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        F -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-45,-39)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-45,-39)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        FSharp -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-87.5,-71)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-87.5,-71)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        G -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-130,-23)
+                |> scale 0.5
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-130,-23)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        GSharp -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-87.5,-23)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-87.5,-23)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        A -> 
+            group[
+            circle 5
+            |> filled (rgb 4 251 4)
+            |> move (-172.5,-55)
+            |> scale 0.5 --      
+            |> makeTransparent 0.9,   
+            circle 5     
+            |> outlined (solid 2.4) (rgb 4 251 4)     
+            |> move (-172.5,-55)     
+            |> scale 0.5      
+            |> makeTransparent 0.7]
+        ASharp -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-130,-55)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-130,-55)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        B -> 
+            group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-172.5,-7)
+                |> scale 0.5 --      
+                |> makeTransparent 0.9,   
+                
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-172.5,-7)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+        Rest -> 
+            group[]
+
+noteToString : Note -> String
+noteToString note =
+    case note of
+        C -> "C"
+        CSharp -> "C#"
+        D -> "D"
+        DSharp -> "D#"
+        E -> "E#"
+        F -> "F"
+        FSharp -> "F#"
+        G -> "G"
+        GSharp -> "G#"
+        A -> "A"
+        ASharp -> "A#"
+        B -> "B"
+        Rest -> "Rest"
