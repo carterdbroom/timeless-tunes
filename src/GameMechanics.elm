@@ -4,21 +4,10 @@ import GraphicSVG exposing (..)
 import Types exposing (..)
 import Shapes exposing (..)
 import Conversions exposing (noteTimeToSecond,noteToStartPosition,noteToEndPosition, noteToXPosition, noteToEndYPosition, noteTypeToNoteShape)
-
-{--
-makeNoteTrack : List (Note, NoteTime) -> (Float, Float) -> Model -> Shape userMsg
-makeNoteTrack song startPosition model = 
-    case song of 
-        (x::xs) ->
-            case x of 
-                (note, noteTime) -> 
-                    case note of
-                        --}
-
-
-calculateTime : Float -> Float -> Float
-calculateTime speed time =
-    time*speed
+import Conversions exposing (noteToGuitarGuideButton)
+import Html exposing (th)
+import Conversions exposing (getStartPositionFromSong)
+import Conversions exposing (getStartPositionFromList)
 
 -- The speed that the notes fall
 noteSpeed : Float
@@ -28,6 +17,8 @@ noteSpeed = 20
 yPos : Float
 yPos = 50
 
+{--
+-- This function calculates the distance to space two notes.
 calculateNoteDistance : (Note, NoteTime) -> (Note, NoteTime) -> Float
 calculateNoteDistance (note1, notetime1) (note2, notetime2) = 
     let
@@ -35,44 +26,126 @@ calculateNoteDistance (note1, notetime1) (note2, notetime2) =
         endPos1 = noteToEndYPosition note1
         endPos2 = noteToEndYPosition note2
     in
-        if
-            (noteToEndYPosition note1) < (noteToEndYPosition note2)
-        then
-            noteSpeed*time + (endPos1 - endPos2)
-        else if
-            (noteToEndYPosition note1) > (noteToEndYPosition note2)
-        then
-            noteSpeed*time + (endPos1 - endPos2)
-        else 
-            noteSpeed*time
+        noteSpeed*time + (endPos2 - endPos1)
 
-calculateDropTime : (Note, NoteTime) -> (Note, NoteTime) -> Float
-calculateDropTime (note1, notetime1) (note2, notetime2) = 
-    let
-        noteTimeInSec = (noteTimeToSecond notetime1)
-        distance = yDistance (noteToEndPosition note2) (noteToStartPosition note2)
-    in
-        noteTimeInSec - distance/noteSpeed
+{--
+test one
+drawTrack : List ((Note, NoteTime)) -> Float -> Int -> Int -> Shape userMsg 
+drawTrack song distance noteNumber count =
+    case song of
+        (head::tail) ->
+            case head of
+                (note, noteTime) ->
+                    if count == 0 then 
+                        (noteTypeToNoteShape noteTime) 
+                        |> move (getStartPositionFromList song)
+                    else
+                        group(move (noteToXPosition note, (getNoteYPositionInTrack song (50 + distance) noteNumber count)) (noteTypeToNoteShape noteTime)::[drawTrack tail (50 + distance) (noteNumber + 1) count])
+        [] ->
+            group[]
+--}
 
+
+
+
+-- This is the original
+-- This function draws the "track" of notes. The function takes in a song and 
+-- draws a "track" that is one shape.
 drawTrack : List ((Note, NoteTime)) -> (Float, Float) -> Shape userMsg -> Shape userMsg
 drawTrack song startPosition shape =
-            case startPosition of
-                (x, y) -> 
-                    case song of 
-                        (x1::xs1) ->
-                            case x1 of
-                                (_,_) ->
-                                    case xs1 of
-                                        (x2::_) ->
-                                            case x2 of
-                                                (note2, noteTime2) ->
-                                                    group((move (x, y) shape)::[drawTrack xs1 (noteToXPosition note2, y + (calculateNoteDistance x1 x2)) (noteTypeToNoteShape noteTime2)])
-                                        _ ->
-                                            group[]
+    case startPosition of
+        (x, y) -> 
+            case song of 
+                (x1::xs1) ->
+                    case xs1 of
+                        (x2::_) ->
+                            case x2 of
+                                (note2, noteTime2) ->
+                                    group((move (x, y) shape)::[drawTrack xs1 (noteToXPosition note2, y + (calculateNoteDistance x1 x2)) (noteTypeToNoteShape noteTime2)])
                         _ ->
                             group[]
+                _ ->
+                    group[]
 
+{--
+-- THIS FUNCTION NEEDS TO BE FIXED
+updateNoteGuides : List ((Note, NoteTime)) -> Float -> Float -> Note
+updateNoteGuides  song songYPosition count  =
+    case song of
+        (x1::xs) ->
+            case x1 of
+                (note, _) ->
+                    if 
+                        -- isn't quite right yet, need to make function that finds position of each individual note in 
+                        -- context to track.
+                        isPast note (getNoteYPositionInTrack song count 0 0)
+                    then
+                        updateNoteGuides xs songYPosition (count + 1) 
+                    else
+                        note
+                        
+        _ ->
+            Rest
+isPast : Note -> Float -> Bool
+isPast note noteYPosition =
+    if
+        (noteToEndYPosition note) - 5 < noteYPosition
+    then
+        False
+    else
+        True
+--}
 
-yDistance : (Float, Float) -> (Float, Float) -> Float
-yDistance (s1, s2) (e1, e2) =
-    abs(s2 - e2)
+updateNoteGuides : List ((Note, NoteTime)) -> Float -> Int -> Note
+updateNoteGuides song songYPosition count =
+    case song of
+        (x1 :: xs) ->
+            case x1 of
+                (note, _) ->
+                    if isPast note (getNoteYPositionInTrack song (50 + songYPosition) count 0) then
+                        updateNoteGuides xs songYPosition (count + 1)
+                    else
+                        note
+        _ ->
+            Rest
+
+isPast : Note -> Float -> Bool
+isPast note noteYPosition =
+    (noteToEndYPosition note) >= noteYPosition
+
+getNoteYPositionInTrack : List ((Note, NoteTime)) -> Float -> Int -> Int -> Float
+getNoteYPositionInTrack song distance noteNumber count =
+    case song of
+        (x1 :: x2 :: xs) ->
+            if count == noteNumber then
+                distance
+            else
+                getNoteYPositionInTrack (x2 :: xs) (distance + calculateNoteDistance x1 x2) noteNumber (count + 1)
+        [_] ->
+            if count == noteNumber then
+                distance 
+            else
+                0
+        [] ->
+            0
+--}
+updateGuideNote : List ((Note, NoteTime)) -> Note
+updateGuideNote list =
+    case list of
+        (head1 :: head2 ::_) ->
+            case head2 of 
+                (note, _) ->
+                    note
+        [x] ->
+            case x of
+                (note, _) ->
+                    note
+        [] ->
+            Rest
+updateNoteList : List ((Note, NoteTime)) -> List ((Note, NoteTime))
+updateNoteList list = 
+    case list of
+        (head :: tail) ->
+            tail
+        _ ->
+            []

@@ -198,6 +198,7 @@ noteToGuitarGuideButton : Note -> Shape userMsg
 noteToGuitarGuideButton note =
     case note of
         C -> 
+
             group[
             circle 5
                 |> filled (rgb 4 251 4)

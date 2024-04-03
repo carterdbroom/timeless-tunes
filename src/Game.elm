@@ -72,19 +72,18 @@ game model =
           ,
           [
           -- neon text design
-          text "RETRO RIFFS"
+          text "TIMELESS TUNES"
+            |> sansserif
+            |> centered
+            |> filled (rgb 255 27 242)           
+            |> scale(1.8)
+            |> move (0, 0)
+          ,
+          text "TIMELESS TUNES"
             |> sansserif
             |> centered
             |> outlined (solid 0.5) (rgb 121 248 245)
-            |> scale (2.01)
-            |> move (0, 0)
-          ,
-          text "RETRO RIFFS"
-            |> sansserif
-            |> centered
-            |> filled (rgb 255 27 242)
-            |> makeTransparent (0.8)
-            |> scale (2)
+            |> scale (1.81)
             |> move (0, 0)
           
           --start button
@@ -523,12 +522,39 @@ game model =
           |> notifyEnter HoverPause
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen, 
-        guitar model,
-       group[e,f,fsharp,g,gsharp,a,asharp,b,c,csharp,d,dsharp]
-       |> makeTransparent 0,
-       group[esensor,fsensor,fsharpsensor,gsensor,gsharpsensor,asensor,asharpsensor,bsensor,csensor,csharpsensor,dsensor,dsharpsensor]
-        |> makeTransparent 0
-         ]    
+
+
+        guitar model
+        ,
+        {--
+        if 
+          timer > 0
+        then
+          -- test version
+          --drawTrack twinkle 0 (List.length twinkle) 0
+          --|> move (0, -noteSpeed*timer)
+          -- What is was before
+          drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
+          |> move (0, -noteSpeed*timer)
+        else
+          group[]
+        ,
+        text (noteToString model.guideNote)
+        |> size 50
+        |> filled black
+        ,
+        --}
+        --guitarbuttons model
+        --,
+        --quarterNote black green 0.5 (noteToEndPosition C)
+
+        noteToGuitarGuideButton model.guideNote
+        |> notifyTap (UpdateGuideNote model.noteList)
+        --guitarsensors model
+          --|> makeTransparent 1
+        ]    
+
+
 
 nightSky =
   group
