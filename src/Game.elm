@@ -386,7 +386,7 @@ game model =
           |> notifyTap ToGameScreen
           |> notifyLeave NonHoverMiddle
           |> notifyTap ChangeSmokeOn,
-         rect 152 30 -- top
+        rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
@@ -432,16 +432,16 @@ game model =
         -- how to play description
         description,
         -- back button code only shows up if user has played the game before
-         group[
+        group[
         --back button hollow
-         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.4
           |> rotate (degrees 45)]
           |> move (-45, 64),
-         
-         -- back button gets filled in when hovering
-         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+        
+        -- back button gets filled in when hovering
+        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.4
           |> rotate (degrees 45)
@@ -457,7 +457,7 @@ game model =
           |> notifyEnter HoverPause
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen
-         ]
+        ]
           |> move (-3000, 0)
           |>(if model.gameplayed then move (3000,0) else identity)
         ]
@@ -478,19 +478,19 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30)
-         ,
-         -- progress bar 
-         drawProgressBar (model.time)
+        ,
+        -- progress bar 
+        drawProgressBar (model.time)
           |> move (-40, -56),
-         --back button hollow
-         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+        --back button hollow
+        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.6
           |> rotate (degrees 45)]
           |> move (-54, 90),
-         
-         -- back button gets filled in when hovering
-         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+        
+        -- back button gets filled in when hovering
+        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> filled white
           |> scale 0.6
           |> rotate (degrees 45)
@@ -515,7 +515,7 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
           -- sensor for back button
-           rect 20 25
+          rect 20 25
           |> filled red
           |> move (-83,51)
           |> makeTransparent 0
@@ -525,33 +525,9 @@ game model =
 
 
         guitar model
-        ,
-        {--
-        if 
-          timer > 0
-        then
-          -- test version
-          --drawTrack twinkle 0 (List.length twinkle) 0
-          --|> move (0, -noteSpeed*timer)
-          -- What is was before
-          drawTrack twinkle (getStartPositionFromSong (Twinkle twinkle)) (getStartNoteShapeFromSong (Twinkle twinkle))
-          |> move (0, -noteSpeed*timer)
-        else
-          group[]
-        ,
-        text (noteToString model.guideNote)
-        |> size 50
-        |> filled black
-        ,
-        --}
-        --guitarbuttons model
-        --,
-        --quarterNote black green 0.5 (noteToEndPosition C)
-
+        , 
         noteToGuitarGuideButton model.guideNote
         |> notifyTap (UpdateGuideNote model.noteList)
-        --guitarsensors model
-          --|> makeTransparent 1
         ]    
 
 

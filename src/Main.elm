@@ -123,7 +123,7 @@ update msg model =
         ChangeThird ->
             { model | songname = Third }
         UpdateGuideNote list ->
-            { model | guideNote = updateGuideNote list, noteList = (updateNoteList model.noteList) }
+            { model | guideNote = updateGuideNote list, noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1 }
         
 
 
@@ -145,7 +145,9 @@ init = { time = 0,
         startTime = 0,
         songname = TwinkleT,
         guideNote = Rest,
-        noteList = []
+        noteList = [],
+        totalSections = 0,
+        sectionsCompleted = 0
     }
 
 
