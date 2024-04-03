@@ -50,7 +50,8 @@ type alias Model = { time : Float,
                     guideNote : Note,
                     noteList : (List ((Note, NoteTime))),
                     totalSections : Float,
-                    sectionsCompleted : Float
+                    sectionsCompleted : Float,
+                    waitTime : Float
                 }
 
 
