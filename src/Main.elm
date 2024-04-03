@@ -146,7 +146,7 @@ init = { time = 0,
         songname = TwinkleT,
         guideNote = Rest,
         noteList = [],
-        totalSections = 0,
+        totalSections = 42,
         sectionsCompleted = 0
     }
 
