@@ -72,19 +72,18 @@ game model =
           ,
           [
           -- neon text design
-          text "RETRO RIFFS"
+          text "TIMELESS TUNES"
+            |> sansserif
+            |> centered
+            |> filled (rgb 255 27 242)           
+            |> scale(1.8)
+            |> move (0, 0)
+          ,
+          text "TIMELESS TUNES"
             |> sansserif
             |> centered
             |> outlined (solid 0.5) (rgb 121 248 245)
-            |> scale (2.01)
-            |> move (0, 0)
-          ,
-          text "RETRO RIFFS"
-            |> sansserif
-            |> centered
-            |> filled (rgb 255 27 242)
-            |> makeTransparent (0.8)
-            |> scale (2)
+            |> scale (1.81)
             |> move (0, 0)
           
           --start button
