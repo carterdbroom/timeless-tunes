@@ -253,9 +253,20 @@ game model =
           |> move (-13,-5)
           |> move (-200,0)
           |> (if model.middle then move (200,0) else identity),
-          --music note
-          musicButton
-          |> move (0, 1),
+           group[openPolygon [(0,0),(-20,-20),(20,-20)]
+            |> filled white
+            |> move (0,10), 
+            rect 10 20
+            |>filled white
+            |> move (10,-15)
+            , rect 10 20
+            |>filled white
+            |> move (-10,-15), 
+            rect 12 10
+            |> filled white 
+            |> move (0,-10)]
+            |> move (-147, -68)
+            |> scale 0.38,
           
           -- titles for buttons
           -- song names
