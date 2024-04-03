@@ -478,12 +478,30 @@ game model =
           |> rotate (degrees 3*(model.time))
           ] |> group
             |> move (0, -30)
-        ,
-        -- progress bar 
-        drawProgressBar (model.time)
-          |> move (-40, -56),
-        --back button hollow
-        group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
+
+         ,
+          -- progress bar 
+         drawProgressBar (model.time)
+          |> move (-33, 21),
+
+          -- song title depends on song selected
+          text "twinkle twinkle"
+            |> sansserif
+            |> centered
+            |> filled (rgb 255 27 242)           
+            |> scale(1)
+            |> move (-33, 32)
+            |> makeTransparent 0.8
+          ,
+          text "twinkle twinkle"
+            |> sansserif
+            |> centered
+            |> outlined (solid 0.5) (rgb 121 248 245)
+            |> scale (1.01)
+            |> move (-33, 32),
+
+         --back button hollow
+         group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
           |> outlined (solid 1.5) white
           |> scale 0.6
           |> rotate (degrees 45)]
