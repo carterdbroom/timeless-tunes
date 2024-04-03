@@ -974,37 +974,37 @@ guitar model = group[
             |> rotate (degrees 180)
             |> move (30,0)] 
 description = group[
-  text "after selecting your song of choice, notes"
+  text "after selecting your song of choice, green"
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,22),
-  text "will appear on the game screen and begin falling."
+  text "circles will appear on the guitar that you must tap"
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,15),
-  text "you must tap on the green note at the correct time"
+  text "continously until the song has completed."
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,8),
-  text "at the correct placement on the guitar."
+  text "The sounds will be formed as the buttons are tapped."
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,1),  
-  text "continue tapping the notes until the song has" 
+  text "Monitor your progress using the progress bar. It" 
     |> sansserif
     |> centered
     |> filled white
     |> scale 0.5
     |> move (0,-10),
-  text "finished."
+  text "indicates how much of the song you have played."
     |> sansserif
     |> centered
     |> filled white
