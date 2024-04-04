@@ -47,11 +47,11 @@ update msg model =
         ToGameScreen ->
             case model.state of
                 TitleScreen ->
-                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle }
+                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0 }
                 InfoScreen ->
-                    { model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle }
+                    { model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
                 PickASong ->
-                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle }
+                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0 }
                 _ ->
                     model
         ToPickASong ->
@@ -125,7 +125,7 @@ update msg model =
         UpdateGuideNote list ->
             { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1 }
         SongDone ->
-          { model | state = SongFinished }
+            { model | state = SongFinished }
 
         
 
@@ -151,7 +151,7 @@ init = {time = 0,
         songname = TwinkleT,
         guideNote = Rest,
         noteList = [],
-        totalSections = 42,
+        totalSections = 41,
         sectionsCompleted = 0,
         waitTime = 0
     }
