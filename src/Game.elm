@@ -10,6 +10,28 @@ import Shapes exposing (..)
 
 game model =
     case model.state of
+      SongFinished ->
+        group
+          [
+          -- starry background and gradient
+          [
+            rect 200 200
+            |> filled (rotateGradient (degrees 270) (gradient [stop (rgb 75 0 130) 1, stop (rgb 221 160 221) 100, stop pink 1]))
+            ,
+            nightSky
+            |> rotate (degrees 3*(model.time))
+            ] |> group
+              |> move (0, -30),
+          -- guitar only shows up in background if user has already played game
+          guitar model
+            |> move (-3000, 0),
+          createMenu,
+          text "HOW TO PLAY: "
+            |> sansserif
+            |> centered
+            |> filled white
+            |> scale 0.6
+            |> move (0,38)]
       TitleScreen ->
         group
         [
@@ -1068,19 +1090,19 @@ description = group[
     |> move (0,-42)]
 
 progressBar total completed =
-  group
-  [
-    -- INSIDE RECTANGLE
     group
     [
-      roundedRect (completed*(78/total)) 9 3
-      |> filled (rotateGradient (degrees 45) (gradient [stop (rgb 70 230 230) -10, stop (pink) 20, stop pink 10]))
-    ]
-    ,
-    -- OUTSIDE RECTANGLE
-    group
-    [
-      roundedRect 80 10 3
-      |> outlined (solid 1) black
-    ]
-  ] |> move (-33, 21)
+      -- INSIDE RECTANGLE
+      group
+      [
+        roundedRect (completed*(78/total)) 9 3
+        |> filled (rotateGradient (degrees 45) (gradient [stop (rgb 70 230 230) -10, stop (pink) 20, stop pink 10]))
+      ]
+      ,
+      -- OUTSIDE RECTANGLE
+      group
+      [
+        roundedRect 80 10 3
+        |> outlined (solid 1) black
+      ]
+    ] |> move (-33, 21)
