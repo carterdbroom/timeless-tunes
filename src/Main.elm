@@ -127,7 +127,9 @@ update msg model =
         
 
 
-init = { time = 0, 
+
+
+init = {time = 0, 
         state = TitleScreen, 
         hovering = False , 
         hovering2 = False, 
