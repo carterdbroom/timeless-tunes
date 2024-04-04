@@ -124,6 +124,9 @@ update msg model =
             { model | songname = Third }
         UpdateGuideNote list ->
             { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1 }
+        SongDone ->
+          { model | state = SongFinished }
+
         
 
 
