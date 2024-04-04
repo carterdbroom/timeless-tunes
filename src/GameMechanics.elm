@@ -134,15 +134,11 @@ getNoteYPositionInTrack song distance noteNumber count =
 updateGuideNote : List ((Note, NoteTime)) -> Note
 updateGuideNote list =
     case list of
-        (_ :: head2 ::_) ->
+        (head1 :: head2 ::_) ->
             case head2 of 
                 (note, _) ->
                     note
-        [x] ->
-            case x of
-                (note, _) ->
-                    note
-        [] ->
+        _ ->
             Rest
 updateNoteList : List ((Note, NoteTime)) -> List ((Note, NoteTime))
 updateNoteList list = 
