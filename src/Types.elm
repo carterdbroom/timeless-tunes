@@ -89,6 +89,7 @@ type Msg = Tick Float GetKeyState
         | ChangeSmokeOn
         | ChangeThird
         | UpdateGuideNote (List ((Note, NoteTime)))
+        | SongDone
         
 
 type State = TitleScreen
@@ -96,6 +97,7 @@ type State = TitleScreen
         | GameScreen
         | HowToPlay
         | PickASong
+        | SongFinished
 
 type SongState = TwinkleT
         | SmokeOn
