@@ -23,10 +23,9 @@ game model =
             ] |> group
               |> move (0, -30),
           -- guitar only shows up in background if user has already played game
-          guitar model
-            |> move (-3000, 0),
+          guitar model,
           createMenu,
-          text "HOW TO PLAY: "
+          text "CONGRATULATIONS"
             |> sansserif
             |> centered
             |> filled white
@@ -141,7 +140,7 @@ game model =
             |> makeTransparent 0
             |> notifyEnter HoverPlay
             |> notifyLeave NonHoverPlay
-            |> notifyTap ToPickASong -- change this, should be to menu
+            |> notifyTap ToHowToPlay -- change this, should be to menu
           ] |> group,
           -- the ground
           group [
@@ -465,7 +464,8 @@ game model =
           |> scale 0.6
           |> move (0,38),
         -- how to play description
-        description,
+        description
+        |> move (0,5),
         -- back button code only shows up if user has played the game before
          group[
         --back button hollow
@@ -494,7 +494,48 @@ game model =
           |> notifyTap ToInfoScreen
          ]
           |> move (-3000, 0)
-          |>(if model.gameplayed then move (3000,0) else identity)
+          |>(if model.gameplayed then move (3000,0) else identity),
+        
+        -- got it box
+
+        --start button
+          [roundedRect 80 20 5
+            |> filled black
+            |> move (0, -50)
+          ,roundedRect 80 20 5
+            |> outlined (dashed 0.5) white
+            |> move (0, -50)
+            |>(if model.hoveringstart then move (-200, -250) else identity)
+          ,text "GOT IT!"
+            |> sansserif
+            |> centered
+            |> outlined (solid 1) (rgb 121 248 245)
+            |> scale 0.8
+            |> move (200, 200)
+            |>(if model.hoveringstart then move (-200, -253) else identity)
+          , roundedRect 80 20 5
+            |> outlined (dashed 1) white
+            |> move (200, 200)
+            |>(if model.hoveringstart then move (-200, -250) else identity)
+          ,text "GOT IT!"
+            |> sansserif
+            |> centered
+            |> filled white
+            |> scale 0.8
+            |> move (0, -53)
+            |> makeTransparent 0.9
+          --sensor for start button
+          ,roundedRect 80 20 5
+            |> filled red
+            |> move (0, -50)
+            |> makeTransparent 0
+            |> notifyEnter HoverPlay
+            |> notifyLeave NonHoverPlay
+            |> notifyTap ToPickASong -- change this, should be to menu
+          ] |> group
+            |> scale 0.7
+            |> move (0, 0)
+            |> (if model.gameplayed then move (-300,0) else identity)
         ]
         ]
 
@@ -1046,7 +1087,7 @@ description = group[
     |> filled white
     |> scale 0.5
     |> move (0,15),
-  text "continously until the song has completed."
+  text "continously until the song is complete."
     |> sansserif
     |> centered
     |> filled white
@@ -1057,8 +1098,8 @@ description = group[
     |> centered
     |> filled white
     |> scale 0.5
-    |> move (0,1),  
-  text "monitor your progress using the progress bar that" 
+    |> move (0,1)--,  
+  {--text "monitor your progress using the progress bar that" 
     |> sansserif
     |> centered
     |> filled white
@@ -1087,7 +1128,7 @@ description = group[
     |> centered
     |> filled white
     |> scale 0.5
-    |> move (0,-42)]
+    |> move (0,-42)--}]
 
 progressBar total completed =
     group
