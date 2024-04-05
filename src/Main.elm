@@ -47,11 +47,11 @@ update msg model =
         ToGameScreen ->
             case model.state of
                 TitleScreen ->
-                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0 }
+                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
                 InfoScreen ->
                     { model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
                 PickASong ->
-                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0 }
+                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
                 _ ->
                     model
         ToPickASong ->
@@ -60,12 +60,16 @@ update msg model =
                     { model | state = PickASong }
                 TitleScreen ->
                     { model | state = PickASong }
+                HowToPlay ->
+                    { model | state = PickASong }
                 _ ->
                     model
         ToHowToPlay ->
             case model.state of
                 InfoScreen ->
                     { model | state = HowToPlay, hovering2 = False }
+                TitleScreen ->
+                    { model | state = HowToPlay, hoveringstart = False}
                 _ ->
                     model
         HoverButton ->
@@ -123,9 +127,9 @@ update msg model =
         ChangeThird ->
             { model | songname = Third }
         UpdateGuideNote list ->
-            { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1 }
+            { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}
         SongDone ->
-            { model | state = SongFinished }
+          { model | state = SongFinished }
 
         
 
@@ -151,7 +155,7 @@ init = {time = 0,
         songname = TwinkleT,
         guideNote = Rest,
         noteList = [],
-        totalSections = 41,
+        totalSections = 42,
         sectionsCompleted = 0,
         waitTime = 0
     }
