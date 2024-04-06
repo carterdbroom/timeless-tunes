@@ -25,12 +25,89 @@ game model =
           -- guitar only shows up in background if user has already played game
           guitar model,
           createMenu,
-          text "CONGRATULATIONS"
-            |> sansserif
-            |> centered
-            |> filled white
-            |> scale 0.6
-            |> move (0,38)]
+            
+            text "CONGRATS! PLAY AGAIN? "
+          |> sansserif
+          |> centered
+          |> filled white
+          |> scale 0.6
+          |> move (0,40)
+          ,
+          -- rectangles that highlight when hovering
+          roundedRect 140 27 5
+          |> filled (rgb 121 248 245)
+          |> move (0, -3)
+          |> move (-200,0)
+          |> (if model.middle then move (200,0) else identity)
+          ,
+          roundedRect 140 27 5
+          |> filled (rgb 121 248 245)
+          |> move (0, -30)
+          |> move (-200,0)
+          |>(if model.bottom then move (200,0) else identity)
+          ,
+          roundedRect 140 27 5
+          |> filled (rgb 121 248 245)
+          |> move (0, 24)
+          |> move (-200,0)
+          |> (if model.top then move (200,0) else identity)
+          ,
+          -- song names
+          text "twinkle twinkle little star"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-2,21)
+          ,
+          text "smoke on the water"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-8,-7)
+          ,
+          text "eye of the tiger"
+          |> sansserif
+          |> centered 
+          |> filled white
+          |> scale 0.6
+          |> move (-15,-34)
+          , 
+          -- music notes
+          musicButton
+          |> move (0,1), 
+          musicButton 
+          |> move (0, 28), 
+          musicButton
+          |> move (0,56)
+          ,
+          --sensor rectangles (if you hover on these on the menu 
+          --it will highlight the section)
+          rect 152 30 -- middle
+          |> filled yellow
+          |> makeTransparent 0
+          |> notifyEnter HoverMiddle
+          |> notifyTap ToGameScreen
+          |> notifyTap ChangeSmokeOn
+          |> notifyLeave NonHoverMiddle,
+         rect 152 30 -- top
+          |> filled green
+          |> move (0, 30)
+          |> makeTransparent 0
+          |> notifyEnter HoverTop
+          |> notifyTap ChangeTwinkleT
+          |> notifyLeave NonHoverTop
+          |> notifyTap ToGameScreen
+          ,
+          rect 152 30 -- bottom
+          |> filled red
+          |> move (0, -30)
+          |> makeTransparent 0
+          |> notifyEnter HoverBottom
+          |> notifyLeave NonHoverBottom
+          |> notifyTap ToGameScreen
+          |> notifyTap ChangeThird]
       TitleScreen ->
         group
         [
@@ -98,7 +175,7 @@ game model =
             |> centered
             |> filled (rgb 255 27 242)           
             |> scale(1.8)
-            |> move (0, 0)
+            |> makeTransparent 0.8
           ,
           text "TIMELESS TUNES"
             |> sansserif
@@ -389,19 +466,19 @@ game model =
           |> scale 0.6
           |> move (-2,21)
           ,
-          text "smoke on"
+          text "smoke on the water"
           |> sansserif
           |> centered 
           |> filled white
           |> scale 0.6
-          |> move (-24,-7)
+          |> move (-8,-7)
           ,
-          text "sxfuhjjkbyt"
+          text "eye of the tiger"
           |> sansserif
           |> centered 
           |> filled white
           |> scale 0.6
-          |> move (-23,-34)
+          |> move (-15,-34)
           , 
           -- music notes
           musicButton
@@ -418,16 +495,16 @@ game model =
           |> makeTransparent 0
           |> notifyEnter HoverMiddle
           |> notifyTap ToGameScreen
-          |> notifyLeave NonHoverMiddle
-          |> notifyTap ChangeSmokeOn,
+          |> notifyTap ChangeSmokeOn
+          |> notifyLeave NonHoverMiddle,
          rect 152 30 -- top
           |> filled green
           |> move (0, 30)
           |> makeTransparent 0
           |> notifyEnter HoverTop
+          |> notifyTap ChangeTwinkleT
           |> notifyLeave NonHoverTop
           |> notifyTap ToGameScreen
-          |> notifyTap ChangeTwinkleT
           ,
           rect 152 30 -- bottom
           |> filled red
@@ -456,7 +533,10 @@ game model =
           |> move (-3000, 0)
           |>(if model.gameplayed then move (3000,0) else identity),
         group[
-        createMenu,
+        createSmallMenu
+        |> (if not model.gameplayed then makeTransparent 0 else identity),
+        createMenu
+        |> (if model.gameplayed then makeTransparent 0 else identity),
         text "HOW TO PLAY: "
           |> sansserif
           |> centered
@@ -534,9 +614,47 @@ game model =
             |> notifyTap ToPickASong -- change this, should be to menu
           ] |> group
             |> scale 0.7
-            |> move (0, 0)
+            |> move (0, 27)
             |> (if model.gameplayed then move (-300,0) else identity)
         ]
+        ,
+        guitar model
+        |> scale 0.7
+        |> move (110, -20)
+        |> (if model.gameplayed then move (5000,0) else identity),
+
+        -- example of green dot
+        group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-130,-39)
+                |> scale 0.5
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-130,-39)     
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+                |> scale 0.7
+                |> move (110, -20)
+                |> (if 0.2*sin(model.time+(pi/2))>0 then makeTransparent 0 else identity)
+                |> (if model.gameplayed then move (5000,0) else identity),
+        -- pointer finger
+        curve (-43.2,26.24) [Pull (-38.72,29.92) (-34.24,33.6),Pull (-31.53,37.44) (-34.24,41.28),Pull (-37.09,44.800) (-42.24,42.56),Pull (-55.2,32.160) (-68.16,21.76),Pull (-74.01,17.739) (-72.96,9.6),Pull (-72.96,2.88) (-72.96,-3.84),Pull (-70.61,-16.31) (-58.56,-18.24),Pull (-43.52,-18.08) (-28.48,-17.92),Pull (-24.52,-17.49) (-23.68,-12.48),Pull (-23.38,-9.92) (-26.24,-7.36),Pull (-24.47,-7.04) (-22.72,-6.72),Pull (-18.88,-4.199) (-18.88,-1.28),Pull (-18.86,1.3200) (-21.76,3.52),Pull (-14.98,3.8200) (-14.72,9.28),Pull (-14.50,11.68) (-16.96,14.08),Pull (-8,14.4) (0.96,14.72),Pull (6.1599,16.420) (6.4,20.8),Pull (6.3199,25.799) (0.64,26.88),Pull (-21.12,26.4) (-42.88,25.92)]
+        |> outlined (solid 7) black
+        -- scale 0.2
+        |> rotate (degrees 90)
+        |> move (450, -230)
+        |> (if model.gameplayed then move (5000,0) else identity)
+        |> scale (0.2*(sin(model.time)+4)/4),
+        curve (-43.2,26.24) [Pull (-38.72,29.92) (-34.24,33.6),Pull (-31.53,37.44) (-34.24,41.28),Pull (-37.09,44.800) (-42.24,42.56),Pull (-55.2,32.160) (-68.16,21.76),Pull (-74.01,17.739) (-72.96,9.6),Pull (-72.96,2.88) (-72.96,-3.84),Pull (-70.61,-16.31) (-58.56,-18.24),Pull (-43.52,-18.08) (-28.48,-17.92),Pull (-24.52,-17.49) (-23.68,-12.48),Pull (-23.38,-9.92) (-26.24,-7.36),Pull (-24.47,-7.04) (-22.72,-6.72),Pull (-18.88,-4.199) (-18.88,-1.28),Pull (-18.86,1.3200) (-21.76,3.52),Pull (-14.98,3.8200) (-14.72,9.28),Pull (-14.50,11.68) (-16.96,14.08),Pull (-8,14.4) (0.96,14.72),Pull (6.1599,16.420) (6.4,20.8),Pull (6.3199,25.799) (0.64,26.88),Pull (-21.12,26.4) (-42.88,25.92)]
+        |> filled white
+        -- scale 0.2
+        |> rotate (degrees 90)
+        |> move (450, -230)
+        |> (if model.gameplayed then move (5000,0) else identity)
+        |> scale (0.2*(sin(model.time)+4)/4)
+
         ]
 
       GameScreen ->
@@ -566,14 +684,52 @@ game model =
             |> filled (rgb 255 27 242)           
             |> scale(1)
             |> move (-33, 32)
-            |> makeTransparent 0.8
+            -- makeTransparent 0.8
+            |> (if model.songname == TwinkleT then makeTransparent 0.8 else makeTransparent 0)
           ,
           text "twinkle twinkle"
             |> sansserif
             |> centered
             |> outlined (solid 0.5) (rgb 121 248 245)
             |> scale (1.01)
-            |> move (-33, 32),
+            |> move (-33, 32)
+            |> (if model.songname == TwinkleT then makeTransparent 1 else makeTransparent 0),
+
+          -- smoke on the water
+          text "smoke on the water"
+            |> sansserif
+            |> centered
+            |> filled (rgb 255 27 242)           
+            |> scale(0.89)
+            |> move (-33, 32)
+            -- makeTransparent 0.8
+            |> (if model.songname == SmokeOn then makeTransparent 0.8 else makeTransparent 0)
+          ,
+          text "smoke on the water"
+            |> sansserif
+            |> centered
+            |> outlined (solid 0.5) (rgb 121 248 245)
+            |> scale (0.9)
+            |> move (-33, 32)
+            |> (if model.songname == SmokeOn then makeTransparent 1 else makeTransparent 0),
+
+            -- eye of the tiger
+          text "eye of the tiger"
+            |> sansserif
+            |> centered
+            |> filled (rgb 255 27 242)           
+            |> scale(0.89)
+            |> move (-33, 32)
+            -- makeTransparent 0.8
+            |> (if model.songname == Third then makeTransparent 0.8 else makeTransparent 0)
+          ,
+          text "eye of the tiger"
+            |> sansserif
+            |> centered
+            |> outlined (solid 0.5) (rgb 121 248 245)
+            |> scale (0.9)
+            |> move (-33, 32)
+            |> (if model.songname == Third then makeTransparent 1 else makeTransparent 0),
 
          --back button hollow
          group[curve (-95.63,-16.72) [Pull (-85.01,-25.14) (-78.90,-20),Pull (-75.66,-15.91) (-81.09,-11.27),Pull (-83.81,-13.81) (-86.54,-16.36),Pull (-86.54,-8.363) (-86.54,-0.363),Pull (-78.54,-0.181) (-70.54,0),Pull (-73.09,-2.727) (-75.63,-5.454),Pull (-67.19,-13.67) (-72,-21.09),Pull (-81.38,-30.94) (-96,-16.72)]
@@ -608,7 +764,7 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
           -- sensor for back button
-          rect 20 25
+           rect 20 25
           |> filled red
           |> move (-83,51)
           |> makeTransparent 0
@@ -618,7 +774,8 @@ game model =
 
 
         guitar model,
-
+        guitarsensors model,
+      
         (noteToGuitarGuideButton model.guideNote model)
         |> notifyMouseDown GuideNoteDown
         |> notifyMouseUp GuideNoteUp
@@ -636,6 +793,7 @@ game model =
         else if model.guideNote == DSharp then notifyEnter Hover1
         else if model.guideNote == F then notifyEnter Hover3
         else identity)
+
         -- animate buttons
         ]    
 
@@ -752,6 +910,19 @@ createMenu =
         |> outlined (solid 1) (rgb 189 0 81)
   ]
 
+createSmallMenu = 
+  group [
+        rect 3000 3000
+        |> filled black
+        |> makeTransparent 0.5,
+        --- black menu box
+        roundedRect 152 55 5
+        |> filled black,
+        roundedRect 147 50 5
+        |> outlined (solid 1) (rgb 189 0 81)
+  ]
+  |> move (0, 30)
+
 -- music button for picking song page
 musicButton = 
   group[
@@ -799,6 +970,12 @@ guitar model = group[
 
 
           group[
+          roundedRect 1 14 2 
+          |> filled black
+          |> move (60,6.7), 
+          roundedRect 1 14 2 
+          |> filled black
+          |> move (54,6.7), 
           roundedRect 1 14 2 
           |> filled black
           |> move (48,6.7), 
@@ -1007,10 +1184,13 @@ guitar model = group[
           |> move (74, 5.8), 
           rect 20 0.5 
           |> filled grey 
-          |> move (70,10.1), 
-
-          -- white dots on guitar
-          roundedRect 2.7 1.5 1 
+          |> move (70,10.1)
+          ]
+            |> group
+            |> scale 3.5
+            |> rotate (degrees 180)
+            |> move (30,0)] 
+whitedots =[roundedRect 2.7 1.5 1 
           |> filled white
           |> move (33,6.8), 
           roundedRect 2.7 1.5 1 
@@ -1024,10 +1204,13 @@ guitar model = group[
           |> move (3,4.5), 
           roundedRect 2 1.5 1 
           |> filled white
-          |> move (-3,6.7),
-          
-          -- sensor wires
-          group[
+          |> move (-3,6.7)
+          ]
+            |> group
+            |> scale 3.5
+            |> rotate (degrees 180)
+            |> move (30,0)
+guitarsensors model = group[
           rect 140 2.4
           |> filled green
           |> move (4,12.4)
@@ -1068,13 +1251,11 @@ guitar model = group[
           |> move (4,1)
           |> notifyEnter Hover6
           |> notifyLeave NonHover6
-          |> makeTransparent 0
-          ]
-          ]
-            |> group
-            |> scale 3.5
-            |> rotate (degrees 180)
-            |> move (30,0)] 
+          |> makeTransparent 0]
+          |> scale 3.5
+          |> rotate (degrees 180)
+          |> move (30,0)
+
 description = group[
   text "after selecting your song of choice, green"
     |> sansserif
