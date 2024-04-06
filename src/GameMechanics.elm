@@ -3,13 +3,7 @@ module GameMechanics exposing (..)
 import GraphicSVG exposing (..)
 import Types exposing (..)
 import Shapes exposing (..)
-import Conversions exposing (noteTimeToSecond,noteToStartPosition,noteToEndPosition, noteToXPosition, noteToEndYPosition, noteTypeToNoteShape)
-import Conversions exposing (noteToGuitarGuideButton)
-import Html exposing (th)
-import Conversions exposing (getStartPositionFromSong)
-import Conversions exposing (getStartPositionFromList)
-import Process
-import Task
+import Conversions exposing (..)
 
 -- The speed that the notes fall
 noteSpeed : Float
@@ -147,3 +141,23 @@ updateNoteList list =
             tail  
         _ ->
             []
+
+playTapAnimation : List ((Note, NoteTime)) -> Float -> Model -> Shape userMsg
+playTapAnimation list startTime model = 
+    let 
+        timer = model.time - startTime
+    in 
+        if 
+            timer < 0.05
+        then
+            animationCircle (noteToGuitarGuidePosition (getFirstNoteFromList list)) 1
+        else if 
+            timer > 0.05 && timer < 0.1
+        then
+            animationCircle (noteToGuitarGuidePosition (getFirstNoteFromList list)) 1.25
+        else if 
+            timer > 0.1 && timer < 0.15
+        then
+            animationCircle (noteToGuitarGuidePosition (getFirstNoteFromList list)) 1.5
+        else
+            group[]

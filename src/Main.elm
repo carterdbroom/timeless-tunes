@@ -8,7 +8,7 @@ import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToS
 import Songs exposing (twinkle)
 import Game exposing (game)
 import Shapes exposing (quarterNote, halfNote, wholeNote)
-import GameMechanics exposing (updateGuideNote, updateNoteList)
+import GameMechanics exposing (updateGuideNote, updateNoteList, playTapAnimation)
 
 
 
@@ -153,7 +153,9 @@ init = {time = 0,
         noteList = [],
         totalSections = 41,
         sectionsCompleted = 0,
-        waitTime = 0
+        waitTime = 0,
+        animationClickTime = 0,
+        clickNote = Rest
     }
 
 

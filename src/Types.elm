@@ -51,7 +51,9 @@ type alias Model = { time : Float,
                     noteList : (List ((Note, NoteTime))),
                     totalSections : Float,
                     sectionsCompleted : Float,
-                    waitTime : Float
+                    waitTime : Float,
+                    animationClickTime : Float,
+                    clickNote : Note
                 }
 
 
@@ -90,6 +92,7 @@ type Msg = Tick Float GetKeyState
         | ChangeThird
         | UpdateGuideNote (List ((Note, NoteTime)))
         | SongDone
+        --| PlayTapAnimation (List ((Note, NoteTime)))
         
 
 type State = TitleScreen
