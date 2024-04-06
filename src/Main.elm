@@ -128,8 +128,12 @@ update msg model =
             { model | songname = Third }
         UpdateGuideNote list ->
             { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}
+        GuideNoteDown ->
+                { model | guideNoteDown = True, guideNoteScale = 0.8 }
+        GuideNoteUp ->
+                { model | guideNoteDown = False, guideNoteScale = 1 }
         SongDone ->
-          { model | state = SongFinished }
+            { model | state = SongFinished }
 
         
 
@@ -155,11 +159,13 @@ init = {time = 0,
         songname = TwinkleT,
         guideNote = Rest,
         noteList = [],
-        totalSections = 42,
+        totalSections = 41,
         sectionsCompleted = 0,
         waitTime = 0,
         animationClickTime = 0,
-        clickNote = Rest
+        clickNote = Rest,
+        guideNoteDown = False,
+        guideNoteScale = 1
     }
 
 
