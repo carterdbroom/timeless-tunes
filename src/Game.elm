@@ -581,43 +581,60 @@ game model =
         -- got it box
 
         --start button
-          [roundedRect 80 20 5
-            |> filled black
-            |> move (0, -50)
-          ,roundedRect 80 20 5
+          [
+            
+          curve (6.0631,-47.38) [Pull (6.0631,-31.66) (6.0631,-15.94),Pull (4.4912,-15.94) (2.9192,-15.94),Pull (1.3719,-16.01) (0.2245,-14.59),Pull (-0.426,-13.16) (1.1228,-11.45),Pull (4.7157,-7.185) (8.3087,-2.919),Pull (9.2070,-1.850) (10.105,-2.021),Pull (10.888,-1.954) (12.350,-3.368),Pull (15.943,-7.635) (19.536,-11.90),Pull (20.361,-13.02) (19.985,-14.14),Pull (19.472,-15.52) (18.638,-15.49),Pull (16.392,-15.49) (14.147,-15.49),Pull (14.147,-31.66) (14.147,-47.83),Pull (13.690,-50.56) (10.554,-50.97),Pull (7.0487,-51.33) (6.0631,-47.38)]
+            |> filled (rgb 255 27 242) 
+            |> rotate (degrees -90) 
+            |> makeTransparent 0.6
+            |> scale 1.2 --
+            |> move (50, -35)
+          ,curve (6.0631,-47.38) [Pull (6.0631,-31.66) (6.0631,-15.94),Pull (4.4912,-15.94) (2.9192,-15.94),Pull (1.3719,-16.01) (0.2245,-14.59),Pull (-0.426,-13.16) (1.1228,-11.45),Pull (4.7157,-7.185) (8.3087,-2.919),Pull (9.2070,-1.850) (10.105,-2.021),Pull (10.888,-1.954) (12.350,-3.368),Pull (15.943,-7.635) (19.536,-11.90),Pull (20.361,-13.02) (19.985,-14.14),Pull (19.472,-15.52) (18.638,-15.49),Pull (16.392,-15.49) (14.147,-15.49),Pull (14.147,-31.66) (14.147,-47.83),Pull (13.690,-50.56) (10.554,-50.97),Pull (7.0487,-51.33) (6.0631,-47.38)]
+            -- outlined (solid 2) (rgb 255 27 242)  
             |> outlined (dashed 0.5) white
-            |> move (0, -50)
-            |>(if model.hoveringstart then move (-200, -250) else identity)
-          ,text "GOT IT!"
+            |> rotate (degrees -90)
+            |> makeTransparent 1
+            |>(if model.hoveringstart then move (-10000, -10000) else identity)
+            |> scale 1.2 --
+            |> move (50, -35)
+          ,text "NEXT"
             |> sansserif
             |> centered
             |> outlined (solid 1) (rgb 121 248 245)
-            |> scale 0.8
+            |> scale 0.7
+            |> move (16, 3)
             |> move (200, 200)
-            |>(if model.hoveringstart then move (-200, -253) else identity)
-          , roundedRect 80 20 5
-            |> outlined (dashed 1) white
-            |> move (200, 200)
-            |>(if model.hoveringstart then move (-200, -250) else identity)
-          ,text "GOT IT!"
+            |> (if model.hoveringstart then move (-200, -253) else identity)
+          ,curve (6.0631,-47.38) [Pull (6.0631,-31.66) (6.0631,-15.94),Pull (4.4912,-15.94) (2.9192,-15.94),Pull (1.3719,-16.01) (0.2245,-14.59),Pull (-0.426,-13.16) (1.1228,-11.45),Pull (4.7157,-7.185) (8.3087,-2.919),Pull (9.2070,-1.850) (10.105,-2.021),Pull (10.888,-1.954) (12.350,-3.368),Pull (15.943,-7.635) (19.536,-11.90),Pull (20.361,-13.02) (19.985,-14.14),Pull (19.472,-15.52) (18.638,-15.49),Pull (16.392,-15.49) (14.147,-15.49),Pull (14.147,-31.66) (14.147,-47.83),Pull (13.690,-50.56) (10.554,-50.97),Pull (7.0487,-51.33) (6.0631,-47.38)]
+            |> outlined (dashed 0.8) white
+            |> rotate (degrees -90)
+            |> scale 1.2 --
+            |> move (10000, 10000)
+            |> move (50, -35)
+            |> (if model.hoveringstart then move (-10000, -10000) else identity)
+          ,text "NEXT"
             |> sansserif
             |> centered
             |> filled white
-            |> scale 0.8
+            |> scale 0.7
+            |> move (16, 3)
             |> move (0, -53)
             |> makeTransparent 0.9
           --sensor for start button
-          ,roundedRect 80 20 5
+          ,curve (6.0631,-47.38) [Pull (6.0631,-31.66) (6.0631,-15.94),Pull (4.4912,-15.94) (2.9192,-15.94),Pull (1.3719,-16.01) (0.2245,-14.59),Pull (-0.426,-13.16) (1.1228,-11.45),Pull (4.7157,-7.185) (8.3087,-2.919),Pull (9.2070,-1.850) (10.105,-2.021),Pull (10.888,-1.954) (12.350,-3.368),Pull (15.943,-7.635) (19.536,-11.90),Pull (20.361,-13.02) (19.985,-14.14),Pull (19.472,-15.52) (18.638,-15.49),Pull (16.392,-15.49) (14.147,-15.49),Pull (14.147,-31.66) (14.147,-47.83),Pull (13.690,-50.56) (10.554,-50.97),Pull (7.0487,-51.33) (6.0631,-47.38)]
             |> filled red
-            |> move (0, -50)
+            |> rotate (degrees -90) 
+            |> scale 1.2 --
+            |> move (50, -35)
             |> makeTransparent 0
             |> notifyEnter HoverPlay
             |> notifyLeave NonHoverPlay
             |> notifyTap ToPickASong -- change this, should be to menu
           ] |> group
             |> scale 0.7
-            |> move (0, 27)
-            |> (if model.gameplayed then move (-300,0) else identity)
+            |> move (30, 27)
+            |> (if model.gameplayed then move (-3000,0) else identity)
+
         ]
         ,
         guitar model
