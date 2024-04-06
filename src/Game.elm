@@ -542,10 +542,12 @@ game model =
           |> centered
           |> filled white
           |> scale 0.6
-          |> move (0,38),
+          |> move (0,38)
+          |> (if model.gameplayed then move (0, 7) else identity),
         -- how to play description
         description
-        |> move (0,5),
+        |> move (0,5)
+        |> (if model.gameplayed then move (0, 7) else identity),
         -- back button code only shows up if user has played the game before
          group[
         --back button hollow
@@ -573,7 +575,7 @@ game model =
           |> notifyLeave NonHoverPause
           |> notifyTap ToInfoScreen
          ]
-          |> move (-3000, 0)
+          |> move (-3000, 7)
           |>(if model.gameplayed then move (3000,0) else identity),
         
         -- got it box
