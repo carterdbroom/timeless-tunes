@@ -31,7 +31,7 @@ update msg model =
         ToTitleScreen ->
             case model.state of
                 InfoScreen ->
-                    { model | state = TitleScreen, gameplayed = False}
+                    { model | state = TitleScreen, gameplayed = False, hoveringstart = False}
                 _ ->
                     model
         ToInfoScreen ->
@@ -59,17 +59,17 @@ update msg model =
         ToPickASong ->
             case model.state of
                 InfoScreen ->
-                    { model | state = PickASong }
+                    { model | state = PickASong, bottom = False}
                 TitleScreen ->
-                    { model | state = PickASong }
+                    { model | state = PickASong, bottom = False}
                 HowToPlay ->
-                    { model | state = PickASong, middle = False}
+                    { model | state = PickASong, middle = False, bottom = False}
                 _ ->
                     model
         ToHowToPlay ->
             case model.state of
                 InfoScreen ->
-                    { model | state = HowToPlay, hovering2 = False }
+                    { model | state = HowToPlay, hovering2 = False, string1 = False, string2 = False, string3 = False, string4 = False, string5 = False, string6 = False}
                 TitleScreen ->
                     { model | state = HowToPlay, hoveringstart = False}
                 _ ->
@@ -123,15 +123,15 @@ update msg model =
         NonHoverBottom ->
             { model | bottom = False }
         ChangeTwinkleT ->
-            { model | songname = TwinkleT, noteList = twinkle, totalSections = 41 }
+            { model | songname = TwinkleT, noteList = twinkle, totalSections = 41, gameplayed = True}
         ChangeSmokeOn ->
-            { model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 23}
+            { model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 23, gameplayed = True}
         ChangeThird ->
-            { model | songname = Third, noteList = eyeOfTheTiger, totalSections = 74}
+            { model | songname = Third, noteList = eyeOfTheTiger, totalSections = 74, gameplayed = True}
         UpdateGuideNote list ->
             { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}
         SongDone ->
-            { model | state = SongFinished }
+            { model | state = SongFinished, top = False, middle = False, bottom = False}
         GuideNoteDown ->
                 { model | guideNoteDown = True, guideNoteScale = 0.9 }
         GuideNoteUp ->
