@@ -389,8 +389,7 @@ game model =
           |> centered 
           |> filled white
           |> scale 0.6
-          |> move (-10,-34)
-          |> notifyTap ToTitleScreen,
+          |> move (-10,-34),
 
           --sensor rectangles (if you hover on these on the menu 
           --it will highlight the section)
@@ -413,6 +412,7 @@ game model =
           |> makeTransparent 0
           |> notifyEnter HoverBottom
           |> notifyLeave NonHoverBottom
+          |> notifyTap ToTitleScreen
           ]
       -- make pick a song set model.time to 0
       PickASong ->
