@@ -123,17 +123,17 @@ update msg model =
         NonHoverBottom ->
             { model | bottom = False }
         ChangeTwinkleT ->
-            { model | songname = TwinkleT, noteList = twinkle, totalSections = 42}
+            { model | songname = TwinkleT, noteList = twinkle, totalSections = 41 }
         ChangeSmokeOn ->
-            { model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 24}
+            { model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 23}
         ChangeThird ->
-            { model | songname = Third, noteList = eyeOfTheTiger, totalSections = 75}
+            { model | songname = Third, noteList = eyeOfTheTiger, totalSections = 74}
         UpdateGuideNote list ->
             { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}
         SongDone ->
-          { model | state = SongFinished }
+            { model | state = SongFinished }
         GuideNoteDown ->
-                { model | guideNoteDown = True, guideNoteScale = 0.8 }
+                { model | guideNoteDown = True, guideNoteScale = 0.9 }
         GuideNoteUp ->
                 { model | guideNoteDown = False, guideNoteScale = 1 }
 
@@ -161,7 +161,7 @@ init = {time = 0,
         songname = TwinkleT,
         guideNote = Rest,
         noteList = [],
-        totalSections = 42,
+        totalSections = 0,
         sectionsCompleted = 0,
         waitTime = 0,
         animationClickTime = 0,
