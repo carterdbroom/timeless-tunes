@@ -608,7 +608,7 @@ game model =
           |> move (-200, 200)
           |> (if model.hovering2 then move (200,-200) else identity),
           -- sensor for back button
-           rect 20 25
+          rect 20 25
           |> filled red
           |> move (-83,51)
           |> makeTransparent 0
@@ -618,9 +618,11 @@ game model =
 
 
         guitar model,
-      
-        noteToGuitarGuideButton model.guideNote
-        |> notifyTap (UpdateGuideNote model.noteList)
+
+        (noteToGuitarGuideButton model.guideNote model)
+        |> notifyMouseDown GuideNoteDown
+        |> notifyMouseUp GuideNoteUp
+        |> notifyMouseUp (UpdateGuideNote model.noteList)
         |> (if model.guideNote == G then notifyEnter Hover2 
         else if model.guideNote == GSharp then notifyEnter Hover2 
         else if model.guideNote == FSharp then notifyEnter Hover5 
@@ -634,7 +636,6 @@ game model =
         else if model.guideNote == DSharp then notifyEnter Hover1
         else if model.guideNote == F then notifyEnter Hover3
         else identity)
-
         -- animate buttons
         ]    
 

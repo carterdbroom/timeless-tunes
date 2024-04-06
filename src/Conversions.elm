@@ -194,18 +194,20 @@ noteTypeToNoteShape noteTime =
         EighthRest ->
             group[]
 
-noteToGuitarGuideButton : Note -> Shape userMsg
-noteToGuitarGuideButton note =
+noteToGuitarGuideButton : Note -> Types.Model -> Shape userMsg
+noteToGuitarGuideButton note model =
     case note of
         C -> 
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-87.5,-87)
                 |> scale 0.5
                 |> makeTransparent 0.9,  
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)   
+                |> scale model.guideNoteScale  
                 |> move (-87.5,-87)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -213,11 +215,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
             |> filled (rgb 4 251 4)
+            |> scale model.guideNoteScale
             |> move (-2.5,-55)
             |> scale 0.5 --      
             |> makeTransparent 0.9,   
             circle 5     
-            |> outlined (solid 2.4) (rgb 4 251 4)     
+            |> outlined (solid 2.4) (rgb 4 251 4)  
+            |> scale model.guideNoteScale   
             |> move (-2.5,-55)     
             |> scale 0.5      
             |> makeTransparent 0.7]
@@ -226,11 +230,13 @@ noteToGuitarGuideButton note =
             circle 5
                 |> filled (rgb 4 251 4)
                 -- filled red
+                |> scale model.guideNoteScale
                 |> move (-45,-7)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,    
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)  
+                |> scale model.guideNoteScale   
                 |> move (-45,-7)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -238,11 +244,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-2.5,-87)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9, 
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4) 
+                |> scale model.guideNoteScale    
                 |> move (-2.5,-87)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -250,11 +258,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (40,-7) -- -120
                 |> scale 0.5
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4) 
+                |> scale model.guideNoteScale    
                 |> move (40,-7)   
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -262,11 +272,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-45,-39)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)    
+                |> scale model.guideNoteScale 
                 |> move (-45,-39)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -274,11 +286,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-87.5,-71)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)    
+                |> scale model.guideNoteScale 
                 |> move (-87.5,-71)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -286,11 +300,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-130,-23)
                 |> scale 0.5
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4) 
+                |> scale model.guideNoteScale    
                 |> move (-130,-23)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -298,11 +314,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-87.5,-23)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)   
+                |> scale model.guideNoteScale  
                 |> move (-87.5,-23)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -310,11 +328,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
             |> filled (rgb 4 251 4)
+            |> scale model.guideNoteScale
             |> move (-172.5,-55)
             |> scale 0.5 --      
             |> makeTransparent 0.9,   
             circle 5     
-            |> outlined (solid 2.4) (rgb 4 251 4)     
+            |> outlined (solid 2.4) (rgb 4 251 4) 
+            |> scale model.guideNoteScale    
             |> move (-172.5,-55)     
             |> scale 0.5      
             |> makeTransparent 0.7]
@@ -322,11 +342,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-130,-55)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)    
+                |> scale model.guideNoteScale 
                 |> move (-130,-55)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
@@ -334,11 +356,13 @@ noteToGuitarGuideButton note =
             group[
             circle 5
                 |> filled (rgb 4 251 4)
+                |> scale model.guideNoteScale
                 |> move (-172.5,-7)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,   
             circle 5     
-                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> outlined (solid 2.4) (rgb 4 251 4)    
+                |> scale model.guideNoteScale 
                 |> move (-172.5,-7)     
                 |> scale 0.5      
                 |> makeTransparent 0.7]
