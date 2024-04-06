@@ -198,7 +198,6 @@ noteToGuitarGuideButton : Note -> Shape userMsg
 noteToGuitarGuideButton note =
     case note of
         C -> 
-
             group[
             circle 5
                 |> filled (rgb 4 251 4)
@@ -338,7 +337,6 @@ noteToGuitarGuideButton note =
                 |> move (-172.5,-7)
                 |> scale 0.5 --      
                 |> makeTransparent 0.9,   
-                
             circle 5     
                 |> outlined (solid 2.4) (rgb 4 251 4)     
                 |> move (-172.5,-7)     
@@ -346,6 +344,33 @@ noteToGuitarGuideButton note =
                 |> makeTransparent 0.7]
         Rest -> 
             group[]
+
+noteToGuitarGuidePosition : Note -> (Float, Float)
+noteToGuitarGuidePosition note =
+    case note of 
+        C -> (-87.5,-87)
+        CSharp -> (-2.5,-55)
+        D -> (-45,-7)
+        DSharp -> (-2.5,-87)
+        E -> (40,-7)
+        F -> (-45,-39)
+        FSharp -> (-87.5,-71)
+        G -> (-130,-23) 
+        GSharp -> (-87.5,-23)
+        A -> (-172.5,-55)
+        ASharp -> (-130,-55)
+        B -> (-172.5,-7)
+        Rest -> (0, 0)
+
+getFirstNoteFromList : List((Note, NoteTime)) -> Note
+getFirstNoteFromList list =
+    case list of
+        (head::_) ->
+            case head of 
+                (note, _) ->
+                    note
+        [] ->
+            Rest
 
 noteToString : Note -> String
 noteToString note =

@@ -139,8 +139,9 @@ eighthNote outlineColour colour size position =
     |> scale size
     |> move position
 
-
-
-
-
-
+animationCircle : (Float, Float) -> Float -> Shape userMsg
+animationCircle position size =
+    circle 3
+    |> outlined (solid 2.5) green
+    |> scale size
+    |> move position
