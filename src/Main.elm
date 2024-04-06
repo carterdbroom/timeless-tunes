@@ -31,7 +31,7 @@ update msg model =
         ToTitleScreen ->
             case model.state of
                 InfoScreen ->
-                    { model | state = TitleScreen }
+                    { model | state = TitleScreen, gameplayed = False}
                 _ ->
                     model
         ToInfoScreen ->
