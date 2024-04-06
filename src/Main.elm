@@ -5,7 +5,7 @@ import GraphicSVG.App exposing (..)
 import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
 import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToSecond, noteTypeToNoteShape, getStartNoteShapeFromSong, getStartPositionFromSong)
-import Songs exposing (twinkle)
+import Songs exposing (twinkle, smokeOnTheWater, eyeOfTheTiger)
 import Game exposing (game)
 import Shapes exposing (quarterNote, halfNote, wholeNote)
 import GameMechanics exposing (updateGuideNote, updateNoteList, playTapAnimation)
@@ -47,12 +47,14 @@ update msg model =
         ToGameScreen ->
             case model.state of
                 TitleScreen ->
-                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
+                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0} -- note list total sections
                 InfoScreen ->
                     { model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
                 PickASong ->
-                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
-                _ ->
+                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}
+                SongFinished ->
+                  { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}
+                _ -> 
                     model
         ToPickASong ->
             case model.state of
@@ -61,7 +63,7 @@ update msg model =
                 TitleScreen ->
                     { model | state = PickASong }
                 HowToPlay ->
-                    { model | state = PickASong }
+                    { model | state = PickASong, middle = False}
                 _ ->
                     model
         ToHowToPlay ->
@@ -121,19 +123,19 @@ update msg model =
         NonHoverBottom ->
             { model | bottom = False }
         ChangeTwinkleT ->
-            { model | songname = TwinkleT }
+            { model | songname = TwinkleT, noteList = twinkle, totalSections = 42}
         ChangeSmokeOn ->
-            { model | songname = SmokeOn }
+            { model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 24}
         ChangeThird ->
-            { model | songname = Third }
+            { model | songname = Third, noteList = eyeOfTheTiger, totalSections = 75}
         UpdateGuideNote list ->
             { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}
+        SongDone ->
+          { model | state = SongFinished }
         GuideNoteDown ->
                 { model | guideNoteDown = True, guideNoteScale = 0.8 }
         GuideNoteUp ->
                 { model | guideNoteDown = False, guideNoteScale = 1 }
-        SongDone ->
-            { model | state = SongFinished }
 
         
 
@@ -159,7 +161,7 @@ init = {time = 0,
         songname = TwinkleT,
         guideNote = Rest,
         noteList = [],
-        totalSections = 41,
+        totalSections = 42,
         sectionsCompleted = 0,
         waitTime = 0,
         animationClickTime = 0,
