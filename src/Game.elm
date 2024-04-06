@@ -655,9 +655,39 @@ game model =
         |> rotate (degrees 90)
         |> move (450, -230)
         |> (if model.gameplayed then move (5000,0) else identity)
-        |> scale (0.2*(sin(model.time)+4)/4)
+        |> scale (0.2*(sin(model.time)+4)/4),
 
-        ]
+
+        -- how to play animation in the game
+        group[
+            circle 5
+                |> filled (rgb 4 251 4)
+                |> move (-2.5,-55)
+                |> scale 0.5
+                |> makeTransparent 0.9,   
+            circle 5     
+                |> outlined (solid 2.4) (rgb 4 251 4)     
+                |> move (-2.5,-55)    
+                |> scale 0.5      
+                |> makeTransparent 0.7]
+                -- move (110, -20)
+                |> (if 0.2*sin(model.time+(pi/2))>0 then makeTransparent 0 else identity)
+                |> (if not model.gameplayed then move (5000,0) else identity),
+        -- pointer finger
+        curve (-43.2,26.24) [Pull (-38.72,29.92) (-34.24,33.6),Pull (-31.53,37.44) (-34.24,41.28),Pull (-37.09,44.800) (-42.24,42.56),Pull (-55.2,32.160) (-68.16,21.76),Pull (-74.01,17.739) (-72.96,9.6),Pull (-72.96,2.88) (-72.96,-3.84),Pull (-70.61,-16.31) (-58.56,-18.24),Pull (-43.52,-18.08) (-28.48,-17.92),Pull (-24.52,-17.49) (-23.68,-12.48),Pull (-23.38,-9.92) (-26.24,-7.36),Pull (-24.47,-7.04) (-22.72,-6.72),Pull (-18.88,-4.199) (-18.88,-1.28),Pull (-18.86,1.3200) (-21.76,3.52),Pull (-14.98,3.8200) (-14.72,9.28),Pull (-14.50,11.68) (-16.96,14.08),Pull (-8,14.4) (0.96,14.72),Pull (6.1599,16.420) (6.4,20.8),Pull (6.3199,25.799) (0.64,26.88),Pull (-21.12,26.4) (-42.88,25.92)]
+        |> outlined (solid 7) black
+        -- scale 0.2
+        |> rotate (degrees 90)
+        |> move (15, -190) -- 450, -230
+        |> (if not model.gameplayed then move (5000,0) else identity)
+        |> scale (0.2*(sin(model.time)+4)/4),
+        curve (-43.2,26.24) [Pull (-38.72,29.92) (-34.24,33.6),Pull (-31.53,37.44) (-34.24,41.28),Pull (-37.09,44.800) (-42.24,42.56),Pull (-55.2,32.160) (-68.16,21.76),Pull (-74.01,17.739) (-72.96,9.6),Pull (-72.96,2.88) (-72.96,-3.84),Pull (-70.61,-16.31) (-58.56,-18.24),Pull (-43.52,-18.08) (-28.48,-17.92),Pull (-24.52,-17.49) (-23.68,-12.48),Pull (-23.38,-9.92) (-26.24,-7.36),Pull (-24.47,-7.04) (-22.72,-6.72),Pull (-18.88,-4.199) (-18.88,-1.28),Pull (-18.86,1.3200) (-21.76,3.52),Pull (-14.98,3.8200) (-14.72,9.28),Pull (-14.50,11.68) (-16.96,14.08),Pull (-8,14.4) (0.96,14.72),Pull (6.1599,16.420) (6.4,20.8),Pull (6.3199,25.799) (0.64,26.88),Pull (-21.12,26.4) (-42.88,25.92)]
+        |> filled white
+        -- scale 0.2
+        |> rotate (degrees 90)
+        |> move (15, -190)
+        |> (if not model.gameplayed then move (5000,0) else identity)
+        |> scale (0.2*(sin(model.time)+4)/4)]
 
       GameScreen ->
         let 
@@ -914,16 +944,13 @@ createMenu =
 
 createSmallMenu = 
   group [
-        rect 3000 3000
-        |> filled black
-        |> makeTransparent 0.5,
         --- black menu box
         roundedRect 152 55 5
         |> filled black,
         roundedRect 147 50 5
         |> outlined (solid 1) (rgb 189 0 81)
   ]
-  |> move (0, 30)
+  |> move (0, 33)
 
 -- music button for picking song page
 musicButton = 
