@@ -8814,8 +8814,8 @@ var $author$project$Sounds$aSound = {id: 'A', url: ''};
 var $author$project$Sounds$bSound = {id: 'B', url: ''};
 var $author$project$Sounds$cSharpSound = {id: 'CSharp', url: ''};
 var $author$project$Sounds$cSound = {id: 'C', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteC.mp3?raw=true'};
-var $author$project$Sounds$dSharpSound = {id: 'DSharp', url: ''};
-var $author$project$Sounds$dSound = {id: 'D', url: ''};
+var $author$project$Sounds$dSharpSound = {id: 'DSharp', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteDSharp.mp3?raw=true'};
+var $author$project$Sounds$dSound = {id: 'D', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteD.mp3?raw=true'};
 var $author$project$Sounds$eSound = {id: 'E', url: ''};
 var $author$project$Types$A = {$: 'A'};
 var $author$project$Types$C = {$: 'C'};
@@ -8901,10 +8901,10 @@ var $author$project$Songs$eyeOfTheTiger = _List_fromArray(
 		_Utils_Tuple2($author$project$Types$G, $author$project$Types$Quarter),
 		_Utils_Tuple2($author$project$Types$A, $author$project$Types$Quarter)
 	]);
-var $author$project$Sounds$fSharpSound = {id: 'FSharp', url: ''};
+var $author$project$Sounds$fSharpSound = {id: 'FSharp', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteFSharp.mp3?raw=true'};
 var $author$project$Sounds$fSound = {id: 'F', url: ''};
-var $author$project$Sounds$gSharpSound = {id: 'GSharp', url: ''};
-var $author$project$Sounds$gSound = {id: 'G', url: ''};
+var $author$project$Sounds$gSharpSound = {id: 'GSharp', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteGSharp.mp3?raw=true'};
+var $author$project$Sounds$gSound = {id: 'G', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteG.mp3?raw=true'};
 var $elm$json$Json$Encode$object = function (pairs) {
 	return _Json_wrap(
 		A3(
