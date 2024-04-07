@@ -1,15 +1,15 @@
 module Main exposing (..)
 
 import GraphicSVG exposing (..)
-import GraphicSVG.App exposing (..)
+import GraphicSVG.EllieApp exposing (..)
 import GraphicSVG.Secret exposing (Pull(..))
 import Types exposing (..)
-import Conversions exposing (noteToStartPosition, noteToEndPosition, noteTimeToSecond, noteTypeToNoteShape, getStartNoteShapeFromSong, getStartPositionFromSong)
 import Songs exposing (twinkle, smokeOnTheWater, eyeOfTheTiger)
 import Game exposing (game)
 import Shapes exposing (quarterNote, halfNote, wholeNote)
 import GameMechanics exposing (updateGuideNote, updateNoteList, playTapAnimation)
-
+import Ports exposing (..)
+import Sounds exposing (..)
 
 
 
@@ -23,125 +23,135 @@ myShapes model =
     ]
 
 
-
+update : Types.Msg -> Model -> (Model, Cmd Types.Msg)
 update msg model =
     case msg of
         Tick t _ ->
-            { model | time = t }
+            ({ model | time = t }, Cmd.none)
         ToTitleScreen ->
             case model.state of
                 InfoScreen ->
-                    { model | state = TitleScreen, gameplayed = False, hoveringstart = False}
+                    ({ model | state = TitleScreen, gameplayed = False, hoveringstart = False}, Cmd.none)
                 _ ->
-                    model
+                    (model, Cmd.none)
         ToInfoScreen ->
             case model.state of
                 TitleScreen ->
-                    { model | state = InfoScreen }
+                    ({ model | state = InfoScreen }, Cmd.none)
                 GameScreen ->
-                    { model | state = InfoScreen, top = False, middle = False, bottom = False }
+                    ({ model | state = InfoScreen, top = False, middle = False, bottom = False }, Cmd.none)
                 HowToPlay ->
-                    { model | state = InfoScreen, top = False, middle = False }
+                    ({ model | state = InfoScreen, top = False, middle = False }, Cmd.none)
                 _ ->
-                    model
+                    (model, Cmd.none)
         ToGameScreen ->
             case model.state of
                 TitleScreen ->
-                    { model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0} -- note list total sections
+                    ({ model | state = GameScreen, gameplayed = True, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}, Cmd.none)
                 InfoScreen ->
-                    { model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}
+                    ({ model | state = GameScreen, hovering2 = False, startTime = model.time, guideNote = updateGuideNote (((Rest, QuarterRest))::twinkle), noteList = twinkle, sectionsCompleted = 0}, Cmd.none)
                 PickASong ->
-                    { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}
+                    ({ model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}, Cmd.none)
                 SongFinished ->
-                  { model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}
+                    ({ model | state = GameScreen, gameplayed = True, hovering2 = False, startTime = model.time, guideNote = (if model.songname == TwinkleT then updateGuideNote (((Rest, QuarterRest))::twinkle) else updateGuideNote (((Rest, QuarterRest))::smokeOnTheWater)), sectionsCompleted = 0}, Cmd.none)
                 _ -> 
-                    model
+                    (model, Cmd.none)
         ToPickASong ->
             case model.state of
                 InfoScreen ->
-                    { model | state = PickASong, bottom = False}
+                    ({ model | state = PickASong, bottom = False}, Cmd.none)
                 TitleScreen ->
-                    { model | state = PickASong, bottom = False}
+                    ({ model | state = PickASong, bottom = False}, Cmd.none)
                 HowToPlay ->
-                    { model | state = PickASong, middle = False, bottom = False}
+                    ({ model | state = PickASong, middle = False, bottom = False}, Cmd.none)
                 _ ->
-                    model
+                    (model, Cmd.none)
         ToHowToPlay ->
             case model.state of
                 InfoScreen ->
-                    { model | state = HowToPlay, hovering2 = False, string1 = False, string2 = False, string3 = False, string4 = False, string5 = False, string6 = False}
+                    ({ model | state = HowToPlay, hovering2 = False, string1 = False, string2 = False, string3 = False, string4 = False, string5 = False, string6 = False}, Cmd.none)
                 TitleScreen ->
-                    { model | state = HowToPlay, hoveringstart = False}
+                    ({ model | state = HowToPlay, hoveringstart = False}, Cmd.none)
                 _ ->
-                    model
+                    (model, Cmd.none)
         HoverButton ->
-            { model | hovering = True }
+            ({ model | hovering = True }, Cmd.none)
         DontHoverButton ->
-            { model | hovering = False }
+            ({ model | hovering = False }, Cmd.none)
         HoverPause ->
-            { model | hovering2 = True }
+            ({ model | hovering2 = True }, Cmd.none)
         NonHoverPause ->
-            { model | hovering2 = False }
+            ({ model | hovering2 = False }, Cmd.none)
         Hover1 ->
-            { model | string1 = True }
+            ({ model | string1 = True }, Cmd.none)
         NonHover1 ->
-            { model | string1 = False }
+            ({ model | string1 = False }, Cmd.none)
         Hover2 ->
-            { model | string2 = True }
+            ({ model | string2 = True }, Cmd.none)
         NonHover2 ->
-            { model | string2 = False }
+            ({ model | string2 = False }, Cmd.none)
         Hover3 ->
-            { model | string3 = True }
+            ({ model | string3 = True }, Cmd.none)
         NonHover3 ->
-            { model | string3 = False }
+            ({ model | string3 = False }, Cmd.none)
         Hover4 ->
-            { model | string4 = True }
+            ({ model | string4 = True }, Cmd.none)
         NonHover4 ->
-            { model | string4 = False }
+            ({ model | string4 = False }, Cmd.none)
         Hover5 ->
-            { model | string5 = True }
+            ({ model | string5 = True }, Cmd.none)
         NonHover5 ->
-            { model | string5 = False }
+            ({ model | string5 = False }, Cmd.none)
         Hover6 ->
-            { model | string6 = True }
+            ({ model | string6 = True }, Cmd.none)
         NonHover6 ->
-            { model | string6 = False }
+            ({ model | string6 = False }, Cmd.none)
         HoverPlay ->
-            { model | hoveringstart = True }
+            ({ model | hoveringstart = True }, Cmd.none)
         NonHoverPlay ->
-            { model | hoveringstart = False }
+            ({ model | hoveringstart = False }, Cmd.none)
         HoverTop ->
-            { model | top = True }
+            ({ model | top = True }, Cmd.none)
         NonHoverTop ->
-            { model | top = False }
+            ({ model | top = False }, Cmd.none)
         HoverMiddle ->
-            { model | middle = True }
+            ({ model | middle = True }, Cmd.none)
         NonHoverMiddle ->
-            { model | middle = False }
+            ({ model | middle = False }, Cmd.none)
         HoverBottom ->
-            { model | bottom = True }
+            ({ model | bottom = True }, Cmd.none)
         NonHoverBottom ->
-            { model | bottom = False }
+            ({ model | bottom = False }, Cmd.none)
         ChangeTwinkleT ->
-            { model | songname = TwinkleT, noteList = twinkle, totalSections = 41, gameplayed = True}
+            ({ model | songname = TwinkleT, noteList = twinkle, totalSections = 41, gameplayed = True}, Cmd.none)
         ChangeSmokeOn ->
-            { model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 23, gameplayed = True}
+            ({ model | songname = SmokeOn, noteList = smokeOnTheWater, totalSections = 23, gameplayed = True}, Cmd.none)
         ChangeThird ->
-            { model | songname = Third, noteList = eyeOfTheTiger, totalSections = 74, gameplayed = True}
+            ({ model | songname = Third, noteList = eyeOfTheTiger, totalSections = 74, gameplayed = True}, Cmd.none)
         UpdateGuideNote list ->
-            { model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}
+            ({ model | waitTime = model.time, guideNote = updateGuideNote list  , noteList = (updateNoteList model.noteList), sectionsCompleted = model.sectionsCompleted + 1, state = (if model.sectionsCompleted == model.totalSections then SongFinished else model.state)}, Cmd.none)
         SongDone ->
-            { model | state = SongFinished, top = False, middle = False, bottom = False}
+            ({ model | state = SongFinished, top = False, middle = False, bottom = False}, Cmd.none)
         GuideNoteDown ->
-                { model | guideNoteDown = True, guideNoteScale = 0.9 }
+            ({ model | guideNoteDown = True, guideNoteScale = 0.9 }, Cmd.none)
         GuideNoteUp ->
-                { model | guideNoteDown = False, guideNoteScale = 1 }
-
-        
-
-
-
-
+            ({ model | guideNoteDown = False, guideNoteScale = 1 }, Cmd.none)
+        PlayNote note ->
+            case note of 
+                C -> (model, play cSound)
+                CSharp -> (model, play cSharpSound)
+                D -> (model, play dSound)
+                DSharp -> (model, play dSharpSound)
+                E -> (model, play eSound)
+                F -> (model, play fSound)
+                FSharp -> (model, play fSharpSound)
+                G -> (model, play gSound)
+                GSharp -> (model, play gSharpSound)
+                A -> (model, play aSound)
+                ASharp -> (model, play aSharpSound)
+                B -> (model, play bSound)
+                Rest -> (model, Cmd.none)
+init : Model
 init = {time = 0, 
         state = TitleScreen, 
         hovering = False , 
@@ -170,7 +180,14 @@ init = {time = 0,
         guideNoteScale = 1
     }
 
+subscriptions : Model -> Sub Types.Msg
+subscriptions model = Sub.none
 
-view model = collage 192 128 (myShapes model)
+main : EllieAppWithTick () Model Types.Msg
+main = 
+    ellieAppWithTick Tick
+        { init = \flags -> (init, Cmd.none), view = view, update = update, subscriptions = subscriptions }
 
-main = gameApp Tick { model = init, view = view, update = update, title = "Timeless Tunes" }
+view : Model -> { title: String, body : Collage Types.Msg }
+view model = { title = "Timeless Tunes", body = collage 192 128 (myShapes model) }
+

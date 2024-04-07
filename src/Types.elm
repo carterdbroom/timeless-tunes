@@ -1,6 +1,6 @@
 module Types exposing (..)
 
-import GraphicSVG.App exposing (..)
+import GraphicSVG.EllieApp exposing (..)
 
 type Note
     = C
@@ -96,6 +96,7 @@ type Msg = Tick Float GetKeyState
         | SongDone
         | GuideNoteDown
         | GuideNoteUp
+        | PlayNote Note
         
 
 type State = TitleScreen
