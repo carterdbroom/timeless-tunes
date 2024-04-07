@@ -23,28 +23,24 @@
 		app.ports.play.subscribe(function (sound) {
 			const id = sound["id"];
 			if (id in sounds) {
-			var sound = sounds[sound["id"]];
-		
-			if (sound.ended){
+				var sound = sounds[sound["id"]];
 				sound.currentTime = 0;
 				sound.play();
-			} else if (sound.paused) {
-				sound.play();
-			}
+			/*
+				if (sound.ended){
+					sound.currentTime = 0;
+					sound.play();
+				} else if (sound.paused) {
+					sound.currentTime = 0;
+					sound.play();
+				}
+			*/
 			} else {
-			var newSound = new Audio(sound["url"]);
-			sounds[id] = newSound;
-			newSound.play();
+				var newSound = new Audio(sound["url"]);
+				sounds[id] = newSound;
+				newSound.currentTime = 0;
+				newSound.play();
 			}
-		});
-		
-		app.ports.pause.subscribe(function (sound) {
-			const id = sound["id"];
-			if (id in sounds) {
-			var sound = sounds[sound["id"]];
-		
-			sound.pause();
-			} 
 		});
 	</script>
 	</body>
