@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gentium+Basic&family=Raleway:ital,wght@0,300;0,700;1,300&display=swap');  
+    </style>
+    <meta charset="UTF-8">
+    <title>My App Title</title>
+    <link rel="icon" href="favicon.ico?v=1" />
+    <script type="text/javascript" src="main.js"></script>
+</head>
+
+<body>
+<div id="elm"></div>
+
+<script>
+//{ elmjs }
+  var app = Elm.AdvancedApp.init({
+    node: document.getElementById('elm')
+  });
+
+  let sounds = {};
+
+  app.ports.play.subscribe(function (sound) {
+    const id = sound["id"];
+    if (id in sounds) {
+      var sound = sounds[sound["id"]];
+
+      if (sound.ended){
+        sound.currentTime = 0;
+        sound.play();
+      } else if (sound.paused) {
+        sound.play();
+      }
+    } else {
+      var newSound = new Audio(sound["url"]);
+      sounds[id] = newSound;
+      newSound.play();
+    }
+  });
+
+  app.ports.pause.subscribe(function (sound) {
+    const id = sound["id"];
+    if (id in sounds) {
+      var sound = sounds[sound["id"]];
+
+      sound.pause();
+    } 
+  });
+</script>
+</body>
+</html>
