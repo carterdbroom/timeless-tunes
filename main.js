@@ -8813,7 +8813,7 @@ var $author$project$Sounds$aSharpSound = {id: 'ASharp', url: ''};
 var $author$project$Sounds$aSound = {id: 'A', url: ''};
 var $author$project$Sounds$bSound = {id: 'B', url: ''};
 var $author$project$Sounds$cSharpSound = {id: 'CSharp', url: ''};
-var $author$project$Sounds$cSound = {id: 'C', url: ''};
+var $author$project$Sounds$cSound = {id: 'C', url: 'https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteC.mp3?raw=true'};
 var $author$project$Sounds$dSharpSound = {id: 'DSharp', url: ''};
 var $author$project$Sounds$dSound = {id: 'D', url: ''};
 var $author$project$Sounds$eSound = {id: 'E', url: ''};
@@ -9479,6 +9479,9 @@ var $author$project$Types$NonHoverMiddle = {$: 'NonHoverMiddle'};
 var $author$project$Types$NonHoverPause = {$: 'NonHoverPause'};
 var $author$project$Types$NonHoverPlay = {$: 'NonHoverPlay'};
 var $author$project$Types$NonHoverTop = {$: 'NonHoverTop'};
+var $author$project$Types$PlayNote = function (a) {
+	return {$: 'PlayNote', a: a};
+};
 var $MacCASOutreach$graphicsvg$GraphicSVG$Secret$Pull = F2(
 	function (a, b) {
 		return {$: 'Pull', a: a, b: b};
@@ -14835,8 +14838,11 @@ var $author$project$Game$game = function (model) {
 								$author$project$Types$GuideNoteUp,
 								A2(
 									$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDown,
-									$author$project$Types$GuideNoteDown,
-									A2($author$project$Conversions$noteToGuitarGuideButton, model.guideNote, model)))))
+									$author$project$Types$PlayNote(model.guideNote),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDown,
+										$author$project$Types$GuideNoteDown,
+										A2($author$project$Conversions$noteToGuitarGuideButton, model.guideNote, model))))))
 					]));
 	}
 };

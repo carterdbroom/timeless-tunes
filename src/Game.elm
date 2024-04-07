@@ -827,6 +827,7 @@ game model =
       
         (noteToGuitarGuideButton model.guideNote model)
         |> notifyMouseDown GuideNoteDown
+        |> notifyMouseDown (PlayNote model.guideNote)
         |> notifyMouseUp GuideNoteUp
         |> notifyMouseUp (UpdateGuideNote model.noteList)
         |> (if model.guideNote == G then notifyEnter Hover2 

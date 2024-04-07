@@ -2,7 +2,7 @@ module Sounds exposing (..)
 import Ports exposing (..)
 
 cSound : Sound
-cSound = { id = "C", url = ""}
+cSound = { id = "C", url = "https://github.com/carterdbroom/timeless-tunes/blob/main/src/Sounds/guitarNoteC.mp3?raw=true"}
 
 cSharpSound : Sound
 cSharpSound = { id = "CSharp", url = ""}
