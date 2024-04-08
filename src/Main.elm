@@ -119,7 +119,7 @@ update msg model =
         NonHoverMiddle ->
             ({ model | middle = False }, Cmd.none)
         HoverBottom ->
-            ({ model | bottom = True }, Cmd.none)
+            ({ model | bottom = True, top = False }, Cmd.none)
         NonHoverBottom ->
             ({ model | bottom = False }, Cmd.none)
         ChangeTwinkleT ->
