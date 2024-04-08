@@ -9337,7 +9337,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{bottom: true}),
+						{bottom: true, top: false}),
 					$elm$core$Platform$Cmd$none);
 			case 'NonHoverBottom':
 				return _Utils_Tuple2(
