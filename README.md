@@ -1,7 +1,7 @@
 # Timeless Tunes
 An application made using Elm GraphicSVG to help recognize cognitive disease in seniors.
 
-# Instructions To Play Game:
+## Instructions To Play Game:
 1. Clone this repository
 2. Make sure you have Elm installed, as well as GraphicSVG.
 3. Open the project in VSCode
